@@ -118,4 +118,58 @@ study = StudyDefinition(
         }},
     },
   ),
+
+
+
+
+
+# --- DEFINE COVID-19 EXPOSURE VARIABLES ---
+
+positive_covid_test_ever=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        on_or_after="index_date",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "index_date"},
+            "rate": "exponential_increase",
+        },
+    ),
+
+   covid_tpp_probable=patients.with_these_clinical_events(
+        combine_codelists(
+            covid_identification_in_primary_care_case_codes_clinical,
+            covid_identification_in_primary_care_case_codes_test,
+            covid_identification_in_primary_care_case_codes_seq,
+        ),
+        return_first_date_in_period=True,
+        include_day=True,
+        return_expectations={"date": {"earliest": "index_date"}, "incidence" : 0.95},
+    ), 
+
+   covid_tpp_codes_clinical=patients.with_these_clinical_events(
+        combine_codelists(covid_identification_in_primary_care_case_codes_clinical),
+        return_first_date_in_period=True,
+        include_day=True,
+        return_expectations={"date": {"earliest": "index_date"}, "incidence" : 0.5},
+    ), 
+
+   covid_tpp_codes_test=patients.with_these_clinical_events(
+        combine_codelists(covid_identification_in_primary_care_case_codes_test),
+        return_first_date_in_period=True,
+        include_day=True,
+        return_expectations={"date": {"earliest": "index_date"}, "incidence" : 0.5},
+    ), 
+
+   covid_tpp_codes_seq=patients.with_these_clinical_events(
+        combine_codelists(covid_identification_in_primary_care_case_codes_seq),
+        return_first_date_in_period=True,
+        include_day=True,
+        return_expectations={"date": {"earliest": "index_date"}, "incidence" : 0.5},
+    ), 
+  
+
+
 )
