@@ -41,15 +41,15 @@ study = StudyDefinition(
         AND
         registered
         AND
-        age >= 18 
+        cov_age >= 18 
         AND
-        age <=110
+        cov_age <=110
         AND
         has_follow_up_previous_year
         AND
-        (sex = "M" OR sex = "F")
+        (cov_sex = "M" OR cov_sex = "F")
         AND
-        imd != "0"
+        cov_deprivation != "0"
         """,
     
     has_died = patients.died_from_any_cause(
@@ -342,7 +342,7 @@ study = StudyDefinition(
 #Dementia
     dementia=patients.with_these_clinical_events(
         dementia_codes,
-        on_or_before=f"{start_date}",
+        on_or_before="index_date",
         return_expectations={"incidence": 0.05},
     ),
 #Antiplatelet medication
