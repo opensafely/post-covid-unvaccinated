@@ -18,3 +18,10 @@ covid_identification_in_primary_care_case_codes_seq = codelist_from_csv(
     system="ctv3",
     column="CTV3ID",
 )
+
+## Chronic Liver disease codes
+chronis_liver_disease_codes = codelist_from_csv(
+  "codelists/primis-covid19-vacc-uptake-cld.csv",
+  system = "snomed",
+  column = "code",
+)

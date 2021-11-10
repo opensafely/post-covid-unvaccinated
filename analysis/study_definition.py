@@ -170,6 +170,14 @@ positive_covid_test_ever=patients.with_test_result_in_sgss(
         return_expectations={"date": {"earliest": "index_date"}, "incidence" : 0.5},
     ), 
   
+# --- DEFINE COVARIATES ---
 
+  ### Chronic liver disease
+  chronic_liver_disease = patients.with_these_clinical_events(
+    chronis_liver_disease_codes,
+    on_or_before = "index_date",
+    returning = "binary_flag",
+    return_expectations = {"incidence": 0.01},
+  ),
 
 )
