@@ -1,16 +1,22 @@
 {
   "files": {
-    "opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv": {
-      "id": "opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/2020-07-16",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/2020-07-16/",
-      "downloaded_at": "2021-11-10 12:05:12.006667Z",
-      "sha": "5de38f993b166d6ef97c6ea822635317a6c7ae85"
+    "opensafely-covid-identification.csv": {
+      "id": "opensafely/covid-identification/2020-06-03",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification/2020-06-03/",
+      "downloaded_at": "2021-11-10 18:55:36.349331Z",
+      "sha": "124db6929439379b7dacd55ba26ae4f2ed9370bc"
     },
     "opensafely-covid-identification-in-primary-care-probable-covid-positive-test.csv": {
       "id": "opensafely/covid-identification-in-primary-care-probable-covid-positive-test/2020-07-16",
       "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-positive-test/2020-07-16/",
       "downloaded_at": "2021-11-10 12:05:12.271354Z",
       "sha": "563b536aaf850da011233653e91e10030a5bc15f"
+    },
+    "opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv": {
+      "id": "opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/2020-07-16",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/2020-07-16/",
+      "downloaded_at": "2021-11-10 12:05:12.006667Z",
+      "sha": "5de38f993b166d6ef97c6ea822635317a6c7ae85"
     },
     "opensafely-covid-identification-in-primary-care-probable-covid-sequelae.csv": {
       "id": "opensafely/covid-identification-in-primary-care-probable-covid-sequelae/2020-07-16",
@@ -23,6 +29,48 @@
       "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/cld/v1/",
       "downloaded_at": "2021-11-10 12:05:13.084481Z",
       "sha": "745227a835b2d87102a314c654adebff254d4db8"
+    },
+    "primis-covid19-vacc-uptake-covadm1.csv": {
+      "id": "primis-covid19-vacc-uptake/covadm1/v1",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/covadm1/v1/",
+      "downloaded_at": "2021-11-10 18:55:38.503512Z",
+      "sha": "5e6a8bef2da93467d11c25affbd33755205e4204"
+    },
+    "opensafely-ethnicity.csv": {
+      "id": "opensafely/ethnicity/2020-04-27",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity/2020-04-27/",
+      "downloaded_at": "2021-11-10 19:22:35.992090Z",
+      "sha": "3d2f3998b71863a80b24d60f6f4282e14191ae13"
+    },
+    "opensafely-dementia-complete.csv": {
+      "id": "opensafely/dementia-complete/48c76cf8",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/dementia-complete/48c76cf8/",
+      "downloaded_at": "2021-11-10 19:33:42.875611Z",
+      "sha": "b73c9363f19a9ee9f4407e34e95e11d3eeb615f4"
+    },
+    "primis-covid19-vacc-uptake-bmi.csv": {
+      "id": "primis-covid19-vacc-uptake/bmi/v1",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/bmi/v1/",
+      "downloaded_at": "2021-11-10 19:35:30.089601Z",
+      "sha": "6e96c04ee1a647905be2b410fa2c33d770576bf0"
+    },
+    "primis-covid19-vacc-uptake-eth2001.csv": {
+      "id": "primis-covid19-vacc-uptake/eth2001/v1",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/eth2001/v1/",
+      "downloaded_at": "2021-11-10 19:43:15.777329Z",
+      "sha": "36e4eacba898e6ec72da8ff66e8c673bfd9aa8e4"
+    },
+    "opensafely-smoking-unclear.csv": {
+      "id": "opensafely/smoking-unclear/2020-04-29",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/smoking-unclear/2020-04-29/",
+      "downloaded_at": "2021-11-10 19:43:16.038113Z",
+      "sha": "d9dad3e9d9491f765863b2617114c521957b6db1"
+    },
+    "opensafely-smoking-clear.csv": {
+      "id": "opensafely/smoking-clear/2020-04-29",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/smoking-clear/2020-04-29/",
+      "downloaded_at": "2021-11-10 19:43:16.342785Z",
+      "sha": "0b5f3afe1db96dcce5141220e893a42ba2e5a8f7"
     }
   }
 }
