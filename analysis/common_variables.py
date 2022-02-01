@@ -96,7 +96,7 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_dm_type1_snomed=patients.with_these_clinical_events(
         diabetes_type1_snomed,
         returning="date",
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        between=["1990-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -109,7 +109,7 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_dm_type1_hes=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=diabetes_type1_icd10,
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        between=["1990-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -123,8 +123,8 @@ def generate_common_variables(index_date_variable):
     ### Primary care
     tmp_out_count_dm_type1_snomed=patients.with_these_clinical_events(
         diabetes_type1_snomed,
-        returning="return_number_of_matches_in_period",
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        returning="number_of_matches_in_period",
+        between=["1990-01-01", "today"],
         return_expectations={
             "int": {"distribution": "poisson", "mean": 2},
         },
@@ -134,7 +134,7 @@ def generate_common_variables(index_date_variable):
     tmp_out_count_dm_type1_hes=patients.admitted_to_hospital(
         returning="number_of_matches_in_period",
         with_these_diagnoses=diabetes_type1_icd10,
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        between=["1990-01-01", "today"],
         return_expectations={
             "int": {"distribution": "poisson", "mean": 2},
         },
@@ -146,7 +146,7 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_dm_type2_snomed=patients.with_these_clinical_events(
         diabetes_type2_snomed,
         returning="date",
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        between=["1990-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -159,7 +159,7 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_dm_type2_hes=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=diabetes_type2_icd10,
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        between=["1990-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -173,8 +173,8 @@ def generate_common_variables(index_date_variable):
     ### Primary care
     tmp_out_count_dm_type2_snomed=patients.with_these_clinical_events(
         diabetes_type2_snomed,
-        returning="return_number_of_matches_in_period",
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        returning="number_of_matches_in_period",
+        between=["1990-01-01", "today"],
         return_expectations={
             "int": {"distribution": "poisson", "mean": 2},
         },
@@ -184,7 +184,7 @@ def generate_common_variables(index_date_variable):
     tmp_out_count_dm_type2_hes=patients.admitted_to_hospital(
         returning="number_of_matches_in_period",
         with_these_diagnoses=diabetes_type2_icd10,
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        between=["1990-01-01", "today"],
         return_expectations={
             "int": {"distribution": "poisson", "mean": 2},
         },
@@ -196,7 +196,7 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_dm_other_snomed=patients.with_these_clinical_events(
         diabetes_other_snomed,
         returning="date",
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        between=["1990-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -210,8 +210,8 @@ def generate_common_variables(index_date_variable):
     ### Primary care
     tmp_out_count_dm_other_snomed=patients.with_these_clinical_events(
         diabetes_other_snomed,
-        returning="return_number_of_matches_in_period",
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        returning="number_of_matches_in_period",
+        between=["1990-01-01", "today"],
         return_expectations={
             "int": {"distribution": "poisson", "mean": 2},
         },
@@ -223,7 +223,7 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_dm_gestational_snomed=patients.with_these_clinical_events(
         diabetes_gestational_snomed,
         returning="date",
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        between=["1990-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -239,7 +239,7 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_dm_diagnostic_snomed=patients.with_these_clinical_events(
         diabetes_diagnostic_snomed,
         returning="date",
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        between=["1990-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -253,48 +253,52 @@ def generate_common_variables(index_date_variable):
     ### Primary care
     tmp_out_count_dm_diagnostic_snomed=patients.with_these_clinical_events(
         diabetes_diagnostic_snomed,
-        returning="return_number_of_matches_in_period",
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
+        returning="number_of_matches_in_period",
+        between=["1990-01-01", "today"],
         return_expectations={
             "int": {"distribution": "poisson", "mean": 2},
         },
     ),
 
  ## Variables needed to define diabetes
- ## last HbA1c measure
-    temp_cov_num_latest_hba1c=patients.with_these_clinical_events(
-    hba1c_codes,
-    returning="numeric_value", 
-    on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
-    find_last_match_in_period=True
+ ## maximum latest HbA1c measure
+    temp_cov_num_max_hba1c_mm_m = patients.with_these_clinical_events(
+        hba1c_new_codes,
+        returning="numeric_value", 
+        between=["1990-01-01", "today"],
+        find_last_match_in_period=True,
+        return_expectations={
+            "float": {"distribution": "normal", "mean": 40.0, "stddev": 20},
+            "incidence": 0.35,
+        },
     ),
 
-    temp_cov_date_latest_hba1c=patients.with_these_clinical_events(
-    hba1c_codes,
-    returning="date", 
-    on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
-    find_last_match_in_period=True
-    return_expectations={
-        "date": {"earliest": "1900-01-01", "latest" : "today"},
-        "rate": "uniform",
-        "incidence": 0.03,
-        }
-    ),
-
-## Diabetes drugs
-    temp_cov_date_dm_drugs_dmd=with_these_medications(
-        diabetes_drugs_dmd,
-        returning="date",
-        on_or_after=f"{index_date_variable}" / on_or_before=f"{index_date}",
-        find_first_date_in_period=True    
+    temp_cov_date_max_hba1c_mm_m = patients.with_these_clinical_events(
+        hba1c_new_codes,
+        returning="date", 
+        between=["1990-01-01", "today"],
+        find_last_match_in_period=True,
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.03,
-        }
+        },
+    ),
+
+## Diabetes drugs
+    temp_cov_date_dm_drugs_dmd=patients.with_these_clinical_events(
+        diabetes_drugs_dmd,
+        returning="date",
+        between=["1990-01-01", "today"],
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.03,
+        },
     ),
     
-
     # Define covariates 
 
     ## Age
@@ -689,9 +693,6 @@ def generate_common_variables(index_date_variable):
     cov_bin_obesity=patients.maximum_of(
         "tmp_cov_bin_obesity_snomed", "tmp_cov_bin_obesity_hes",
     ),
-
-    ## BMI
-    cov_bmi=() 
 
     ## Depresssion
     ### Primary care

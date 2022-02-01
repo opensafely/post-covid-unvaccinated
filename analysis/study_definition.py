@@ -184,6 +184,16 @@ study = StudyDefinition(
         },
     ),
 
+# Date de-registered from any OpenSafely GP CURRENTLY UNSUPPORTED
+#cov_date_dereg=patients.date_deregistered_from_all_supported_practices(
+#    on_or_after="index_date",
+#    date_format="YYYY-MM-DD",
+#    return_expectations={
+#        "date": {"earliest": "index_date", "latest": "today"},
+#        "incidence": 0.05
+#    }
+#)
+
     # Define vaccine eligibility variables
 
         **jcvi_variables, 

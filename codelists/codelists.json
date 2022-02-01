@@ -665,6 +665,30 @@
       "url": "https://codelists.opensafely.org/codelist/user/hjforbes/angina_hf_icd10/20c03038/",
       "downloaded_at": "2022-01-17 13:35:13.533826Z",
       "sha": "e686d33f3c7927bb49d8503e51f4b91df1c793c7"
+    },
+    "opensafely-type-1-diabetes-secondary-care.csv": {
+      "id": "opensafely/type-1-diabetes-secondary-care/2020-09-27",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/type-1-diabetes-secondary-care/2020-09-27/",
+      "downloaded_at": "2022-01-31 13:09:47.517274Z",
+      "sha": "e51303ce0e7eb6ac9e0d1763bd23e49b0f273429"
+    },
+    "user-r_denholm-type-2-diabetes-secondary-care-bristol.csv": {
+      "id": "user/r_denholm/type-2-diabetes-secondary-care-bristol/0b7f6cd4",
+      "url": "https://codelists.opensafely.org/codelist/user/r_denholm/type-2-diabetes-secondary-care-bristol/0b7f6cd4/",
+      "downloaded_at": "2022-01-31 13:09:47.791900Z",
+      "sha": "64dfc55f964cd811b59f0d142d661e1ad1b26f29"
+    },
+    "user-hjforbes-nondiagnostic-diabetes-codes.csv": {
+      "id": "user/hjforbes/nondiagnostic-diabetes-codes/50f30a3b",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/nondiagnostic-diabetes-codes/50f30a3b/",
+      "downloaded_at": "2022-01-31 13:09:48.135409Z",
+      "sha": "3b3bd24a816d04aeaaad93495d8c04772a12672f"
+    },
+    "opensafely-glycated-haemoglobin-hba1c-tests-numerical-value.csv": {
+      "id": "opensafely/glycated-haemoglobin-hba1c-tests-numerical-value/5134e926",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/glycated-haemoglobin-hba1c-tests-numerical-value/5134e926/",
+      "downloaded_at": "2022-01-31 13:09:48.430721Z",
+      "sha": "bc7e48efd370be65686755f0a843058f1ec767e0"
     }
   }
 }
