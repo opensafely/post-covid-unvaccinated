@@ -262,7 +262,7 @@ def generate_common_variables(index_date_variable):
 
  ## Variables needed to define diabetes
  ## maximum latest HbA1c measure
-    temp_cov_num_max_hba1c_mm_m = patients.with_these_clinical_events(
+    tmp_cov_num_max_hba1c_mm_m = patients.with_these_clinical_events(
         hba1c_new_codes,
         returning="numeric_value", 
         between=["1990-01-01", "today"],
@@ -273,10 +273,11 @@ def generate_common_variables(index_date_variable):
         },
     ),
 
-    temp_cov_date_max_hba1c_mm_m = patients.with_these_clinical_events(
+    tmp_cov_date_max_hba1c_mm_m = patients.with_these_clinical_events(
         hba1c_new_codes,
         returning="date", 
         between=["1990-01-01", "today"],
+        date_format="YYYY-MM-DD",
         find_last_match_in_period=True,
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
@@ -286,7 +287,7 @@ def generate_common_variables(index_date_variable):
     ),
 
 ## Diabetes drugs
-    temp_cov_date_dm_drugs_dmd=patients.with_these_clinical_events(
+    tmp_cov_date_dm_drugs_dmd=patients.with_these_clinical_events(
         diabetes_drugs_dmd,
         returning="date",
         between=["1990-01-01", "today"],
