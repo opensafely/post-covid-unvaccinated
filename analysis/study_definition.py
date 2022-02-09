@@ -17,6 +17,9 @@ from cohortextractor import (
 ## Codelists from codelist.py (which pulls them from the codelist folder)
 from codelists import *
 
+## Datetime functions
+from datetime import date
+
 ## Study definition helper
 import study_def_helper_functions as helpers
 
@@ -35,18 +38,18 @@ from grouping_variables import (
 
 study = StudyDefinition(
 
-# Specify index date for study
-    index_date = "2020-01-01",
+    # Specify index date for study
+    index_date = "2021-06-01",
 
-# Configure the expectations framework
+    # Configure the expectations framework
     default_expectations={
         "date": {"earliest": "1900-01-01", "latest": "today"},
         "rate": "uniform",
         "incidence": 0.5,
     },
 
-# Define the study population 
- # NB: not all inclusions and exclusions are written into study definition
+    # Define the study population 
+    # NB: not all inclusions and exclusions are written into study definition
     population = patients.satisfying(
         """
             NOT has_died
@@ -72,10 +75,11 @@ study = StudyDefinition(
         return_expectations = {"incidence": 0.95},
         ),
     ),
-   
-# Define quality assurances
-   ## Prostate cancer
-        ### Primary care
+
+    # Define quality assurances
+
+        ## Prostate cancer
+            ### Primary care
             prostate_cancer_snomed=patients.with_these_clinical_events(
                 prostate_cancer_snomed_clinical,
                 returning='binary_flag',
@@ -83,14 +87,14 @@ study = StudyDefinition(
                     "incidence": 0.03,
                 },
             ),
-        ### HES APC
+            ### HES APC
             prostate_cancer_hes=patients.admitted_to_hospital(
                 returning='binary_flag',
                 return_expectations={
                     "incidence": 0.03,
                 },
             ),
-        ### ONS
+            ### ONS
             prostate_cancer_death=patients.with_these_codes_on_death_certificate(
                 prostate_cancer_icd10,
                 returning='binary_flag',
@@ -98,7 +102,7 @@ study = StudyDefinition(
                     "incidence": 0.02
                 },
             ),
-        ### Combined
+            ### Combined
             qa_bin_prostate_cancer=patients.maximum_of(
                 "prostate_cancer_snomed", "prostate_cancer_hes", "prostate_cancer_death"
             ),
@@ -112,17 +116,18 @@ study = StudyDefinition(
                 },
             ),
         
- ## Year of birth
-     qa_num_birth_year=patients.date_of_birth(
-        date_format="YYYY",
-        return_expectations={
-            "date": {"earliest": "1900-01-01", "latest": "today"},
-            "rate": "uniform",
-            },
-        ),   
+        ## Year of birth
+            qa_num_birth_year=patients.date_of_birth(
+                date_format="YYYY",
+                return_expectations={
+                    "date": {"earliest": "1900-01-01", "latest": "today"},
+                    "rate": "uniform",
+                },
+            ),
 
-# Define death date
-    ## Primary care
+    # Define death date
+
+        ## Primary care
         primary_care_death_date=patients.with_death_recorded_in_primary_care(
             on_or_after="index_date",
             returning="date_of_death",
@@ -132,7 +137,7 @@ study = StudyDefinition(
                 "rate": "exponential_increase",
             },
         ),
-    ## ONS
+        ## ONS
         ons_died_from_any_cause_date=patients.died_from_any_cause(
             on_or_after="index_date",
             returning="date_of_death",
@@ -142,19 +147,13 @@ study = StudyDefinition(
                 "rate": "exponential_increase",
             },
         ),
-    ## Combined
+        ## Combined
         death_date=patients.minimum_of(
             "primary_care_death_date", "ons_died_from_any_cause_date"
         ),
 
-# Define fixed covariates 
-    # Define sex 
-        cov_cat_sex = patients.sex(
-            return_expectations = {
-            "rate": "universal",
-            "category": {"ratios": {"M": 0.49, "F": 0.51}},
-            }
-        ),
+    # Define fixed covariates other than sex
+    # NB: sex is required to determine vaccine eligibility covariates so is defined in study_definition_electively_unvaccinated.py
 
         ## 2019 consultation rate
             cov_num_consulation_rate=patients.with_gp_consultations(
@@ -170,36 +169,21 @@ study = StudyDefinition(
             returning='binary_flag', 
             return_expectations={"incidence": 0.01},
         ),
-    
-    # Most recent BMI  
-      cov_num_bmi=patients.most_recent_bmi(
-        on_or_after="2010-02-01",
-        minimum_age_at_measurement=16,
-        include_measurement_date=True,
-        include_month=True,
-        return_expectations={
-            "date": {},
-            "float": {"distribution": "normal", "mean": 35, "stddev": 10},
-            "incidence": 0.95,
-        },
-    ),
-
-# Date de-registered from any OpenSafely GP CURRENTLY UNSUPPORTED
-#cov_date_dereg=patients.date_deregistered_from_all_supported_practices(
-#    on_or_after="index_date",
-#    date_format="YYYY-MM-DD",
-#    return_expectations={
-#        "date": {"earliest": "index_date", "latest": "today"},
-#        "incidence": 0.05
-#    }
-#)
+        
+    # Define sex 
+    # NB: this is required for JCVI variables hence is defined here
+        cov_cat_sex = patients.sex(
+            return_expectations = {
+            "rate": "universal",
+            "category": {"ratios": {"M": 0.49, "F": 0.51}},
+            }
+        ),
 
     # Define vaccine eligibility variables
 
         **jcvi_variables, 
-    
+
     # Define common variables (e.g., exposures, outcomes, covariates) that require dynamic dates
 
         **dynamic_variables
 )
-

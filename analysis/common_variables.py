@@ -287,8 +287,8 @@ def generate_common_variables(index_date_variable):
     ),
 
 ## Diabetes drugs
-    tmp_cov_date_dm_drugs_dmd=patients.with_these_clinical_events(
-        diabetes_drugs_dmd,
+tmp_cov_date_insulin_snomed=patients.with_these_clinical_events(
+        insulin_snomed,
         returning="date",
         between=["1990-01-01", "today"],
         date_format="YYYY-MM-DD",
@@ -299,7 +299,43 @@ def generate_common_variables(index_date_variable):
             "incidence": 0.03,
         },
     ),
-    
+
+tmp_cov_date_antidiabetic_drugs_snomed=patients.with_these_clinical_events(
+        antidiabetic_drugs_snomed,
+        returning="date",
+        between=["1990-01-01", "today"],
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.03,
+        },
+    ),
+
+ ## Generate variable to identify earliest date any diabetes medication prescribed
+    tmp_cov_date_diabetes_medication=patients.minimum_of(
+        "tmp_cov_date_insulin_snomed","tmp_cov_date_antidiabetic_drugs_snomed"
+    ),
+
+tmp_cov_date_nonmetform_drugs_snomed=patients.with_these_clinical_events(
+        non_metformin_dmd,
+        returning="date",
+        between=["1990-01-01", "today"],
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.03,
+        },
+    ),
+
+## Generate variable to identify earliest date any diabetes codes recorded
+    tmp_cov_date_first_diabetes_record=patients.minimum_of(
+        "tmp_cov_date_nonmetform_drugs_snomed", "tmp_out_date_dm_gestational_snomed", "tmp_out_date_dm_other_snomed", "tmp_out_date_dm_type2_hes", "tmp_out_date_dm_type2_snomed", "tmp_out_date_dm_type1_hes", "tmp_out_date_dm_type1_snomed", "tmp_cov_date_diabetes_medication", "tmp_out_date_dm_diagnostic_snomed", 
+    ),
+
     # Define covariates 
 
     ## Age
@@ -790,6 +826,37 @@ def generate_common_variables(index_date_variable):
             "rate": "uniform",
             "incidence": 0.05,
         },
+    ),
+    ## History of COVID-19 
+    ### Positive SARS-COV-2 PCR antigen test
+    tmp_sub_bin_covid19_confirmed_history_sgss=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.05},
+    ),
+    ### COVID-19 code (diagnosis, positive test or sequalae) in primary care
+    tmp_sub_bin_covid19_confirmed_history_snomed=patients.with_these_clinical_events(
+        combine_codelists(
+            covid_primary_care_code,
+            covid_primary_care_positive_test,
+            covid_primary_care_sequalae,
+        ),
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.05},
+    ),
+    ### Hospital episode with confirmed diagnosis in any position
+    tmp_sub_bin_covid19_confirmed_history_hes=patients.admitted_to_hospital(
+        with_these_diagnoses=covid_codes,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.05},
+    ),
+    ## Generate variable to identify first date of confirmed COVID
+    sub_bin_covid19_confirmed_history=patients.maximum_of(
+        "tmp_sub_bin_covid19_confirmed_history_sgss","tmp_sub_bin_covid19_confirmed_history_snomed","tmp_sub_bin_covid19_confirmed_history_hes"
     ),
 
     )

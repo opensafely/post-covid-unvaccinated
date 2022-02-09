@@ -45,7 +45,7 @@ library(stringr)
 
 
 # Input dataset
-input <-read_rds(output/input_preprocess.rds)
+input <-read_rds("output/input.rds")
 
 # Define general start date and end date
 start_date = as.Date("2020-01-01")
@@ -75,9 +75,6 @@ factor_names <- tidyselect::vars_select(names(input), starts_with(c('cov_bin','c
 # Set the variables that should be factor variables as factor
 covars[,factor_names] <- lapply(covars[,factor_names] , factor)
 
-# Check the property of variables
-#str(covars)
-
 # Sort factor level alphabetically
 mk_factor_orderlevels <- function(covars, colname)
 {
@@ -96,9 +93,6 @@ for (colname in factor_names){
 # 1.b. Set the group with the highest frequency as the reference group #
 #----------------------------------------------------------------------#
 # Relevel
-
-# Check the frequency for each factor level
-#lapply(input[,factor_names], table)
 
 # Find mode in a factor variable
 calculate_mode <- function(x) {

@@ -327,10 +327,22 @@ liver_disease_icd10 = codelist_from_csv(
     column="code",
 )
 
-diabetes_drugs_dmd = codelist_from_csv(
-     "codelists/user-elsie_horne-diabetes_drugs_dmd.csv",
+insulin_snomed = codelist_from_csv(
+     "codelists/opensafely-insulin-medication.csv",
      system="snomed",
-     column="dmd_id",
+     column="id",
+)
+
+antidiabetic_drugs_snomed = codelist_from_csv(
+     "codelists/opensafely-antidiabetic-drugs.csv",
+     system="snomed",
+     column="id",
+)
+
+non_metformin_dmd = codelist_from_csv(
+    "codelists/user-r_denholm-non-metformin-antidiabetic-drugs_bristol.csv", 
+    system="snomed", 
+    column="id",
 )
 
 depression_icd10 = codelist_from_csv(
@@ -785,3 +797,4 @@ diabetes_diagnostic_snomed = codelist_from_csv(
 # HbA1c levels (numerical value)
 # HbA1c
 hba1c_new_codes = codelist(["XaPbt", "Xaeze", "Xaezd"], system="ctv3")
+

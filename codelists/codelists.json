@@ -689,6 +689,36 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/glycated-haemoglobin-hba1c-tests-numerical-value/5134e926/",
       "downloaded_at": "2022-01-31 13:09:48.430721Z",
       "sha": "bc7e48efd370be65686755f0a843058f1ec767e0"
+    },
+    "opensafely-antidiabetic-drugs.csv": {
+      "id": "opensafely/antidiabetic-drugs/2020-07-16",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/antidiabetic-drugs/2020-07-16/",
+      "downloaded_at": "2022-02-07 12:57:08.523682Z",
+      "sha": "f0b93b0054d673e8dcfbeba8fea0cd54239f0725"
+    },
+    "opensafely-insulin-medication.csv": {
+      "id": "opensafely/insulin-medication/2020-04-26",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/insulin-medication/2020-04-26/",
+      "downloaded_at": "2022-02-07 12:57:08.776531Z",
+      "sha": "9d4c57c0b8738962da04b32ab43b7659cd64d774"
+    },
+    "user-r_denholm-non-metformin-antidiabetic-drugs_bristol.csv": {
+      "id": "user/r_denholm/non-metformin-antidiabetic-drugs_bristol/7207eb58",
+      "url": "https://codelists.opensafely.org/codelist/user/r_denholm/non-metformin-antidiabetic-drugs_bristol/7207eb58/",
+      "downloaded_at": "2022-02-08 13:11:23.376969Z",
+      "sha": "43ff2e176f22e6050f6bf92e6d30deff40e97383"
+    },
+    "user-r_denholm-non-metformin-drugs.csv": {
+      "id": "user/r_denholm/non-metformin-drugs/74baab4e",
+      "url": "https://codelists.opensafely.org/codelist/user/r_denholm/non-metformin-drugs/74baab4e/",
+      "downloaded_at": "2022-02-08 15:45:17.145978Z",
+      "sha": "762748d73dde51020504ae8fca1d81ef3de48d62"
+    },
+    "user-r_denholm-non-metformin-drugs-dmd.csv": {
+      "id": "user/r_denholm/non-metformin-drugs-dmd/107cde7a",
+      "url": "https://codelists.opensafely.org/codelist/user/r_denholm/non-metformin-drugs-dmd/107cde7a/",
+      "downloaded_at": "2022-02-08 15:55:24.717794Z",
+      "sha": "6b51e927f83c2632d2b9dd1eb03a276cac4ff0ec"
     }
   }
 }
