@@ -342,7 +342,12 @@ tmp_cov_date_nonmetform_drugs_snomed=patients.with_these_clinical_events(
 
 ## Generate variable to identify earliest date any diabetes codes recorded
     tmp_cov_date_first_diabetes_record=patients.minimum_of(
-        "out_date_dm_gestational_snomed", "out_date_dm_other_snomed", "out_date_dm_type2", "out_date_dm_type1", "tmp_cov_date_diabetes_medication", "tmp_out_date_dm_diagnostic_snomed", 
+        "out_date_dm_gestational_snomed",
+         "out_date_dm_other_snomed",
+         "tmp_out_date_dm_type2_snomed", "tmp_out_date_dm_type2_hes", #"out_date_dm_type2", 
+         "tmp_out_date_dm_type1_snomed", "tmp_out_date_dm_type1_hes", #"out_date_dm_type1", 
+         "tmp_cov_date_insulin_snomed","tmp_cov_date_antidiabetic_drugs_snomed",#"tmp_cov_date_diabetes_medication", 
+         "tmp_out_date_dm_diagnostic_snomed", 
     ),
 
     # Define covariates 
