@@ -14,6 +14,9 @@ from cohortextractor import (
 ## Codelists from codelist.py (which pulls them from the codelist folder)
 from codelists import *
 
+## Datetime functions
+from datetime import date
+
 ## Study definition helper
 import study_def_helper_functions as helpers
 
@@ -118,8 +121,12 @@ def generate_common_variables(index_date_variable):
             "incidence": 0.03,
         },
     ),
+    ### Combined
+    out_date_dm_type1=patients.minimum_of(
+        "tmp_out_date_dm_type1_snomed", "tmp_out_date_dm_type1_hes"
+    ),   
 
-## count of number of records
+    ## count of number of records
     ### Primary care
     tmp_out_count_dm_type1_snomed=patients.with_these_clinical_events(
         diabetes_type1_snomed,
@@ -128,8 +135,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "int": {"distribution": "poisson", "mean": 2},
         },
-    ),
-
+    ),  
     ### HES APC
     tmp_out_count_dm_type1_hes=patients.admitted_to_hospital(
         returning="number_of_matches_in_period",
@@ -168,8 +174,12 @@ def generate_common_variables(index_date_variable):
             "incidence": 0.03,
         },
     ),
+    ### Combined
+    out_date_dm_type2=patients.minimum_of(
+        "tmp_out_date_dm_type2_snomed", "tmp_out_date_dm_type2_hes"
+    ), 
 
-## count of number of records
+    ## count of number of records
     ### Primary care
     tmp_out_count_dm_type2_snomed=patients.with_these_clinical_events(
         diabetes_type2_snomed,
@@ -179,7 +189,6 @@ def generate_common_variables(index_date_variable):
             "int": {"distribution": "poisson", "mean": 2},
         },
     ),
-
     ### HES APC
     tmp_out_count_dm_type2_hes=patients.admitted_to_hospital(
         returning="number_of_matches_in_period",
@@ -193,7 +202,7 @@ def generate_common_variables(index_date_variable):
     ## Diabetes unspecified
     ## Date of first ever recording
     ### Primary care
-    tmp_out_date_dm_other_snomed=patients.with_these_clinical_events(
+    out_date_dm_other_snomed=patients.with_these_clinical_events(
         diabetes_other_snomed,
         returning="date",
         between=["1990-01-01", "today"],
@@ -206,7 +215,7 @@ def generate_common_variables(index_date_variable):
         },
     ),
 
-## count of number of records
+    ## count of number of records
     ### Primary care
     tmp_out_count_dm_other_snomed=patients.with_these_clinical_events(
         diabetes_other_snomed,
@@ -220,7 +229,7 @@ def generate_common_variables(index_date_variable):
     ## Gestational diabetes
     ## Date of first ever recording
     ### Primary care
-    tmp_out_date_dm_gestational_snomed=patients.with_these_clinical_events(
+    out_date_dm_gestational_snomed=patients.with_these_clinical_events(
         diabetes_gestational_snomed,
         returning="date",
         between=["1990-01-01", "today"],
@@ -249,7 +258,7 @@ def generate_common_variables(index_date_variable):
         },
     ),
 
-## count of number of records
+    ## count of number of records
     ### Primary care
     tmp_out_count_dm_diagnostic_snomed=patients.with_these_clinical_events(
         diabetes_diagnostic_snomed,
@@ -333,7 +342,7 @@ tmp_cov_date_nonmetform_drugs_snomed=patients.with_these_clinical_events(
 
 ## Generate variable to identify earliest date any diabetes codes recorded
     tmp_cov_date_first_diabetes_record=patients.minimum_of(
-        "tmp_cov_date_nonmetform_drugs_snomed", "tmp_out_date_dm_gestational_snomed", "tmp_out_date_dm_other_snomed", "tmp_out_date_dm_type2_hes", "tmp_out_date_dm_type2_snomed", "tmp_out_date_dm_type1_hes", "tmp_out_date_dm_type1_snomed", "tmp_cov_date_diabetes_medication", "tmp_out_date_dm_diagnostic_snomed", 
+        "out_date_dm_gestational_snomed", "out_date_dm_other_snomed", "out_date_dm_type2", "out_date_dm_type1", "tmp_cov_date_diabetes_medication", "tmp_out_date_dm_diagnostic_snomed", 
     ),
 
     # Define covariates 
