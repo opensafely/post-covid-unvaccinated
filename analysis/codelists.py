@@ -886,3 +886,36 @@ addiction_snomed_clinical = codelist_from_csv(
     system="snomed",
     column="code",
 )
+
+insulin_snomed = codelist_from_csv(
+     "codelists/opensafely-insulin-medication.csv",
+     system="snomed",
+     column="id",
+)
+
+antidiabetic_drugs_snomed = codelist_from_csv(
+     "codelists/opensafely-antidiabetic-drugs.csv",
+     system="snomed",
+     column="id",
+)
+
+non_metformin_dmd = codelist_from_csv(
+    "codelists/user-r_denholm-non-metformin-antidiabetic-drugs_bristol.csv", 
+    system="snomed", 
+    column="id",
+)
+
+# Type 2 diabetes secondary care
+diabetes_type2_icd10 = codelist_from_csv(
+    "codelists/user-r_denholm-type-2-diabetes-secondary-care-bristol.csv",
+    system="icd10",
+    column="code",
+)
+
+# HBA1C
+
+hba1c_numerical = codelist_from_csv(
+    "codelists/opensafely-glycated-haemoglobin-hba1c-tests-numerical-value.csv",
+    system="snomed",
+    column="code",
+)
