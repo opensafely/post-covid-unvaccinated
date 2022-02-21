@@ -18,7 +18,7 @@ from codelists import *
 from datetime import date
 
 ## Study definition helper
-import study_definition_helper_functions as helpers
+import study_def_helper_functions as helpers
 
 # Define common variables function
 
@@ -1430,4 +1430,3 @@ def generate_common_variables(index_date_variable):
 
     )
     return dynamic_variables
-    
