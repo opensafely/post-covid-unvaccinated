@@ -1,4 +1,4 @@
-from cohortextractor import codelist_from_csv, combine_codelists
+from cohortextractor import codelist_from_csv, combine_codelists, codelist
 
 covid_codes = codelist_from_csv(
     "codelists/opensafely-covid-identification.csv",
@@ -921,4 +921,6 @@ diabetes_diagnostic_snomed = codelist_from_csv(
 
 # HbA1c levels (numerical value)
 # HbA1c
-hba1c_new_codes = codelist(["XaPbt", "Xaeze", "Xaezd"], system="ctv3")
+hba1c_new_codes = codelist(
+    ["XaPbt", "Xaeze", "Xaezd"], system="ctv3"
+)
