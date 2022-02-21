@@ -912,10 +912,13 @@ diabetes_type2_icd10 = codelist_from_csv(
     column="code",
 )
 
-# HBA1C
-
-hba1c_numerical = codelist_from_csv(
-    "codelists/opensafely-glycated-haemoglobin-hba1c-tests-numerical-value.csv",
+# Non-diagnostic diabetes codes
+diabetes_diagnostic_snomed = codelist_from_csv(
+    "codelists/user-hjforbes-nondiagnostic-diabetes-codes.csv",
     system="snomed",
     column="code",
 )
+
+# HbA1c levels (numerical value)
+# HbA1c
+hba1c_new_codes = codelist(["XaPbt", "Xaeze", "Xaezd"], system="ctv3")
