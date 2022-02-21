@@ -39,7 +39,7 @@ from grouping_variables import (
 study = StudyDefinition(
 
     # Specify index date for study
-    index_date = "2021-06-01",
+    index_date = "2020-01-01",
 
     # Configure the expectations framework
     default_expectations={

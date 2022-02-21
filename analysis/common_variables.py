@@ -96,7 +96,7 @@ def generate_common_variables(index_date_variable):
     ## Type 1
     ## Date of first ever recording
     ### Primary care
-    tmp_out_date_dm_type1_snomed=patients.with_these_clinical_events(
+    tmp_out_date_t1dm_snomed=patients.with_these_clinical_events(
         diabetes_type1_snomed,
         returning="date",
         between=["1990-01-01", "today"],
@@ -109,7 +109,7 @@ def generate_common_variables(index_date_variable):
         },
     ),
     ### HES APC
-    tmp_out_date_dm_type1_hes=patients.admitted_to_hospital(
+    tmp_out_date_t1dm_hes=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=diabetes_type1_icd10,
         between=["1990-01-01", "today"],
@@ -122,13 +122,13 @@ def generate_common_variables(index_date_variable):
         },
     ),
     ### Combined
-    out_date_dm_type1=patients.minimum_of(
-        "tmp_out_date_dm_type1_snomed", "tmp_out_date_dm_type1_hes"
+    out_date_t1dm=patients.minimum_of(
+        "tmp_out_date_t1dm_snomed", "tmp_out_date_t1dm_hes"
     ),   
 
     ## count of number of records
     ### Primary care
-    tmp_out_count_dm_type1_snomed=patients.with_these_clinical_events(
+    tmp_out_count_t1dm_snomed=patients.with_these_clinical_events(
         diabetes_type1_snomed,
         returning="number_of_matches_in_period",
         between=["1990-01-01", "today"],
@@ -137,7 +137,7 @@ def generate_common_variables(index_date_variable):
         },
     ),  
     ### HES APC
-    tmp_out_count_dm_type1_hes=patients.admitted_to_hospital(
+    tmp_out_count_t1dm_hes=patients.admitted_to_hospital(
         returning="number_of_matches_in_period",
         with_these_diagnoses=diabetes_type1_icd10,
         between=["1990-01-01", "today"],
@@ -149,7 +149,7 @@ def generate_common_variables(index_date_variable):
     ## Type 2
     ## Date of first ever recording
     ### Primary care
-    tmp_out_date_dm_type2_snomed=patients.with_these_clinical_events(
+    tmp_out_date_t2dm_snomed=patients.with_these_clinical_events(
         diabetes_type2_snomed,
         returning="date",
         between=["1990-01-01", "today"],
@@ -162,7 +162,7 @@ def generate_common_variables(index_date_variable):
         },
     ),
     ### HES APC
-    tmp_out_date_dm_type2_hes=patients.admitted_to_hospital(
+    tmp_out_date_t2dm_hes=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=diabetes_type2_icd10,
         between=["1990-01-01", "today"],
@@ -175,13 +175,13 @@ def generate_common_variables(index_date_variable):
         },
     ),
     ### Combined
-    out_date_dm_type2=patients.minimum_of(
-        "tmp_out_date_dm_type2_snomed", "tmp_out_date_dm_type2_hes"
+    out_date_t2dm=patients.minimum_of(
+        "tmp_out_date_t2dm_snomed", "tmp_out_date_t2dm_hes"
     ), 
 
     ## count of number of records
     ### Primary care
-    tmp_out_count_dm_type2_snomed=patients.with_these_clinical_events(
+    tmp_out_count_t2dm_snomed=patients.with_these_clinical_events(
         diabetes_type2_snomed,
         returning="number_of_matches_in_period",
         between=["1990-01-01", "today"],
@@ -190,7 +190,7 @@ def generate_common_variables(index_date_variable):
         },
     ),
     ### HES APC
-    tmp_out_count_dm_type2_hes=patients.admitted_to_hospital(
+    tmp_out_count_t2dm_hes=patients.admitted_to_hospital(
         returning="number_of_matches_in_period",
         with_these_diagnoses=diabetes_type2_icd10,
         between=["1990-01-01", "today"],
@@ -202,7 +202,7 @@ def generate_common_variables(index_date_variable):
     ## Diabetes unspecified
     ## Date of first ever recording
     ### Primary care
-    out_date_dm_other_snomed=patients.with_these_clinical_events(
+    out_date_otherdm=patients.with_these_clinical_events(
         diabetes_other_snomed,
         returning="date",
         between=["1990-01-01", "today"],
@@ -217,7 +217,7 @@ def generate_common_variables(index_date_variable):
 
     ## count of number of records
     ### Primary care
-    tmp_out_count_dm_other_snomed=patients.with_these_clinical_events(
+    tmp_out_count_otherdm=patients.with_these_clinical_events(
         diabetes_other_snomed,
         returning="number_of_matches_in_period",
         between=["1990-01-01", "today"],
@@ -229,7 +229,7 @@ def generate_common_variables(index_date_variable):
     ## Gestational diabetes
     ## Date of first ever recording
     ### Primary care
-    out_date_dm_gestational_snomed=patients.with_these_clinical_events(
+    out_date_gestationaldm=patients.with_these_clinical_events(
         diabetes_gestational_snomed,
         returning="date",
         between=["1990-01-01", "today"],
@@ -245,7 +245,7 @@ def generate_common_variables(index_date_variable):
     ## Diabetes diagnostic codes
     ## Date of first ever recording
     ### Primary care
-    tmp_out_date_dm_diagnostic_snomed=patients.with_these_clinical_events(
+    out_date_poccdm=patients.with_these_clinical_events(
         diabetes_diagnostic_snomed,
         returning="date",
         between=["1990-01-01", "today"],
@@ -260,7 +260,7 @@ def generate_common_variables(index_date_variable):
 
     ## count of number of records
     ### Primary care
-    tmp_out_count_dm_diagnostic_snomed=patients.with_these_clinical_events(
+    tmp_out_count_poccdm_snomed=patients.with_these_clinical_events(
         diabetes_diagnostic_snomed,
         returning="number_of_matches_in_period",
         between=["1990-01-01", "today"],
@@ -271,27 +271,15 @@ def generate_common_variables(index_date_variable):
 
  ## Variables needed to define diabetes
  ## maximum latest HbA1c measure
-    tmp_cov_num_max_hba1c_mm_m = patients.with_these_clinical_events(
+    tmp_cov_num_max_hba1c_mmol_mol=patients.with_these_clinical_events(
         hba1c_new_codes,
-        returning="numeric_value", 
-        between=["1990-01-01", "today"],
         find_last_match_in_period=True,
+        between=["1990-01-01", "today"],
+        returning="numeric_value",
+        include_date_of_match=True,
         return_expectations={
             "float": {"distribution": "normal", "mean": 40.0, "stddev": 20},
-            "incidence": 0.35,
-        },
-    ),
-
-    tmp_cov_date_max_hba1c_mm_m = patients.with_these_clinical_events(
-        hba1c_new_codes,
-        returning="date", 
-        between=["1990-01-01", "today"],
-        date_format="YYYY-MM-DD",
-        find_last_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.95,
         },
     ),
 
@@ -340,14 +328,13 @@ tmp_cov_date_nonmetform_drugs_snomed=patients.with_these_clinical_events(
         },
     ),
 
-## Generate variable to identify earliest date any diabetes codes recorded
-    tmp_cov_date_first_diabetes_record=patients.minimum_of(
-        "out_date_dm_gestational_snomed",
-         "out_date_dm_other_snomed",
-         "tmp_out_date_dm_type2_snomed", "tmp_out_date_dm_type2_hes", #"out_date_dm_type2", 
-         "tmp_out_date_dm_type1_snomed", "tmp_out_date_dm_type1_hes", #"out_date_dm_type1", 
-         "tmp_cov_date_insulin_snomed","tmp_cov_date_antidiabetic_drugs_snomed",#"tmp_cov_date_diabetes_medication", 
-         "tmp_out_date_dm_diagnostic_snomed", 
+## Generate variable to identify earliest date any diabetes diagnosis codes recorded
+    tmp_cov_date_first_diabetes_diag=patients.minimum_of(
+         "out_date_gestationaldm",
+         "out_date_otherdm",
+         "tmp_out_date_t1dm_snomed", "tmp_out_date_t1dm_hes", #"out_date_t1dm", 
+         "tmp_out_date_t2dm_snomed", "tmp_out_date_t2dm_hes", #"out_date_t2dm", 
+         "out_date_poccdm",
     ),
 
     # Define covariates 
