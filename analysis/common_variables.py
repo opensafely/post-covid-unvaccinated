@@ -26,7 +26,9 @@ def generate_common_variables(index_date_variable):
 
     dynamic_variables = dict(
 
+    ##################    
     # Define exposures
+    ##################
 
     ## Date of positive SARS-COV-2 PCR antigen test
     tmp_exp_date_covid19_confirmed_sgss=patients.with_test_result_in_sgss(
@@ -90,457 +92,459 @@ def generate_common_variables(index_date_variable):
         "tmp_exp_date_covid19_confirmed_sgss","tmp_exp_date_covid19_confirmed_snomed","tmp_exp_date_covid19_confirmed_hes","tmp_exp_date_covid19_confirmed_death"
     ),
 
+    ################
     # Define outomes 
+    ################
 
-    ## Acute myocardial infarction
-    ### Primary care
-    tmp_out_date_ami_snomed=patients.with_these_clinical_events(
-        ami_snomed_clinical,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### HES APC
-    tmp_out_date_ami_hes=patients.admitted_to_hospital(
-        returning="date_admitted",
-        with_these_diagnoses=ami_icd10,
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### ONS
-    tmp_out_date_ami_death=patients.with_these_codes_on_death_certificate(
-        ami_icd10,
-        returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
-        match_only_underlying_cause=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### Combined
-    out_date_ami=patients.minimum_of(
-        "tmp_out_date_ami_snomed", "tmp_out_date_ami_hes", "tmp_out_date_ami_death"
-    ),
+    # ## Acute myocardial infarction
+    # ### Primary care
+    # tmp_out_date_ami_snomed=patients.with_these_clinical_events(
+    #     ami_snomed_clinical,
+    #     returning="date",
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### HES APC
+    # tmp_out_date_ami_hes=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     with_these_diagnoses=ami_icd10,
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### ONS
+    # tmp_out_date_ami_death=patients.with_these_codes_on_death_certificate(
+    #     ami_icd10,
+    #     returning="date_of_death",
+    #     on_or_after=f"{index_date_variable}",
+    #     match_only_underlying_cause=True,
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### Combined
+    # out_date_ami=patients.minimum_of(
+    #     "tmp_out_date_ami_snomed", "tmp_out_date_ami_hes", "tmp_out_date_ami_death"
+    # ),
 
-    ## Ischaemic stroke
-    ### Primary care
-    tmp_out_date_stroke_isch_snomed=patients.with_these_clinical_events(
-        stroke_isch_snomed_clinical,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### HES APC
-    tmp_out_date_stroke_isch_hes=patients.admitted_to_hospital(
-        returning="date_admitted",
-        with_these_diagnoses=stroke_isch_icd10,
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### ONS
-    tmp_out_date_stroke_isch_death=patients.with_these_codes_on_death_certificate(
-        stroke_isch_icd10,
-        returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
-        match_only_underlying_cause=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1
-        },
-    ),
-    ### Combined
-    out_date_stroke_isch=patients.minimum_of(
-        "tmp_out_date_stroke_isch_snomed", "tmp_out_date_stroke_isch_hes", "tmp_out_date_stroke_isch_death"
-    ),
+    # ## Ischaemic stroke
+    # ### Primary care
+    # tmp_out_date_stroke_isch_snomed=patients.with_these_clinical_events(
+    #     stroke_isch_snomed_clinical,
+    #     returning="date",
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### HES APC
+    # tmp_out_date_stroke_isch_hes=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     with_these_diagnoses=stroke_isch_icd10,
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### ONS
+    # tmp_out_date_stroke_isch_death=patients.with_these_codes_on_death_certificate(
+    #     stroke_isch_icd10,
+    #     returning="date_of_death",
+    #     on_or_after=f"{index_date_variable}",
+    #     match_only_underlying_cause=True,
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1
+    #     },
+    # ),
+    # ### Combined
+    # out_date_stroke_isch=patients.minimum_of(
+    #     "tmp_out_date_stroke_isch_snomed", "tmp_out_date_stroke_isch_hes", "tmp_out_date_stroke_isch_death"
+    # ),
 
-    ## Deep vein thrombosis
-    ### Primary care
-    tmp_out_date_dvt_snomed=patients.with_these_clinical_events(
-        all_dvt_codes_snomed_clinical,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### HES APC
-    tmp_out_date_dvt_hes=patients.admitted_to_hospital(
-        returning="date_admitted",
-        with_these_diagnoses=all_dvt_codes_icd10,
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### ONS
-    tmp_out_date_dvt_death=patients.with_these_codes_on_death_certificate(
-        all_dvt_codes_icd10,
-        returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
-        match_only_underlying_cause=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### Combined
-    out_date_dvt=patients.minimum_of(
-        "tmp_out_date_dvt_snomed","tmp_out_date_dvt_hes", "tmp_out_date_dvt_death"
-    ),
+    # ## Deep vein thrombosis
+    # ### Primary care
+    # tmp_out_date_dvt_snomed=patients.with_these_clinical_events(
+    #     all_dvt_codes_snomed_clinical,
+    #     returning="date",
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### HES APC
+    # tmp_out_date_dvt_hes=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     with_these_diagnoses=all_dvt_codes_icd10,
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### ONS
+    # tmp_out_date_dvt_death=patients.with_these_codes_on_death_certificate(
+    #     all_dvt_codes_icd10,
+    #     returning="date_of_death",
+    #     on_or_after=f"{index_date_variable}",
+    #     match_only_underlying_cause=True,
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### Combined
+    # out_date_dvt=patients.minimum_of(
+    #     "tmp_out_date_dvt_snomed","tmp_out_date_dvt_hes", "tmp_out_date_dvt_death"
+    # ),
 
-    ## Pulmonary embolism
-    ### Primary care
-    tmp_out_date_pe_snomed=patients.with_these_clinical_events(
-        pe_snomed_clinical,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### HES APC
-    tmp_out_date_pe_hes=patients.admitted_to_hospital(
-        returning="date_admitted",
-        with_these_diagnoses=pe_icd10,
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### ONS
-    tmp_out_date_pe_death=patients.with_these_codes_on_death_certificate(
-        pe_icd10,
-        returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
-        match_only_underlying_cause=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1
-        },
-    ),
-    ### Combined
-    out_date_pe=patients.minimum_of(
-        "tmp_out_date_pe_snomed", "tmp_out_date_pe_hes", "tmp_out_date_pe_death"
-    ),
+    # ## Pulmonary embolism
+    # ### Primary care
+    # tmp_out_date_pe_snomed=patients.with_these_clinical_events(
+    #     pe_snomed_clinical,
+    #     returning="date",
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### HES APC
+    # tmp_out_date_pe_hes=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     with_these_diagnoses=pe_icd10,
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### ONS
+    # tmp_out_date_pe_death=patients.with_these_codes_on_death_certificate(
+    #     pe_icd10,
+    #     returning="date_of_death",
+    #     on_or_after=f"{index_date_variable}",
+    #     match_only_underlying_cause=True,
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1
+    #     },
+    # ),
+    # ### Combined
+    # out_date_pe=patients.minimum_of(
+    #     "tmp_out_date_pe_snomed", "tmp_out_date_pe_hes", "tmp_out_date_pe_death"
+    # ),
 
-    ## Transient ischaemic attack
-    ### Primary care
-    tmp_out_date_tia_snomed=patients.with_these_clinical_events(
-        tia_snomed_clinical,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### HES APC
-    tmp_out_date_tia_hes=patients.admitted_to_hospital(
-        returning="date_admitted",
-        with_these_diagnoses=tia_icd10,
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### ONS
-    tmp_out_date_tia_death=patients.with_these_codes_on_death_certificate(
-        tia_icd10,
-        returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
-        match_only_underlying_cause=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1
-        },
-    ),
-    ### Combined
-    out_date_tia=patients.minimum_of(
-        "tmp_out_date_tia_snomed", "tmp_out_date_tia_hes", "tmp_out_date_tia_death"
-    ),
+    # ## Transient ischaemic attack
+    # ### Primary care
+    # tmp_out_date_tia_snomed=patients.with_these_clinical_events(
+    #     tia_snomed_clinical,
+    #     returning="date",
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### HES APC
+    # tmp_out_date_tia_hes=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     with_these_diagnoses=tia_icd10,
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### ONS
+    # tmp_out_date_tia_death=patients.with_these_codes_on_death_certificate(
+    #     tia_icd10,
+    #     returning="date_of_death",
+    #     on_or_after=f"{index_date_variable}",
+    #     match_only_underlying_cause=True,
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1
+    #     },
+    # ),
+    # ### Combined
+    # out_date_tia=patients.minimum_of(
+    #     "tmp_out_date_tia_snomed", "tmp_out_date_tia_hes", "tmp_out_date_tia_death"
+    # ),
 
-    ## Subarachnoid haemorrhage and haemorrhagic stroke
-    ### Primary care
-    tmp_out_date_stroke_sah_hs_snomed=patients.with_these_clinical_events(
-        stroke_sah_hs_snomed_clinical,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### HES APC
-    tmp_out_date_stroke_sah_hs_hes=patients.admitted_to_hospital(
-        returning="date_admitted",
-        with_these_diagnoses=stroke_sah_hs_icd10,
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### ONS
-    tmp_out_date_stroke_sah_hs_death=patients.with_these_codes_on_death_certificate(
-        stroke_sah_hs_icd10,
-        returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
-        match_only_underlying_cause=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1
-        },
-    ),
-    ### Combined
-    out_date_stroke_sah_hs=patients.minimum_of(
-        "tmp_out_date_stroke_sah_hs_snomed", "tmp_out_date_stroke_sah_hs_hes", "tmp_out_date_stroke_sah_hs_death"
-    ),
+    # ## Subarachnoid haemorrhage and haemorrhagic stroke
+    # ### Primary care
+    # tmp_out_date_stroke_sah_hs_snomed=patients.with_these_clinical_events(
+    #     stroke_sah_hs_snomed_clinical,
+    #     returning="date",
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### HES APC
+    # tmp_out_date_stroke_sah_hs_hes=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     with_these_diagnoses=stroke_sah_hs_icd10,
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### ONS
+    # tmp_out_date_stroke_sah_hs_death=patients.with_these_codes_on_death_certificate(
+    #     stroke_sah_hs_icd10,
+    #     returning="date_of_death",
+    #     on_or_after=f"{index_date_variable}",
+    #     match_only_underlying_cause=True,
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1
+    #     },
+    # ),
+    # ### Combined
+    # out_date_stroke_sah_hs=patients.minimum_of(
+    #     "tmp_out_date_stroke_sah_hs_snomed", "tmp_out_date_stroke_sah_hs_hes", "tmp_out_date_stroke_sah_hs_death"
+    # ),
 
-    ## Heart failure
-    ### Primary care
-    tmp_out_date_hf_snomed=patients.with_these_clinical_events(
-        hf_snomed_clinical,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### HES APC
-    tmp_out_date_hf_hes=patients.admitted_to_hospital(
-        returning="date_admitted",
-        with_these_diagnoses=hf_icd10,
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### ONS
-    tmp_out_date_hf_death=patients.with_these_codes_on_death_certificate(
-        hf_icd10,
-        returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
-        match_only_underlying_cause=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1
-        },
-    ),
-    ### Combined
-    out_date_hf=patients.minimum_of(
-        "tmp_out_date_hf_snomed", "tmp_out_date_hf_hes", "tmp_out_date_hf_death"
-    ),
+    # ## Heart failure
+    # ### Primary care
+    # tmp_out_date_hf_snomed=patients.with_these_clinical_events(
+    #     hf_snomed_clinical,
+    #     returning="date",
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### HES APC
+    # tmp_out_date_hf_hes=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     with_these_diagnoses=hf_icd10,
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### ONS
+    # tmp_out_date_hf_death=patients.with_these_codes_on_death_certificate(
+    #     hf_icd10,
+    #     returning="date_of_death",
+    #     on_or_after=f"{index_date_variable}",
+    #     match_only_underlying_cause=True,
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1
+    #     },
+    # ),
+    # ### Combined
+    # out_date_hf=patients.minimum_of(
+    #     "tmp_out_date_hf_snomed", "tmp_out_date_hf_hes", "tmp_out_date_hf_death"
+    # ),
 
-    ## Angina
-    ### Primary care
-    tmp_out_date_angina_snomed=patients.with_these_clinical_events(
-        angina_snomed_clinical,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### HES APC
-    tmp_out_date_angina_hes=patients.admitted_to_hospital(
-        returning="date_admitted",
-        with_these_diagnoses=angina_icd10,
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### ONS
-    tmp_out_date_angina_death=patients.with_these_codes_on_death_certificate(
-        angina_icd10,
-        returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
-        match_only_underlying_cause=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1
-        },
-    ),
-    ### Combined
-    out_date_angina=patients.minimum_of(
-        "tmp_out_date_angina_snomed", "tmp_out_date_angina_hes", "tmp_out_date_angina_death"
-    ),
+    # ## Angina
+    # ### Primary care
+    # tmp_out_date_angina_snomed=patients.with_these_clinical_events(
+    #     angina_snomed_clinical,
+    #     returning="date",
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### HES APC
+    # tmp_out_date_angina_hes=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     with_these_diagnoses=angina_icd10,
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### ONS
+    # tmp_out_date_angina_death=patients.with_these_codes_on_death_certificate(
+    #     angina_icd10,
+    #     returning="date_of_death",
+    #     on_or_after=f"{index_date_variable}",
+    #     match_only_underlying_cause=True,
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1
+    #     },
+    # ),
+    # ### Combined
+    # out_date_angina=patients.minimum_of(
+    #     "tmp_out_date_angina_snomed", "tmp_out_date_angina_hes", "tmp_out_date_angina_death"
+    # ),
 
-    ## Arterial thrombosis events (i.e., any arterial event - this combines: AMI, ischaemic stroke, other arterial embolism)
-    ### Primary care
-    tmp_out_date_ate_snomed=patients.with_these_clinical_events(
-        all_ate_codes_snomed_clinical,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### HES APC
-    tmp_out_date_ate_hes=patients.admitted_to_hospital(
-        returning="date_admitted",
-        with_these_diagnoses=all_ate_codes_icd10,
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### ONS
-    tmp_out_date_ate_death=patients.with_these_codes_on_death_certificate(
-        all_ate_codes_icd10,
-        returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
-        match_only_underlying_cause=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1
-        },
-    ),
-    ### Combined
-    out_date_ate=patients.minimum_of(
-        "tmp_out_date_ate_snomed", "tmp_out_date_ate_hes", "tmp_out_date_ate_death"
-    ),
+    # ## Arterial thrombosis events (i.e., any arterial event - this combines: AMI, ischaemic stroke, other arterial embolism)
+    # ### Primary care
+    # tmp_out_date_ate_snomed=patients.with_these_clinical_events(
+    #     all_ate_codes_snomed_clinical,
+    #     returning="date",
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### HES APC
+    # tmp_out_date_ate_hes=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     with_these_diagnoses=all_ate_codes_icd10,
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### ONS
+    # tmp_out_date_ate_death=patients.with_these_codes_on_death_certificate(
+    #     all_ate_codes_icd10,
+    #     returning="date_of_death",
+    #     on_or_after=f"{index_date_variable}",
+    #     match_only_underlying_cause=True,
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1
+    #     },
+    # ),
+    # ### Combined
+    # out_date_ate=patients.minimum_of(
+    #     "tmp_out_date_ate_snomed", "tmp_out_date_ate_hes", "tmp_out_date_ate_death"
+    # ),
 
-    ## Venous thromboembolism events (i.e., any venous event) - this combines: PE, DVT, ICVT, Portal vein thrombosism, other DVT)
-    ### Primary care
-    tmp_out_date_vte_snomed=patients.with_these_clinical_events(
-        all_vte_codes_snomed_clinical,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### HES APC
-    tmp_out_date_vte_hes=patients.admitted_to_hospital(
-        returning="date_admitted",
-        with_these_diagnoses=all_vte_codes_icd10,
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-    ### ONS
-    tmp_out_date_vte_death=patients.with_these_codes_on_death_certificate(
-        all_vte_codes_icd10,
-        returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
-        match_only_underlying_cause=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1
-        },
-    ),
-    ### Combined
-    out_date_vte=patients.minimum_of(
-        "tmp_out_date_vte_snomed", "tmp_out_date_vte_hes", "tmp_out_date_vte_death"
-    ),
+    # ## Venous thromboembolism events (i.e., any venous event) - this combines: PE, DVT, ICVT, Portal vein thrombosism, other DVT)
+    # ### Primary care
+    # tmp_out_date_vte_snomed=patients.with_these_clinical_events(
+    #     all_vte_codes_snomed_clinical,
+    #     returning="date",
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### HES APC
+    # tmp_out_date_vte_hes=patients.admitted_to_hospital(
+    #     returning="date_admitted",
+    #     with_these_diagnoses=all_vte_codes_icd10,
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ),
+    # ### ONS
+    # tmp_out_date_vte_death=patients.with_these_codes_on_death_certificate(
+    #     all_vte_codes_icd10,
+    #     returning="date_of_death",
+    #     on_or_after=f"{index_date_variable}",
+    #     match_only_underlying_cause=True,
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1
+    #     },
+    # ),
+    # ### Combined
+    # out_date_vte=patients.minimum_of(
+    #     "tmp_out_date_vte_snomed", "tmp_out_date_vte_hes", "tmp_out_date_vte_death"
+    # ),
 
     ## Type 1 diabetes
     out_date_diabetes_type1=patients.with_these_clinical_events(
@@ -559,6 +563,20 @@ def generate_common_variables(index_date_variable):
     ## Type 2 diabetes
     out_date_diabetes_type2=patients.with_these_clinical_events(
         diabetes_type2_snomed_clinical,
+        returning="date",
+        on_or_after=f"{index_date_variable}",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "index_date", "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
+    ),
+
+    ## Other or non-diagnostic diabetes
+    out_date_diabetes_nond=patients.with_these_clinical_events(
+        diabetes_diagnostic_snomed,
         returning="date",
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
@@ -741,7 +759,9 @@ def generate_common_variables(index_date_variable):
         },
     ),
 
+    ################################################################################################
     # Define covariates (other than sex, which is considered constant and needed for JCVI groupings)
+    ################################################################################################
 
     ## Age
     cov_num_age = patients.age_as_of(
