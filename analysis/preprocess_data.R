@@ -1,5 +1,20 @@
+##################################################################################
+# 
+# Description: This script reads in the input data prepares it for data cleaning.
+#
+# Input: output/input.feather
+# Output: output/
+#
+# Author(s): Rachel Denholm (??),  Kurt Taylor
+#
+# Date last updated: 
+#
+##################################################################################
+
 # Load libraries ---------------------------------------------------------------
+
 library(magrittr)
+library(tidyverse)
 
 # Define parameters ------------------------------------------------------------
 
@@ -15,38 +30,29 @@ sink(paste0("output/describe_input_studydefinition.txt"))
 print(Hmisc::describe(df))
 sink()
 
-# Convert dates to date format -------------------------------------------------
-date_names <- tidyselect::vars_select(names(df), contains(c('_date'), ignore.case = TRUE))
+# Format columns -----------------------------------------------------
+# dates, numerics, factors, logicals
 
-for (colname in date_names){
-  df[[colname]] <- as.Date(df[[colname]])
-}
-
-df$qa_num_birth_year <- format(df$qa_num_birth_year,"%Y")
-
-# Convert numbers to number format ---------------------------------------------
-num_names <- tidyselect::vars_select(names(df), contains(c('_num'), ignore.case = TRUE))
-
-for (colname in num_names){
-  df[[colname]] <- as.numeric(df[[colname]])
-}
-
-# Convert categories to factor format ------------------------------------------
-factor_names <- tidyselect::vars_select(names(df), contains(c('_cat'), ignore.case = TRUE))
-
-for (colname in factor_names){
-  df[[colname]] <- as.factor(df[[colname]])
-}
-
-# Convert binaries to logical format -------------------------------------------
-bin_names <- tidyselect::vars_select(names(df), contains(c('_bin'), ignore.case = TRUE))
-
-for (colname in bin_names){
-  df[[colname]] <- as.logical(df[[colname]])
-}
+df <- df %>%
+  rename(tmp_cov_max_hba1c_mmol_mol_date = tmp_cov_num_max_hba1c_mmol_mol_date) %>%
+  mutate(across(contains('_date'), ~ as.Date(as.character(.)))) %>%
+  mutate(across(contains('_birth_year'), ~ format(as.Date(.), "%Y"))) %>%
+  mutate(across(contains('_num'), ~ as.numeric(.))) %>%
+  mutate(across(contains('_cat'), ~ as.factor(.))) %>%
+  mutate(across(contains('_bin'), ~ as.logical(.)))
 
 # Define COVID-19 severity --------------------------------------------------------------
-  
+
+df <- df %>%
+  mutate(sub_cat_covid19_hospital = 
+           ifelse(!is.na(exp_date_covid19_confirmed) &
+                    !is.na(sub_date_covid19_hospital) &
+                    sub_date_covid19_hospital - exp_date_covid19_confirmed >= 0 &
+                    sub_date_covid19_hospital - exp_date_covid19_confirmed < 29, "hospitalised",
+                  ifelse(!is.na(exp_date_covid19_confirmed), "non_hospitalised", 
+                         ifelse(is.na(exp_date_covid19_confirmed), "no_infection", NA))))
+
+
 df$sub_cat_covid19_hospital <- "no_infection"
   
 df$sub_cat_covid19_hospital <- ifelse(!is.na(df$exp_date_covid19_confirmed),
