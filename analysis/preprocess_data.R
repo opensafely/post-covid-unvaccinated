@@ -57,14 +57,6 @@ df <- df %>%
 
 # make diabetes df and select required variables
 
-# diabetes <- df %>% dplyr::select(patient_id, qa_num_birth_year, out_date_gestationaldm,out_date_otherdm,
-#                                  tmp_out_date_t1dm_snomed, tmp_out_date_t1dm_hes, tmp_out_date_t2dm_snomed, 
-#                                  tmp_out_date_t2dm_hes, out_date_poccdm, tmp_out_count_poccdm_snomed,
-#                                  cov_cat_ethnicity, tmp_cov_date_nonmetform_drugs_snomed, tmp_out_count_t1dm_hes,
-#                                  tmp_out_count_t2dm_hes, tmp_out_count_t1dm_snomed, tmp_out_count_t2dm_snomed,
-#                                  tmp_cov_date_diabetes_medication, tmp_cov_num_max_hba1c_mmol_mol,
-#                                  tmp_cov_max_hba1c_mmol_mol_date)
-
 # define variables needed for diabetes algorithm 
 
 df <- df %>% mutate(out_date_t1dm = pmin(tmp_out_date_t1dm_snomed, 
@@ -191,6 +183,7 @@ df <- df %>%
                                     (tmp_out_count_poccdm_snomed < 5)), "No", NA))) %>%
   
   # Create Diabetes Variable
+  # needs double checking - KT discuss with RD - in previous script, NA's were assigned with "" which made them a character instead of actual NAs.
   mutate(out_cat_diabetes = ifelse(step_7 == "No", "DM unlikely",
                                    ifelse(step_7 == "Yes", "DM unspecified",
                                           ifelse(step_2=="Yes" |
@@ -205,66 +198,42 @@ df <- df %>%
                                                         step_6e=="No", "T1DM",
                                                         ifelse(step_1a == "No", "GDM", "no diabetes"))))))
 
-
-df$out_cat_diabetes <- "no diabetes"
-df$out_cat_diabetes <- ifelse(diabetes$step_1a=="No", "GDM", df$out_cat_diabetes)
-df$out_cat_diabetes <- ifelse(diabetes$step_3=="Yes" | 
-                                diabetes$step_5=="Yes" |
-                                diabetes$step_6a=="Yes" |
-                                diabetes$step_6c=="Yes" |
-                                diabetes$step_6e=="No",
-                              "T1DM", df$out_cat_diabetes)
-df$out_cat_diabetes <- ifelse(diabetes$step_2=="Yes" |
-                                diabetes$step_4=="Yes" |
-                                diabetes$step_6b=="Yes" |
-                                diabetes$step_6d=="Yes" |
-                                diabetes$step_6e=="Yes",
-                              "T2DM", df$out_cat_diabetes)
-df$out_cat_diabetes <- ifelse(diabetes$step_7=="Yes",
-                              "DM unspecified", df$out_cat_diabetes)
-df$out_cat_diabetes <- ifelse(diabetes$step_7=="No",
-                              "DM unlikely", df$out_cat_diabetes)
- 
-
 # Create data table for diabetes algorithm table --------------------------
 
 # KT: Not sure what this code is trying to achieve ???
 
-check_missing <- data.frame(variable = character(), N_missing = character(), Perc_missing = character())
-#check_missing[nrow(check_missing)+1,] <- c(" N",N,"")
-covariate_names <- tidyselect::vars_select(names(df), starts_with(c('sub_','cov_','qa_','vax_cat','exp_cat'), ignore.case = TRUE))
-for (i in covariate_names){
-  check_missing[nrow(check_missing)+1,1] <- i
-  check_missing[nrow(check_missing),2] <- nrow(df[is.na(df[,i]),])
-  check_missing[nrow(check_missing),3] <- 100*(nrow(df[is.na(df[,i]),])/N)
-}
-
-write.csv(table1, file = file.path("output", paste0("Table1_",cohort_name, ".csv")) , row.names=F)
-
-
-
-# Remove JCVI age variables ----------------------------------------------------
-# NB: These are used to determine JCVI category only
-
-df[,c("vax_jcvi_age_1","vax_jcvi_age_2")] <- NULL
+# check_missing <- data.frame(variable = character(), N_missing = character(), Perc_missing = character())
+# #check_missing[nrow(check_missing)+1,] <- c(" N",N,"")
+# covariate_names <- tidyselect::vars_select(names(df), starts_with(c('sub_','cov_','qa_','vax_cat','exp_cat'), ignore.case = TRUE))
+# for (i in covariate_names){
+#   check_missing[nrow(check_missing)+1,1] <- i
+#   check_missing[nrow(check_missing),2] <- nrow(df[is.na(df[,i]),])
+#   check_missing[nrow(check_missing),3] <- 100*(nrow(df[is.na(df[,i]),])/N)
+# }
+# 
+# write.csv(table1, file = file.path("output", paste0("Table1_",cohort_name, ".csv")) , row.names=F)
   
 # Restrict columns and save analysis dataset ---------------------------------
-  
-df1 <- df[,c("patient_id","death_date",
-                 colnames(df)[grepl("sub_",colnames(df))], # Subgroups
-                 colnames(df)[grepl("exp_",colnames(df))], # Exposures
-                 colnames(df)[grepl("out_",colnames(df))], # Outcomes
-                 colnames(df)[grepl("cov_",colnames(df))], # Covariates
-                 colnames(df)[grepl("qa_",colnames(df))], # Quality assurance
-                 colnames(df)[grepl("vax_",colnames(df))])] # Vaccination
-  
-df1[,colnames(df)[grepl("df_out_",colnames(df))]] <- NULL
-  
+
+df1 <- df %>% 
+  dplyr::select(- vax_jcvi_age_1, - vax_jcvi_age_2) %>% #  remove JCVI variables
+  # select patient id, death date and variables: subgroups, exposures, outcomes, covariates, quality assurance and vaccination
+  dplyr::select(patient_id, death_date,
+                contains(c("sub_", "exp_", "out_", "cov_", "qa_", "vax_"))) %>%
+  dplyr::select(-contains("df_out_"))
+
+# SAVE
+
 saveRDS(df1, file = paste0("output/input.rds"))
   
 # Restrict columns and save Venn diagram input dataset -----------------------
-  
-df2 <- df[,c("patient_id",colnames(df)[grepl("out_",colnames(df))])]
-  
+
+df2 <- df %>% 
+  dplyr::select(patient_id,
+                contains(c("out")))
+
+# SAVE
+
 saveRDS(df2, file = paste0("output/venn.rds"))
-  
+
+# END
