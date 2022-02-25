@@ -55,8 +55,6 @@ df <- df %>%
 
 # Define diabetes outcome (using Sophie Eastwood algorithm) ----------------------------
 
-# make diabetes df and select required variables
-
 # define variables needed for diabetes algorithm 
 
 df <- df %>% mutate(out_date_t1dm = pmin(tmp_out_date_t1dm_snomed, 
@@ -196,7 +194,9 @@ df <- df %>%
                                                         step_6a=="Yes" |
                                                         step_6c=="Yes" |
                                                         step_6e=="No", "T1DM",
-                                                        ifelse(step_1a == "No", "GDM", "no diabetes"))))))
+                                                        ifelse(step_1a == "No", "GDM", NA)))))) %>%
+  # replace NAs with None (no diabetes)
+  mutate_at(vars(out_cat_diabetes), ~replace_na(., "None"))
 
 # Create data table for diabetes algorithm table --------------------------
 
