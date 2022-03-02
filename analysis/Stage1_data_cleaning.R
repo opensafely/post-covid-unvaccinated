@@ -8,7 +8,7 @@
 ##  - Apply inclusion exclusion criteria
 ##  - Create cleaned dataset
 ## 
-## Authors: Yinghui Wei, Renin Toms, Rochelle Knight, Genevieve Cezard, Rachel Denholm
+## Authors: Yinghui Wei, Renin Toms, Rochelle Knight, Genevieve Cezard, Rachel Denholm, Kurt Taylor
 ## Reviewer: 
 ## 
 ##
@@ -35,14 +35,13 @@
 ##
 ## =============================================================================
 
-
 ###############################################
 # 0. Load relevant libraries and read in data #
 ###############################################
+
 library(readr)
 library(dplyr)
 library(stringr)
-
 
 # Input dataset
 input <-read_rds("output/input.rds")
@@ -57,8 +56,11 @@ end_date = as.Date("2021-06-18") # General End date: 2021-06-18 (date last JCVI 
 # 1. Prepare all variables (re-factoring, re-typing) # 
 ######################################################
 
+# handle missing values
+input$cov_cat_smoking_status <- replace(input$cov_cat_smoking_status, is.na(input$cov_cat_smoking_status),"M")
+
 # Extract names of variables
-variable_names <- tidyselect::vars_select(names(input), starts_with(c('cov_','qa_','exp_cat','vax_cat'), ignore.case = TRUE))
+variable_names <- tidyselect::vars_select(names(input), starts_with(c('cov_','qa_','exp_cat','vax_cat', 'sub_cat'), ignore.case = TRUE))
 
 # Create a data frame for all relevant variables
 covars <- input[,variable_names] #View(covars)
@@ -70,10 +72,12 @@ covars$cov_cat_region <- gsub(" ", "_", covars$cov_cat_region)
 # 1.a. Set factor variables as factor #
 #-------------------------------------#
 # Get the names of variables which are factors
-factor_names <- tidyselect::vars_select(names(input), starts_with(c('cov_bin','cov_cat','qa_bin','exp_cat','vax_cat'), ignore.case = TRUE))
+factor_names <- tidyselect::vars_select(names(input), starts_with(c('cov_bin','cov_cat','qa_bin','exp_cat','vax_cat', 'sub_cat'), ignore.case = TRUE))
 
 # Set the variables that should be factor variables as factor
-covars[,factor_names] <- lapply(covars[,factor_names] , factor)
+
+covars <- covars %>%
+  mutate(across(contains(c('cov_bin','cov_cat','qa_bin','exp_cat','vax_cat', 'sub_cat')), ~ as.factor(.)))
 
 # Sort factor level alphabetically
 mk_factor_orderlevels <- function(covars, colname)
@@ -87,7 +91,6 @@ for (colname in factor_names){
   #print(colname)
   covars <- mk_factor_orderlevels(covars, colname)
 }
-
 
 #----------------------------------------------------------------------#
 # 1.b. Set the group with the highest frequency as the reference group #
@@ -106,7 +109,7 @@ covars$cov_cat_ethnicity = relevel(covars$cov_cat_ethnicity, ref = as.character(
 covars$cov_cat_smoking_status = relevel(covars$cov_cat_smoking_status, ref = as.character(calculate_mode(covars$cov_cat_smoking_status)))
 covars$cov_cat_region = relevel(covars$cov_cat_region, ref = as.character(calculate_mode(covars$cov_cat_region)))
 
-covars$exp_cat_covid19_hospital = relevel(covars$exp_cat_covid19_hospital, ref = as.character(calculate_mode(covars$exp_cat_covid19_hospital)))
+covars$sub_cat_covid19_hospital = relevel(covars$sub_cat_covid19_hospital, ref = as.character(calculate_mode(covars$sub_cat_covid19_hospital)))
 
 covars$vax_cat_jcvi_group = relevel(covars$vax_cat_jcvi_group, ref = as.character(calculate_mode(covars$vax_cat_jcvi_group)))
 
@@ -119,7 +122,7 @@ levels(covars$cov_cat_deprivation)[levels(covars$cov_cat_deprivation)==9 | level
 covars$cov_cat_deprivation = relevel(covars$cov_cat_deprivation, ref = as.character(calculate_mode(covars$cov_cat_deprivation))) # added
 
 # A simple check if factor reference level has changed
-#lapply(covars[,c("cov_cat_ethnicity", "cov_cat_smoking_status", "cov_cat_region","cov_cat_deprivation","exp_cat_covid19_hospital","vax_cat_jcvi_group","vax_cat_product_1","vax_cat_product_2","vax_cat_product_3")], table)
+lapply(covars[,c("cov_cat_ethnicity", "cov_cat_smoking_status", "cov_cat_region","cov_cat_deprivation","sub_cat_covid19_hospital","vax_cat_jcvi_group")], table)
 
 meta_data_factors <- lapply(covars[,factor_names], table)
 
@@ -142,21 +145,16 @@ sink()
 #-------------------------------------------------------#
 # 1.d. Check and specify date format for date variables #
 #-------------------------------------------------------#
-# Get the names of variables which are dates
-date_names <- tidyselect::vars_select(names(input), starts_with(c('exp_date','out_date','vax_date'), ignore.case = TRUE))
 
-# Set the variables that should be date variables as dates
-for (colname in date_names){
-  input[[colname]] <- as.Date(input[[colname]])
-}
-
+input <- input %>%
+  mutate(across(contains('_date'), ~ as.Date(as.character(.))))
 
 #-----------------------------------------#
 # 1.e. Apply changes in the input dataset #
 #-----------------------------------------#
+
 input[,variable_names] <- covars
 #str(input)
-
 
 #####################
 # 2. Apply QA rules #
