@@ -42,6 +42,7 @@
 library(readr)
 library(dplyr)
 library(stringr)
+library(tidyverse)
 
 # Input dataset
 input <-read_rds("output/input.rds")
@@ -95,9 +96,9 @@ for (colname in factor_names){
 #----------------------------------------------------------------------#
 # 1.b. Set the group with the highest frequency as the reference group #
 #----------------------------------------------------------------------#
-# Relevel
 
-# Find mode in a factor variable
+# Function to find mode in a factor variable
+
 calculate_mode <- function(x) {
   uniqx <- unique(na.omit(x))
   uniqx[which.max(tabulate(match(x, uniqx)))]
@@ -105,22 +106,25 @@ calculate_mode <- function(x) {
 
 # For the following variables, the first level (reference level) is not the one with the highest frequency
 # Set the most frequently occurred level as the reference for a factor variable
-covars$cov_cat_ethnicity = relevel(covars$cov_cat_ethnicity, ref = as.character(calculate_mode(covars$cov_cat_ethnicity)))
-covars$cov_cat_smoking_status = relevel(covars$cov_cat_smoking_status, ref = as.character(calculate_mode(covars$cov_cat_smoking_status)))
-covars$cov_cat_region = relevel(covars$cov_cat_region, ref = as.character(calculate_mode(covars$cov_cat_region)))
 
-covars$sub_cat_covid19_hospital = relevel(covars$sub_cat_covid19_hospital, ref = as.character(calculate_mode(covars$sub_cat_covid19_hospital)))
-
-covars$vax_cat_jcvi_group = relevel(covars$vax_cat_jcvi_group, ref = as.character(calculate_mode(covars$vax_cat_jcvi_group)))
-
-#combine groups in deprivation: First - most deprived; fifth -least deprived
-levels(covars$cov_cat_deprivation)[levels(covars$cov_cat_deprivation)==1 | levels(covars$cov_cat_deprivation)==2] <-"1-2 (most deprived)"
-levels(covars$cov_cat_deprivation)[levels(covars$cov_cat_deprivation)==3 | levels(covars$cov_cat_deprivation)==4] <-"3-4"
-levels(covars$cov_cat_deprivation)[levels(covars$cov_cat_deprivation)==5 | levels(covars$cov_cat_deprivation)==6] <-"5-6"
-levels(covars$cov_cat_deprivation)[levels(covars$cov_cat_deprivation)==7 | levels(covars$cov_cat_deprivation)==8] <-"7-8"
-levels(covars$cov_cat_deprivation)[levels(covars$cov_cat_deprivation)==9 | levels(covars$cov_cat_deprivation)==10] <-"9-10 (least deprived)"
-covars$cov_cat_deprivation = relevel(covars$cov_cat_deprivation, ref = as.character(calculate_mode(covars$cov_cat_deprivation))) # added
-
+covars <- covars %>%
+  mutate(cov_cat_ethnicity = relevel(cov_cat_ethnicity, ref = as.character(calculate_mode(cov_cat_ethnicity))),
+         cov_cat_smoking_status = relevel(cov_cat_smoking_status, ref = as.character(calculate_mode(cov_cat_smoking_status))),
+         cov_cat_region = relevel(cov_cat_region, ref = as.character(calculate_mode(cov_cat_region))),
+         sub_cat_covid19_hospital = relevel(sub_cat_covid19_hospital, ref = as.character(calculate_mode(sub_cat_covid19_hospital))),
+         vax_cat_jcvi_group = relevel(vax_cat_jcvi_group, ref = as.character(calculate_mode(vax_cat_jcvi_group)))) %>%
+  
+# Combine groups in deprivation: First - most deprived; fifth -least deprived
+  
+  mutate(cov_cat_deprivation = ifelse(cov_cat_deprivation == 1 | cov_cat_deprivation == 2, "1-2 (most deprived)",
+                                          ifelse(cov_cat_deprivation == 3 | cov_cat_deprivation == 4, "3-4",
+                                                 ifelse(cov_cat_deprivation == 5 | cov_cat_deprivation == 6, "5-6",
+                                                        ifelse(cov_cat_deprivation == 7 | cov_cat_deprivation == 8, "7-8",
+                                                               ifelse(cov_cat_deprivation == 9 | cov_cat_deprivation == 10, "9-10 (least deprived)", NA)))))) %>%
+         mutate_at(vars(cov_cat_deprivation), as.factor) %>%
+  # relevel deprivation
+  mutate(cov_cat_deprivation = relevel(cov_cat_deprivation, ref = as.character(calculate_mode(cov_cat_deprivation))))
+  
 # A simple check if factor reference level has changed
 lapply(covars[,c("cov_cat_ethnicity", "cov_cat_smoking_status", "cov_cat_region","cov_cat_deprivation","sub_cat_covid19_hospital","vax_cat_jcvi_group")], table)
 

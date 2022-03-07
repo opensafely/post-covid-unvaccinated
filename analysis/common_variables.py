@@ -155,6 +155,10 @@ def generate_common_variables(index_date_variable):
             "int": {"distribution": "poisson", "mean": 2},
         },
     ),
+    # Combined 
+    tmp_out_count_t1dm=patients.minimum_of(
+        "tmp_out_count_t1dm_snomed", "tmp_out_count_t1dm_hes"
+    ),   
 
     ### Type 2 Diabetes
 
@@ -211,6 +215,10 @@ def generate_common_variables(index_date_variable):
             "int": {"distribution": "poisson", "mean": 2},
         },
     ),
+    # Combined
+    tmp_out_count_t2dm=patients.minimum_of(
+        "tmp_out_count_t2dm_snomed", "tmp_out_count_t2dm_hes"
+    ),     
 
     ### Diabetes unspecified
 
@@ -292,7 +300,7 @@ def generate_common_variables(index_date_variable):
 
     ### Variables needed to define diabetes
     ### Maximum latest HbA1c measure
-    tmp_cov_num_max_hba1c_mmol_mol=patients.with_these_clinical_events(
+    tmp_out_num_max_hba1c_mmol_mol=patients.with_these_clinical_events(
         hba1c_new_codes,
         find_last_match_in_period=True,
         between=["1990-01-01", "today"],
@@ -306,7 +314,7 @@ def generate_common_variables(index_date_variable):
 
     ###  Diabetes drugs
 
-    tmp_cov_date_insulin_snomed=patients.with_these_clinical_events(
+    tmp_out_date_insulin_snomed=patients.with_these_clinical_events(
         insulin_snomed,
         returning="date",
         between=["1990-01-01", "today"],
@@ -319,7 +327,7 @@ def generate_common_variables(index_date_variable):
         },
     ),
 
-    tmp_cov_date_antidiabetic_drugs_snomed=patients.with_these_clinical_events(
+    tmp_out_date_antidiabetic_drugs_snomed=patients.with_these_clinical_events(
         antidiabetic_drugs_snomed,
         returning="date",
         between=["1990-01-01", "today"],
@@ -333,11 +341,11 @@ def generate_common_variables(index_date_variable):
     ),
 
  ## Generate variable to identify earliest date any diabetes medication prescribed
-    tmp_cov_date_diabetes_medication=patients.minimum_of(
-        "tmp_cov_date_insulin_snomed","tmp_cov_date_antidiabetic_drugs_snomed"
+    tmp_out_date_diabetes_medication=patients.minimum_of(
+        "tmp_out_date_insulin_snomed","tmp_out_date_antidiabetic_drugs_snomed"
     ),
 
-    tmp_cov_date_nonmetform_drugs_snomed=patients.with_these_clinical_events(
+    tmp_out_date_nonmetform_drugs_snomed=patients.with_these_clinical_events(
         non_metformin_dmd,
         returning="date",
         between=["1990-01-01", "today"],
@@ -351,7 +359,7 @@ def generate_common_variables(index_date_variable):
     ),
 
     ## Generate variable to identify earliest date any diabetes diagnosis codes recorded
-    tmp_cov_date_first_diabetes_diag=patients.minimum_of(
+    tmp_out_date_first_diabetes_diag=patients.minimum_of(
          "out_date_gestationaldm",
          "out_date_otherdm",
          "tmp_out_date_t1dm_snomed", "tmp_out_date_t1dm_hes", #"out_date_t1dm", 
@@ -1219,6 +1227,7 @@ def generate_common_variables(index_date_variable):
     sub_bin_ate=patients.maximum_of(
         "cov_bin_ami", "cov_bin_other_arterial_embolism", "tmp_cov_bin_stroke_isch_snomed", "tmp_cov_bin_stroke_isch_hes",
     ),
+    
     ## COVID-19 severity
     sub_date_covid19_hospital=patients.admitted_to_hospital(
         with_these_primary_diagnoses=covid_codes,

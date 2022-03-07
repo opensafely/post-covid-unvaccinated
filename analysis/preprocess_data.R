@@ -5,7 +5,7 @@
 # Input: output/input.feather
 # Output: output/
 #
-# Author(s): Rachel Denholm (??),  Kurt Taylor
+# Author(s): Rachel Denholm,  Kurt Taylor
 #
 # Date last updated: 
 #
@@ -24,17 +24,11 @@ study_start <- "2020-01-01"
 ## Load dataset
 df <- arrow::read_feather(file = "output/input.feather")
 
-# Describe data --------------------------------------------------------------
-
-sink(paste0("output/describe_input_studydefinition.txt"))
-print(Hmisc::describe(df))
-sink()
-
 # Format columns -----------------------------------------------------
 # dates, numerics, factors, logicals
 
 df <- df %>%
-  rename(tmp_cov_max_hba1c_mmol_mol_date = tmp_cov_num_max_hba1c_mmol_mol_date) %>%
+  rename(tmp_out_max_hba1c_mmol_mol_date = tmp_out_num_max_hba1c_mmol_mol_date) %>%
   mutate(across(contains('_date'), ~ as.Date(as.character(.)))) %>%
   mutate(across(contains('_birth_year'), ~ format(as.Date(.), "%Y"))) %>%
   mutate(across(contains('_num'), ~ as.numeric(.))) %>%
@@ -57,27 +51,9 @@ df <- df %>%
 
 # define variables needed for diabetes algorithm 
 
-df <- df %>% mutate(out_date_t1dm = pmin(tmp_out_date_t1dm_snomed, 
-                                                    tmp_out_date_t1dm_hes,
-                                                    na.rm = TRUE),
-                                out_date_t2dm = pmin(tmp_out_date_t2dm_snomed, 
-                                                     tmp_out_date_t2dm_hes,
-                                                     na.rm = TRUE),
-                                tmp_out_count_t1dm = sum(tmp_out_count_t1dm_hes, 
-                                                         tmp_out_count_t1dm_snomed,
-                                                         na.rm=TRUE),
-                                tmp_out_count_t2dm = sum(tmp_out_count_t2dm_hes,
-                                                         tmp_out_count_t2dm_snomed,
-                                                         na.rm=TRUE),
-                                first_diab = pmin(out_date_gestationaldm, 
-                                                  out_date_otherdm, 
-                                                  out_date_t1dm, 
-                                                  out_date_t2dm, 
-                                                  out_date_poccdm,
-                                                  na.rm = TRUE)) %>%
-  mutate(year_first_diab = format(first_diab,"%Y")) %>%
-  mutate(year_first_diab = as.integer(year_first_diab),
-         age_1st_diag = year_first_diab - qa_num_birth_year,
+df <- df %>% mutate(tmp_out_date_first_diabetes_diag = format(tmp_out_date_first_diabetes_diag,"%Y")) %>%
+  mutate(tmp_out_date_first_diabetes_diag = as.integer(tmp_out_date_first_diabetes_diag),
+         age_1st_diag = tmp_out_date_first_diabetes_diag - qa_num_birth_year,
          age_under_35_30_1st_diag = ifelse(!is.na(age_1st_diag) &
                                              (age_1st_diag < 35 & 
                                              (cov_cat_ethnicity == 1 | cov_cat_ethnicity == 5)) | 
@@ -102,9 +78,9 @@ df <- df %>%
   
   # Step 2. Non-metformin antidiabetic denominator for step 2: no to step 1 or yes to step 1a
   mutate(step_2 = ifelse((step_1 == "No" | step_1a == "Yes" ) & 
-                          !is.na(tmp_cov_date_nonmetform_drugs_snomed), "Yes",
+                          !is.na(tmp_out_date_nonmetform_drugs_snomed), "Yes",
                          ifelse((step_1 == "No" | step_1a == "Yes") & 
-                                  is.na(tmp_cov_date_nonmetform_drugs_snomed), "No", NA))) %>%
+                                  is.na(tmp_out_date_nonmetform_drugs_snomed), "No", NA))) %>%
   
   # Step 3. Type 1 code in the absence of type 2 code? denominator for step 3: no to step 2
   mutate(step_3 = ifelse(step_2=="No" &                   
@@ -172,12 +148,12 @@ df <- df %>%
   
   # Step 7. Diabetes medication or >5 process of care codes or HbA1c>=6.5? denominator for step 7: no to step 6
   mutate(step_7 = ifelse(step_6 == "No" &                          
-                           ((!is.na(tmp_cov_date_diabetes_medication)) |    
-                             (tmp_cov_num_max_hba1c_mmol_mol >= 6.5) |
+                           ((!is.na(tmp_out_date_diabetes_medication)) |    
+                             (tmp_out_num_max_hba1c_mmol_mol >= 6.5) |
                              (tmp_out_count_poccdm_snomed >= 5)), "Yes",
                          ifelse(step_6=="No" &                                    
-                                  ((is.na(tmp_cov_date_diabetes_medication)) &     
-                                    (tmp_cov_num_max_hba1c_mmol_mol < 6.5) &
+                                  ((is.na(tmp_out_date_diabetes_medication)) &     
+                                    (tmp_out_num_max_hba1c_mmol_mol < 6.5) &
                                     (tmp_out_count_poccdm_snomed < 5)), "No", NA))) %>%
   
   # Create Diabetes Variable
@@ -198,21 +174,6 @@ df <- df %>%
   # replace NAs with None (no diabetes)
   mutate_at(vars(out_cat_diabetes), ~replace_na(., "None"))
 
-# Create data table for diabetes algorithm table --------------------------
-
-# KT: Not sure what this code is trying to achieve ???
-
-# check_missing <- data.frame(variable = character(), N_missing = character(), Perc_missing = character())
-# #check_missing[nrow(check_missing)+1,] <- c(" N",N,"")
-# covariate_names <- tidyselect::vars_select(names(df), starts_with(c('sub_','cov_','qa_','vax_cat','exp_cat'), ignore.case = TRUE))
-# for (i in covariate_names){
-#   check_missing[nrow(check_missing)+1,1] <- i
-#   check_missing[nrow(check_missing),2] <- nrow(df[is.na(df[,i]),])
-#   check_missing[nrow(check_missing),3] <- 100*(nrow(df[is.na(df[,i]),])/N)
-# }
-# 
-# write.csv(table1, file = file.path("output", paste0("Table1_",cohort_name, ".csv")) , row.names=F)
-  
 # Restrict columns and save analysis dataset ---------------------------------
 
 df1 <- df %>% 
@@ -220,7 +181,8 @@ df1 <- df %>%
   # select patient id, death date and variables: subgroups, exposures, outcomes, covariates, quality assurance and vaccination
   dplyr::select(patient_id, death_date,
                 contains(c("sub_", "exp_", "out_", "cov_", "qa_", "vax_"))) %>%
-  dplyr::select(-contains("df_out_"))
+  dplyr::select(-contains("df_out_")) %>%
+  dplyr::select(-contains("tmp_"))
 
 # SAVE
 
@@ -230,7 +192,7 @@ saveRDS(df1, file = paste0("output/input.rds"))
 
 df2 <- df %>% 
   dplyr::select(patient_id,
-                contains(c("out")))
+                starts_with(c("out_")))
 
 # SAVE
 
