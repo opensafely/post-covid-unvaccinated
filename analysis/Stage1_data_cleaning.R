@@ -130,7 +130,8 @@ lapply(covars[,c("cov_cat_ethnicity", "cov_cat_smoking_status", "cov_cat_region"
 
 meta_data_factors <- lapply(covars[,factor_names], table)
 
-# write.csv is not feasible to output list with uneven length
+# Save meta data
+
 sink(file = file.path("output", paste0("meta_data_factors.csv")))
 print(meta_data_factors)
 sink()
