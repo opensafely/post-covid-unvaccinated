@@ -53,7 +53,8 @@ df <- df %>%
 
 df <- df %>% mutate(tmp_out_date_first_diabetes_diag = format(tmp_out_date_first_diabetes_diag,"%Y")) %>%
   mutate(tmp_out_date_first_diabetes_diag = as.integer(tmp_out_date_first_diabetes_diag),
-         age_1st_diag = tmp_out_date_first_diabetes_diag - qa_num_birth_year,
+         age_1st_diag = tmp_out_date_first_diabetes_diag - qa_num_birth_year) %>%
+  mutate(age_1st_diag = replace(age_1st_diag, which(age_1st_diag < 0), NA), # assign negative ages to NA
          age_under_35_30_1st_diag = ifelse(!is.na(age_1st_diag) &
                                              (age_1st_diag < 35 & 
                                              (cov_cat_ethnicity == 1 | cov_cat_ethnicity == 5)) | 
