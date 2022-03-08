@@ -86,9 +86,7 @@ df <- df %>%
   mutate(step_3 = ifelse(step_2=="No" &                   
                          !is.na(out_date_t1dm) &          
                          is.na(out_date_t2dm), "Yes", 
-                         ifelse(step_2 == "No" &                            
-                                !is.na(out_date_t1dm) &       
-                                !is.na(out_date_t2dm), "No", NA))) %>%
+                         ifelse(step_2 == "No", "No", NA))) %>%
   
   # Step 4. Type 2 code in the absence of type 1 code denominator for step 3: no to step 3
   mutate(step_4 = ifelse(step_3 == "No" &                  
