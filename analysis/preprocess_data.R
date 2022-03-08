@@ -144,12 +144,9 @@ df <- df %>%
   # Step 7. Diabetes medication or >5 process of care codes or HbA1c>=6.5? denominator for step 7: no to step 6
   mutate(step_7 = ifelse(step_6 == "No" &                          
                            ((!is.na(tmp_out_date_diabetes_medication)) |    
-                             (tmp_out_num_max_hba1c_mmol_mol >= 6.5) |
+                             (tmp_out_num_max_hba1c_mmol_mol >= 48) |
                              (tmp_out_count_poccdm_snomed >= 5)), "Yes",
-                         ifelse(step_6=="No" &                                    
-                                  ((is.na(tmp_out_date_diabetes_medication)) &     
-                                    (tmp_out_num_max_hba1c_mmol_mol < 6.5) &
-                                    (tmp_out_count_poccdm_snomed < 5)), "No", NA))) %>%
+                         ifelse(step_6=="No" , "No", NA))) %>%
   
   # Create Diabetes Variable
   # needs double checking - KT discuss with RD - in previous script, NA's were assigned with "" which made them a character instead of actual NAs.
