@@ -127,8 +127,7 @@ df <- df %>%
   # Step 6c. Number of type 1 codes>number of type 2 codes? denominator for step 6c: no to step 6b
   mutate(step_6c = ifelse(step_6b == "No" &                         
                           tmp_out_count_t1dm > tmp_out_count_t2dm, "Yes",
-                          ifelse(step_6b == "No" &                         
-                                 tmp_out_count_t1dm < tmp_out_count_t2dm, "No", NA))) %>%
+                          ifelse(step_6b == "No" , "No", NA))) %>%
   
   # Step 6d. Number of type 2 codes>number of type 1 codes denominator for step 6d: no to step 6c
   mutate(step_6d = ifelse(step_6c == "No" &          
