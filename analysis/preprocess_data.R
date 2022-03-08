@@ -92,9 +92,7 @@ df <- df %>%
   mutate(step_4 = ifelse(step_3 == "No" &                  
                          is.na(out_date_t1dm) &        
                          !is.na(out_date_t2dm), "Yes",
-                         ifelse(step_3 == "No" &                            
-                                !is.na(out_date_t1dm) &       
-                                !is.na(out_date_t2dm), "No", NA))) %>%
+                         ifelse(step_3 == "No", "No", NA))) %>%
   
   # Step 5. Aged <35yrs (or <30 yrs for SAs and AFCS) at first diagnostic code? denominator for step 5: no to step 4
   mutate(step_5 = ifelse(step_4 == "No" &                          
