@@ -109,23 +109,22 @@ df <- df %>%
                                 is.na(out_date_t2dm), "No", NA))) %>%
   
   # Step 6a. Type 1 only reported in primary care. denominator for step 6: no to step 6
-  mutate(step_6a = ifelse(step_6 == "No" &                             
+  mutate(step_6a = ifelse(step_6 == "Yes" &                             
                 !is.na(tmp_out_date_t1dm_snomed) &        
                 is.na(tmp_out_date_t2dm_snomed), "Yes",
-                ifelse(step_6 == "No" , "No", NA))) %>%
+                ifelse(step_6 == "Yes", "No", NA))) %>%
   
   # Step 6b. Type 2 only reported in primary care. denominator for step 6: no to step 6
   mutate(step_6b = ifelse(step_6a == "No" &                             
                           is.na(tmp_out_date_t1dm_snomed) &       
                           !is.na(tmp_out_date_t2dm_snomed), "Yes",
-                          ifelse(step_6a == "No" &                             
-                                 !is.na(tmp_out_date_t1dm_snomed) &       
-                                 !is.na(tmp_out_date_t2dm_snomed), "No", NA))) %>%
+                          ifelse(step_6a == "No", "No", NA))) %>%
   
   # Step 6c. Number of type 1 codes>number of type 2 codes? denominator for step 6c: no to step 6b
   mutate(step_6c = ifelse(step_6b == "No" &                         
                           tmp_out_count_t1dm > tmp_out_count_t2dm, "Yes",
-                          ifelse(step_6b == "No" , "No", NA))) %>%
+                          ifelse(step_6b == "No" &                         
+                                 tmp_out_count_t1dm < tmp_out_count_t2dm, "No", NA))) %>%
   
   # Step 6d. Number of type 2 codes>number of type 1 codes denominator for step 6d: no to step 6c
   mutate(step_6d = ifelse(step_6c == "No" &          
@@ -147,20 +146,60 @@ df <- df %>%
                          ifelse(step_6=="No" , "No", NA))) %>%
   
   # Create Diabetes Variable
-  # needs double checking - KT discuss with RD - in previous script, NA's were assigned with "" which made them a character instead of actual NAs.
-  mutate(out_cat_diabetes = ifelse(step_7 == "No", "DM unlikely",
-                                   ifelse(step_7 == "Yes", "DM unspecified",
-                                          ifelse(step_2=="Yes" |
-                                                 step_4=="Yes" |
-                                                 step_6b=="Yes" |
-                                                 step_6d=="Yes" |
-                                                 step_6e=="Yes", "T2DM",
-                                                 ifelse(step_3=="Yes" | 
-                                                        step_5=="Yes" |
-                                                        step_6a=="Yes" |
-                                                        step_6c=="Yes" |
-                                                        step_6e=="No", "T1DM",
-                                                        ifelse(step_1a == "No", "GDM", NA)))))) %>%
+  mutate(out_cat_diabetes = ifelse(step_1 == "No" & step_2 == "No" & step_3 == "No" & step_4 == "No" &
+                                   step_5 == "No" & step_6 == "No" & step_7 == "No" |
+                                   step_1 == "Yes" & step_1a == "Yes" & step_2 == "No" & step_3 == "No" & step_4 == "No" &
+                                   step_5 == "No" & step_6 == "No" & step_7 == "No" , 
+                                   "DM unlikely",
+                                   ifelse(step_1 == "No" & step_2 == "No" & step_3 == "No" & step_4 == "No" &
+                                          step_5 == "No" & step_6 == "No" & step_7 == "Yes" |
+                                          step_1 == "Yes" & step_1a == "Yes" & step_2 == "No" & step_3 == "No" & step_4 == "No" &
+                                          step_5 == "No" & step_6 == "No" & step_7 == "Yes", 
+                                          "DM unspecified",
+                                          ifelse(step_1 == "No" & step_2 == "Yes" |
+                                                 step_1 == "Yes" & step_1a == "Yes" & step_2 == "Yes" |
+                                                 step_1 == "No" & step_2 == "No" & step_3 == "No" & step_4 == "Yes" |
+                                                 step_1 == "Yes" & step_1a == "Yes" & step_2 == "No" & step_3 == "No" & step_4 == "Yes" |
+                                                 step_1 == "No" & step_2 == "No" & step_3 == "No" & step_4 == "No" & 
+                                                 step_5 == "No" & step_6 == "Yes" & step_6a == "No" & step_6b=="Yes" |
+                                                 step_1 == "Yes" & step_1a == "Yes" & step_2 == "No" & step_3 == "No" & step_4 == "No" & 
+                                                 step_5 == "No" & step_6 == "Yes" & step_6a == "No" & step_6b=="Yes" |
+                                                 step_1 == "No" & step_2 == "No" & step_3 == "No" & step_4 == "No" & 
+                                                 step_5 == "No" & step_6 == "Yes" & step_6a == "No" & step_6b=="No" &
+                                                 step_6c == "No" & step_6d == "Yes" |
+                                                 step_1 == "Yes" & step_1a == "Yes" & step_2 == "No" & step_3 == "No" & step_4 == "No" & 
+                                                 step_5 == "No" & step_6 == "Yes" & step_6a == "No" & step_6b=="No" &
+                                                 step_6c == "No" & step_6d == "Yes" |  
+                                                 step_1 == "No" & step_2 == "No" & step_3 == "No" & step_4 == "No" & 
+                                                 step_5 == "No" & step_6 == "Yes" & step_6a == "No" & step_6b=="No" &
+                                                 step_6c == "No" & step_6d == "No" & step_6e == "Yes" |
+                                                 step_1 == "Yes" & step_1a == "Yes" & step_2 == "No" & step_3 == "No" & step_4 == "No" & 
+                                                 step_5 == "No" & step_6 == "Yes" & step_6a == "No" & step_6b=="No" &
+                                                 step_6c == "No" & step_6d == "No" & step_6e == "Yes", 
+                                                 "T2DM",
+                                                 ifelse(step_1 == "No" & step_2 == "No" & step_3=="Yes" |
+                                                        step_1 == "Yes" & step_1a == "Yes" & step_2 == "No" & step_3=="Yes" |
+                                                        step_1 == "No" & step_2 == "No" & step_3 =="No" & step_4 == "No" & step_5 == "Yes" |
+                                                        step_1 == "Yes" & step_1a == "Yes" & step_2 == "No" & step_3 =="No" & step_4 == "No" &
+                                                        step_5 == "Yes" | 
+                                                        step_1 == "No" & step_2 == "No" & step_3 =="No" & step_4 == "No" & step_5 == "No" &
+                                                        step_6 == "Yes" & step_6a == "Yes" |
+                                                        step_1 == "Yes" & step_1a == "Yes" & step_2 == "No" & step_3 =="No" & step_4 == "No" &
+                                                        step_5 == "No" &
+                                                        step_6 == "Yes" & step_6a == "Yes" |  
+                                                        step_1 == "No" & step_2 == "No" & step_3 =="No" & step_4 == "No" & step_5 == "No" &
+                                                        step_6 == "Yes" & step_6a == "No" & step_6b == "No" & step_6c == "Yes" |
+                                                        step_1 == "Yes" & step_1a == "Yes" & step_2 == "No" & step_3 =="No" & step_4 == "No" &
+                                                        step_5 == "No" &
+                                                        step_6 == "Yes" & step_6a == "No" & step_6b == "No" & step_6c == "Yes" |  
+                                                        step_1 == "No" & step_2 == "No" & step_3 =="No" & step_4 == "No" & step_5 == "No" &
+                                                        step_6 == "Yes" & step_6a == "No" & step_6b == "No" & step_6c == "No" &
+                                                        step_6d == "No" & step_6e == "No" |
+                                                        step_1 == "Yes" & step_1a == "Yes" & step_2 == "No" & step_3 =="No" & step_4 == "No" & step_5 == "No" &
+                                                        step_6 == "Yes" & step_6a == "No" & step_6b == "No" & step_6c == "No" &
+                                                        step_6d == "No" & step_6e == "No",
+                                                        "T1DM",
+                                                        ifelse(step_1 == "Yes" & step_1a == "No", "GDM", NA)))))) %>%
   # replace NAs with None (no diabetes)
   mutate_at(vars(out_cat_diabetes), ~replace_na(., "None"))
 
