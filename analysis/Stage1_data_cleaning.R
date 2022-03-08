@@ -123,7 +123,8 @@ covars$cov_cat_deprivation = relevel(covars$cov_cat_deprivation, ref = as.charac
 
 meta_data_factors <- lapply(covars[,factor_names], table)
 
-# write.csv is not feasible to output list with uneven length
+# Save meta data
+
 sink(file = file.path("output", paste0("meta_data_factors.csv")))
 print(meta_data_factors)
 sink()
