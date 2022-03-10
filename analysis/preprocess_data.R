@@ -53,13 +53,11 @@ df <- df %>%
 
 df <- df %>% mutate(tmp_out_date_first_diabetes_diag = format(tmp_out_date_first_diabetes_diag,"%Y")) %>%
   mutate(tmp_out_date_first_diabetes_diag = as.integer(tmp_out_date_first_diabetes_diag),
-         age_1st_diag = tmp_out_date_first_diabetes_diag - qa_num_birth_year) %>%
-  mutate(age_1st_diag = replace(age_1st_diag, which(age_1st_diag < 0), NA), # assign negative ages to NA
+         age_1st_diag = tmp_out_date_first_diabetes_diag - qa_num_birth_year,
          age_under_35_30_1st_diag = ifelse(!is.na(age_1st_diag) &
                                              (age_1st_diag < 35 & 
-                                             (cov_cat_ethnicity == 1 | cov_cat_ethnicity == 5)) | 
-                                             (age_1st_diag < 30 & 
-                                             (cov_cat_ethnicity == 2 | cov_cat_ethnicity == 3 | cov_cat_ethnicity == 4)), "Yes", "No"),
+                                                (cov_cat_ethnicity == 1 | cov_cat_ethnicity == 2  | cov_cat_ethnicity == 5)) | 
+                                             (age_1st_diag < 30), "Yes", "No"),
          over5_pocc = ifelse(!is.na(tmp_out_count_poccdm_snomed) &
                                (tmp_out_count_poccdm_snomed > 5), "Yes", "No"))
                                 
