@@ -15,12 +15,6 @@
 ## Content: 
 ## 0. Load relevant libraries and read data/arguments
 ## 1. Prepare all variables (re-factoring, re-typing)
-##    1.a. Set factor variables as factor
-##    1.b. Set the group with the highest frequency as the reference group
-##    1.c. Check that continuous variables are defined as numeric variables
-##    1.d. Check and specify date format for date variables
-##    1.e. Apply changes in the input dataset
-##    1.f. Derive diabetes outcomes using algorithm
 ## 2. Apply QA rules
 ## 3. Apply exclusion/inclusion criteria
 ##    (Differentiate criteria for the two sub-cohorts)
@@ -51,228 +45,147 @@ input <-read_rds("output/input.rds")
 start_date = as.Date("2020-01-01")
 end_date = as.Date("2021-06-18") # General End date: 2021-06-18 (date last JCVI group eligible for vaccination - Decision on Jan 18th 2022)
 
+input <- input %>%
+  mutate(index_date = as.Date(start_date),
+         end_date = as.Date(end_date))
+
 # NOTE: no censoring of end date for death/event at this stage
 
 ######################################################
 # 1. Prepare all variables (re-factoring, re-typing) # 
 ######################################################
 
-# handle missing values
-input$cov_cat_smoking_status <- replace(input$cov_cat_smoking_status, is.na(input$cov_cat_smoking_status),"M")
-
-# Extract names of variables
-variable_names <- tidyselect::vars_select(names(input), starts_with(c('cov_','qa_','exp_cat','vax_cat', 'sub_cat'), ignore.case = TRUE))
-
-# Create a data frame for all relevant variables
-covars <- input[,variable_names] #View(covars)
-
-# Replace " " with "_"
-covars$cov_cat_region <- gsub(" ", "_", covars$cov_cat_region)
-
-#-------------------------------------#
-# 1.a. Set factor variables as factor #
-#-------------------------------------#
 # Get the names of variables which are factors
-factor_names <- tidyselect::vars_select(names(input), starts_with(c('cov_bin','cov_cat','qa_bin','exp_cat','vax_cat', 'sub_cat'), ignore.case = TRUE))
-
-# Set the variables that should be factor variables as factor
-
-covars <- covars %>%
-  mutate(across(contains(c('cov_bin','cov_cat','qa_bin','exp_cat','vax_cat', 'sub_cat')), ~ as.factor(.)))
-
-# Sort factor level alphabetically
-mk_factor_orderlevels <- function(covars, colname)
-{
-  covars <- covars %>% mutate(
-    !!sym(colname) := factor(!!sym(colname), levels = str_sort(unique(covars[[colname]]), numeric = TRUE)))
-  return(covars)
-}
-
-for (colname in factor_names){
-  #print(colname)
-  covars <- mk_factor_orderlevels(covars, colname)
-}
-
-#----------------------------------------------------------------------#
-# 1.b. Set the group with the highest frequency as the reference group #
-#----------------------------------------------------------------------#
-
-# Function to find mode in a factor variable
-
-calculate_mode <- function(x) {
-  uniqx <- unique(na.omit(x))
-  uniqx[which.max(tabulate(match(x, uniqx)))]
-}
-
-# For the following variables, the first level (reference level) is not the one with the highest frequency
-# Set the most frequently occurred level as the reference for a factor variable
-
-covars <- covars %>%
-  mutate(cov_cat_ethnicity = relevel(cov_cat_ethnicity, ref = as.character(calculate_mode(cov_cat_ethnicity))),
-         cov_cat_smoking_status = relevel(cov_cat_smoking_status, ref = as.character(calculate_mode(cov_cat_smoking_status))),
-         cov_cat_region = relevel(cov_cat_region, ref = as.character(calculate_mode(cov_cat_region))),
-         sub_cat_covid19_hospital = relevel(sub_cat_covid19_hospital, ref = as.character(calculate_mode(sub_cat_covid19_hospital))),
-         vax_cat_jcvi_group = relevel(vax_cat_jcvi_group, ref = as.character(calculate_mode(vax_cat_jcvi_group)))) %>%
+factor_names <- tidyselect::vars_select(names(input), contains(c('_cat_'), ignore.case = TRUE))
   
-# Combine groups in deprivation: First - most deprived; fifth -least deprived
-  
+input <- input %>%
+  # handle missing values 
+  mutate(cov_cat_smoking_status = replace_na(cov_cat_smoking_status, "M"),
+  # Replace " " with "_"     
+         cov_cat_region = gsub(" ", "_", cov_cat_region)) %>% 
+  # Set the variables that should be factor variables as factor
+  mutate(across(any_of(factor_names), function(x) factor(x, ordered = FALSE))) %>%
+  # Re-code vars and specify references
+  mutate(sub_cat_covid19_hospital = ordered(sub_cat_covid19_hospital, levels = c("non_hospitalised","hospitalised","no_infection")),
+         # ethnicity
+         cov_cat_ethnicity = case_when(cov_cat_ethnicity == 0 ~ "Missing",
+                                       cov_cat_ethnicity == 1 ~ "White",
+                                       cov_cat_ethnicity == 2 ~ "Mixed",
+                                       cov_cat_ethnicity == 3 ~ "South Asian",
+                                       cov_cat_ethnicity == 4 ~ "Black",
+                                       cov_cat_ethnicity == 5 ~ "Other")) %>%
+  mutate(cov_cat_ethnicity = ordered(cov_cat_ethnicity, levels = c("White","Mixed","South Asian","Black","Other","Missing")),
+         # smoking 
+         cov_cat_smoking_status = case_when(cov_cat_smoking_status == "E" ~ "Ever smoker",
+                                            cov_cat_smoking_status == "M" ~ "Missing",
+                                            cov_cat_smoking_status == "N" ~ "Never smoker",
+                                            cov_cat_smoking_status == "S" ~ "Current smoker")) %>%
+  mutate(cov_cat_smoking_status = ordered(cov_cat_smoking_status, levels = c("Never smoker","Ever smoker","Current smoker","Missing")),
+         # region
+         cov_cat_region = relevel(cov_cat_region, ref = "London"),
+         # sex
+         cov_cat_sex = case_when(cov_cat_sex == "F" ~ "Female",
+                                 cov_cat_sex == "M" ~ "Male")) %>%
+  mutate(cov_cat_sex = relevel(factor(cov_cat_sex), ref = "Female"),
+         # cat jcvi group
+         vax_cat_jcvi_group = ordered(vax_cat_jcvi_group, levels = c("12","11","10","09","08","07","06","05","04","03","02","01","99"))) %>%
+         # deprivation: First - most deprived; fifth -least deprived
   mutate(cov_cat_deprivation = ifelse(cov_cat_deprivation == 1 | cov_cat_deprivation == 2, "1-2 (most deprived)",
                                           ifelse(cov_cat_deprivation == 3 | cov_cat_deprivation == 4, "3-4",
                                                  ifelse(cov_cat_deprivation == 5 | cov_cat_deprivation == 6, "5-6",
                                                         ifelse(cov_cat_deprivation == 7 | cov_cat_deprivation == 8, "7-8",
                                                                ifelse(cov_cat_deprivation == 9 | cov_cat_deprivation == 10, "9-10 (least deprived)", NA)))))) %>%
          mutate_at(vars(cov_cat_deprivation), as.factor) %>%
-  # relevel deprivation
-  mutate(cov_cat_deprivation = relevel(cov_cat_deprivation, ref = as.character(calculate_mode(cov_cat_deprivation))))
+  mutate(cov_cat_deprivation = ordered(cov_cat_deprivation, levels = c("1-2 (most deprived)","3-4","5-6","7-8","9-10 (least deprived)")))
   
-# A simple check if factor reference level has changed
-lapply(covars[,c("cov_cat_ethnicity", "cov_cat_smoking_status", "cov_cat_region","cov_cat_deprivation","sub_cat_covid19_hospital","vax_cat_jcvi_group")], table)
-
-meta_data_factors <- lapply(covars[,factor_names], table)
-
 # Save meta data
 
-sink(file = file.path("output", paste0("meta_data_factors.csv")))
+describe_vars <- tidyselect::vars_select(names(input), contains(c('_cat_', 'cov_bin','cov_cat','qa_bin','exp_cat','vax_cat'), ignore.case = TRUE))
+meta_data_factors <- lapply(input[,describe_vars], table)
+sink(file = file.path("output", paste0("meta_data_factors2.csv")))
 print(meta_data_factors)
 sink()
-
-#----------------------------------------------------------------------#
-# 1.c. Check that continuous variables are defined as numeric variable #
-#----------------------------------------------------------------------#
-# Notes: Age, number of GP consultations and year of birth are continuous variables
-
-# Checking if continuous variables are set up as numeric variable correctly
-#is.numeric(input$cov_num_age)
-#is.numeric(input$cov_num_consulation_rate)
-#is.numeric(input$qa_num_birth_year)
-#str(covars)
-
-#-------------------------------------------------------#
-# 1.d. Check and specify date format for date variables #
-#-------------------------------------------------------#
-
-input <- input %>%
-  mutate(across(contains('_date'), ~ as.Date(as.character(.))))
-
-#-----------------------------------------#
-# 1.e. Apply changes in the input dataset #
-#-----------------------------------------#
-
-input[,variable_names] <- covars
-#str(input)
 
 #####################
 # 2. Apply QA rules #
 #####################
 
-#Rule 1: Year of birth is after year of death or patient only has year of death
-input$rule1=NA
-input$rule1=((input$qa_num_birth_year > (format(input$death_date, format="%Y")) & is.na(input$qa_num_birth_year)== FALSE & is.na(input$death_date) == FALSE)|(is.na(input$qa_num_birth_year)== TRUE & is.na(input$death_date) == FALSE))
-
-#Rule 2: Year of birth predates NHS established year or year of birth exceeds current date
-input$rule2=NA
-input$rule2=((input$qa_num_birth_year <1793 |(input$qa_num_birth_year >format(Sys.Date(),"%Y"))) & is.na(input$qa_num_birth_year) == FALSE)
-
-#Rule 3: Date of death is NULL or invalid (on or before 1/1/1900 or after current date)
-input$rule3=NA
-input$rule3=((input$death_date <="1900-01-01"|input$death_date > format(Sys.Date(),"%Y-%m-%d")) & is.na(input$death_date) == FALSE)
-
-#Rule 4: Check index_date (from new 2022 datasets)
-input$rule4=NA
-input$rule4= (is.na(start_date)==TRUE)
-
-#Rule 5: Pregnancy/birth codes for men
-input$rule5=NA
-input$rule5=(input$qa_bin_pregnancy == TRUE & input$cov_cat_sex=="M")
-
-#Rule 6: HRT or COCP meds for men
-input$rule6=NA
-input$rule6=((input$cov_cat_sex=="M" & input$cov_bin_hormone_replacement_therapy==TRUE)|(input$cov_cat_sex=="M" & input$cov_bin_combined_oral_contraceptive_pill==TRUE))
-
-#Rule 7: Prostate cancer codes for women
+input <- input %>%
+  # Rule 1: Year of birth is after year of death or patient only has year of death
+  mutate(rule1 = ifelse((qa_num_birth_year > (format(death_date, format="%Y")) &
+                             ! is.na(qa_num_birth_year) & 
+                             ! is.na(death_date) | is.na(qa_num_birth_year) &
+                             ! is.na(death_date)), TRUE, FALSE),
+  # Rule 2: Year of birth predates NHS established year or year of birth exceeds current date       
+         rule2 = ifelse((qa_num_birth_year < 1793 | (qa_num_birth_year > format(Sys.Date(),"%Y"))) & ! is.na(qa_num_birth_year), TRUE, FALSE),
+  # Rule 3: Date of death is NULL or invalid (on or before 1/1/1900 or after current date)     
+         rule3 = ifelse((death_date <= "1900-01-01" | death_date > format(Sys.Date(),"%Y-%m-%d")) & ! is.na(death_date), TRUE, FALSE),
+  # Rule 4: Pregnancy/birth codes for men
+         rule4 = ifelse(qa_bin_pregnancy == TRUE & cov_cat_sex=="Male", TRUE, FALSE),
+  # Rule 5: HRT or COCP meds for men
+         rule5 = ifelse(cov_cat_sex=="Male" & cov_bin_hormone_replacement_therapy==TRUE | cov_cat_sex=="Male" & cov_bin_combined_oral_contraceptive_pill == TRUE, TRUE, FALSE),
+  # Rule 6: Prostate cancer codes for women
+         rule6 = ifelse(qa_bin_prostate_cancer == TRUE & cov_cat_sex=="Female", TRUE, FALSE))
+  # Rule 7: Check index_date (from new 2022 datasets)
 input$rule7=NA
-input$rule7=(input$qa_bin_prostate_cancer == TRUE & input$cov_cat_sex=="F")
+input$rule7= (is.na(start_date)==TRUE)
 
+# Remove rows that are TRUE for at least one rule
 
+input_QA <- input %>% filter(rule1 == FALSE & rule2 == FALSE & rule3 == FALSE & rule4 == FALSE & rule5 == FALSE & rule6 == FALSE & rule7 == FALSE) 
 
-#Remove rows that are TRUE for at least one rule
-input_QA=input%>%filter(rule1==FALSE & rule2==FALSE & rule3==FALSE & rule4==FALSE & rule5==FALSE & rule6==FALSE & rule7==FALSE)
-input_QA=input_QA %>% select(-c(rule1,rule2,rule3,rule4,rule5,rule6,rule7))
-# View(input_QA)
+# Produce QA summary
 
-#Save QA'd input as .rds
-#saveRDS(QA_summary,file = "output/QA_input.rds")
-
-#QA summary
 QA_summary <- data.frame(matrix(ncol = 2))
-colnames(QA_summary) <- c('Rule', '# where rule true')
-QA_summary[1,1]="Rule 1"
+colnames(QA_summary) <- c('Rule', 'N rule TRUE')
+QA_summary[1:8, 1] <- c("Rule 1", "Rule 2", "Rule 3", "Rule 4", "Rule 5", "Rule 6", "Rule 7", "Total excluded from QA")
 QA_summary[1,2]=nrow(input%>%filter(rule1==T))
-QA_summary[2,1]="Rule 2"
 QA_summary[2,2]=nrow(input%>%filter(rule2==T))
-QA_summary[3,1]="Rule 3"
 QA_summary[3,2]=nrow(input%>%filter(rule3==T))
-QA_summary[4,1]="Rule 4"
 QA_summary[4,2]=nrow(input%>%filter(rule4==T))
-QA_summary[5,1]="Rule 5"
 QA_summary[5,2]=nrow(input%>%filter(rule5==T))
-QA_summary[6,1]="Rule 6"
 QA_summary[6,2]=nrow(input%>%filter(rule6==T))
-QA_summary[7,1]="Rule 7"
 QA_summary[7,2]=nrow(input%>%filter(rule7==T))
-QA_summary[8,1]="Total excluded from QA"
 QA_summary[8,2]=nrow(input)-nrow(input_QA)
 
+#Save QA summary as .csv
 
-#Save Qa summary as .csv
-write.csv(QA_summary, file = file.path("output", paste0("QA_summary_",cohort_name, ".csv")) , row.names=F)
+write.csv(QA_summary, file = file.path("output", paste0("QA_summary_.csv")) , row.names=F)
 
+# Remove QA variables from dataset
 
+input <- input_QA %>%
+  select(-c(rule1,rule2,rule3,rule4,rule5,rule6,rule7,
+          qa_num_birth_year, qa_bin_pregnancy, qa_bin_prostate_cancer))
 
 #########################################
 # 3. Apply exclusion/inclusion criteria #
 #########################################
-# (Differentiate criteria for the two sub-cohorts)
 
 # Define the cohort flow
+
 cohort_flow <- data.frame(N = numeric(),
                           Description = character(),
                           stringsAsFactors = FALSE)
-cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input_QA),"Study defined sample size")
-input<-input_QA
-
-#---------------------------------------------------#
-# 3.a. Define index start date and general end date #
-#---------------------------------------------------#
-# Index Start date : the latest of either 
-
-if (cohort_name == "vaccinated") {
-  # the start date of the follow-up (2021-06-01) or 15 days after the second vaccination
-  input$index_start_date <- pmax(start_date, as.Date(input$vax_date_covid_2)+14, na.rm = TRUE)
-} else if (cohort_name == "electively_unvaccinated"){
-  # the start date of the follow-up (2021-06-01) or 12 weeks (84 days) after they become eligible for vaccination
-  input$index_start_date <- pmax(start_date, as.Date(input$vax_date_eligible)+85, na.rm = TRUE)
-}
-
-# End date: 2021-12-31 of the cohort (no censoring for death/event at this stage) 
-# The end date doesn't seem to be used in criteria, so no need to be created at this stage
-# input$end_date <- as.Date("2021-12-31")
-
+cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Study defined sample size")
 
 #----------------------------------------------------------------#
-# 3.b. Apply the 6 common criteria applicable to both sub-cohort #
+# 3.a. Apply the 6 common criteria applicable to both sub-cohort #
 #----------------------------------------------------------------#
 
-#Inclusion criteria 1: Alive on the first day of follow up
-input$start_alive <- ifelse(input$death_date < input$index_start_date, 0, 1) # Determine the living status on start date: 1- alive; 0 - died
-input$start_alive[is.na(input$start_alive)] <- 1
-input <- subset(input, input$start_alive > 0) # Subset input based on alive status on day 1 of follow up.
+# Inclusion criteria 1: Alive on the first day of follow up
+
+input <- input %>%
+  mutate(start_alive = ifelse(death_date < index_date, 0, 1)) %>%
+  mutate(start_alive = replace_na(start_alive, 1)) %>%
+  filter(start_alive == 1)
 cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 1 (Inclusion): Alive on the first day of follow up") # Feed into the cohort flow
 
-#Inclusion criteria 2: Known age between 18 and 110 on 01/06/2021 
-#input <- input[!is.na(input$cov_num_age),] # Commented out this code line since it should be dealt with in the next code line
-input <- subset(input, input$cov_num_age >= 18 & input$cov_num_age <= 110) # Subset input if age between 18 and 110 on 01/06/2021.
-cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 2 (Inclusion): Known age between 18 and 110 on 01/06/2021") # Feed into the cohort flow
+# Inclusion criteria 2: Known age between 18 and 110 on 01/01/2020 
+
+input <- input %>% 
+  filter(cov_num_age >= 18 & cov_num_age <= 110)
+cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 2 (Inclusion): Known age between 18 and 110 on 01/01/2020") # Feed into the cohort flow
 
 #Inclusion criteria 3: Known sex
 input <- input[!is.na(input$cov_cat_sex),] # removes NAs, if any
@@ -288,11 +201,11 @@ cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 4 (Inclusion): Know
 cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 5 (Inclusion): Registered in an English GP with TPP software for at least 6 months prior to the study start date")
 
 #Exclusion criteria 6: SARS-CoV-2 infection recorded prior to the start of follow-up
-input$prior_infections <- ifelse(input$exp_date_covid19_confirmed < input$index_start_date, 1,0)# Determine infections prior to start date : 1-prior infection; 0 - No prior infection
-input$prior_infections[is.na(input$prior_infections)] <- 0
-input <- subset(input, input$prior_infections ==0)
-cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 6 (Exclusion): SARS-CoV-2 infection recorded prior to their index date")
-
+# Removed for now as we need those with covid history for a sensitivity analysis
+#input$prior_infections <- ifelse(input$exp_date_covid19_confirmed < input$index_date, 1,0)# Determine infections prior to start date : 1-prior infection; 0 - No prior infection
+#input$prior_infections[is.na(input$prior_infections)] <- 0
+#input <- subset(input, input$prior_infections ==0)
+#cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 6 (Exclusion): SARS-CoV-2 infection recorded prior index date")
 
 #-------------------------------------------------#
 # 3.c. Apply criteria specific to each sub-cohort #
