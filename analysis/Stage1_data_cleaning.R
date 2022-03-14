@@ -15,7 +15,7 @@
 ## 1. Prepare all variables (re-factoring, re-typing)
 ## 2. Apply QA rules
 ## 3. Apply exclusion/inclusion criteria
-## 4. Output flochart CSV and create the final stage 1 dataset 
+## 4. Output flowchart CSV and create the final stage 1 dataset 
 ## =============================================================================
 
 ###############################################
