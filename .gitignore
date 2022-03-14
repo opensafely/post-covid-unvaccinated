@@ -8,7 +8,5 @@ metadata/*
 venv/
 .vscode/settings.json
 .DS_Store
-.Rproj.user
 .Rproj.user*
-.Rhistory
 .Rhistory
