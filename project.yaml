@@ -27,14 +27,13 @@ actions:
         cohort: output/input.rds
         venn: output/venn.rds
 
-  # stage1_data_cleaning:
-  #   run: r:latest analysis/Stage1_data_cleaning.R
-  #   needs: [preprocess_data]
-  #   outputs:
-  #     moderately_sensitive:
-  #       refactoring: output/meta_data_factors_*.csv
-  #       QA_rules: output/QA_summary_*.csv
-  #       IE_criteria: output/Cohort_flow_*.csv
-  #     highly_sensitive:
-  #       cohort: output/input_*_stage1.rds
-
+  stage1_data_cleaning:
+    run: r:latest analysis/Stage1_data_cleaning.R
+    needs: [preprocess_data]
+    outputs:
+      moderately_sensitive:
+        refactoring: output/meta_data_factors.csv
+        QA_rules: output/QA_summary.csv
+        IE_criteria: output/cohort_flow.csv
+      highly_sensitive:
+        cohort: output/dataset_stage1.rds
