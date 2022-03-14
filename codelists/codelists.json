@@ -408,6 +408,30 @@
       "downloaded_at": "2022-01-17 13:34:58.399545Z",
       "sha": "2c1fb493d94ce1610482d575ef14c35bd09e47c1"
     },
+    "user-hjforbes-tia_snomed.csv": {
+      "id": "user/hjforbes/tia_snomed/04fdfd0d",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/tia_snomed/04fdfd0d/",
+      "downloaded_at": "2022-01-17 13:35:12.591772Z",
+      "sha": "f2f150a0e66dd879f981e08125b1228eb6dda218"
+    },
+    "user-hjforbes-tia_icd10.csv": {
+      "id": "user/hjforbes/tia_icd10/6bee89d7",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/tia_icd10/6bee89d7/",
+      "downloaded_at": "2022-01-17 13:35:12.875020Z",
+      "sha": "66297d49dce122a650bd71a45fa90e8f2150dfd1"
+    },
+    "user-hjforbes-angina_snomed.csv": {
+      "id": "user/hjforbes/angina_snomed/52df16a2",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/angina_snomed/52df16a2/",
+      "downloaded_at": "2022-01-17 13:35:13.166720Z",
+      "sha": "a3898f852193d02a74604d9d2d4a2535b8262a8c"
+    },
+    "user-hjforbes-angina_hf_icd10.csv": {
+      "id": "user/hjforbes/angina_hf_icd10/20c03038",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/angina_hf_icd10/20c03038/",
+      "downloaded_at": "2022-01-17 13:35:13.533826Z",
+      "sha": "e686d33f3c7927bb49d8503e51f4b91df1c793c7"
+    },
     "user-RochelleKnight-prostate_cancer_snomed.csv": {
       "id": "user/RochelleKnight/prostate_cancer_snomed/0437497e",
       "url": "https://codelists.opensafely.org/codelist/user/RochelleKnight/prostate_cancer_snomed/0437497e/",
@@ -642,29 +666,101 @@
       "downloaded_at": "2022-01-17 13:35:12.276603Z",
       "sha": "4298a4affa79a1f04130cf5c630892a25819292c"
     },
-    "user-hjforbes-tia_snomed.csv": {
-      "id": "user/hjforbes/tia_snomed/04fdfd0d",
-      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/tia_snomed/04fdfd0d/",
-      "downloaded_at": "2022-01-17 13:35:12.591772Z",
-      "sha": "f2f150a0e66dd879f981e08125b1228eb6dda218"
+    "user-hjforbes-depression-symptoms-and-diagnoses.csv": {
+      "id": "user/hjforbes/depression-symptoms-and-diagnoses/499814eb",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/depression-symptoms-and-diagnoses/499814eb/",
+      "downloaded_at": "2022-02-21 16:07:38.376695Z",
+      "sha": "fb7d78483687797b51f106137a809c0e469ca6c0"
     },
-    "user-hjforbes-tia_icd10.csv": {
-      "id": "user/hjforbes/tia_icd10/6bee89d7",
-      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/tia_icd10/6bee89d7/",
-      "downloaded_at": "2022-01-17 13:35:12.875020Z",
-      "sha": "66297d49dce122a650bd71a45fa90e8f2150dfd1"
+    "user-hjforbes-anxiety-symptoms-and-diagnoses.csv": {
+      "id": "user/hjforbes/anxiety-symptoms-and-diagnoses/3088a1b6",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/anxiety-symptoms-and-diagnoses/3088a1b6/",
+      "downloaded_at": "2022-02-21 16:07:38.519371Z",
+      "sha": "d5cfd421be9c680373365f60395a6a7b2d0ed82e"
     },
-    "user-hjforbes-angina_snomed.csv": {
-      "id": "user/hjforbes/angina_snomed/52df16a2",
-      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/angina_snomed/52df16a2/",
-      "downloaded_at": "2022-01-17 13:35:13.166720Z",
-      "sha": "a3898f852193d02a74604d9d2d4a2535b8262a8c"
+    "user-hjforbes-obsessive-compulsive-disorder-ocd.csv": {
+      "id": "user/hjforbes/obsessive-compulsive-disorder-ocd/17792e81",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/obsessive-compulsive-disorder-ocd/17792e81/",
+      "downloaded_at": "2022-02-21 16:07:38.640079Z",
+      "sha": "03a163b6afa744cf5ac8853eed58b2d798805e80"
     },
-    "user-hjforbes-angina_hf_icd10.csv": {
-      "id": "user/hjforbes/angina_hf_icd10/20c03038",
-      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/angina_hf_icd10/20c03038/",
-      "downloaded_at": "2022-01-17 13:35:13.533826Z",
-      "sha": "e686d33f3c7927bb49d8503e51f4b91df1c793c7"
+    "user-hjforbes-post-traumatic-stress-disorder.csv": {
+      "id": "user/hjforbes/post-traumatic-stress-disorder/7e69bb4b",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/post-traumatic-stress-disorder/7e69bb4b/",
+      "downloaded_at": "2022-02-21 16:07:38.766350Z",
+      "sha": "d40c357ef9d0f171c9b7322911c6399b700e042f"
+    },
+    "user-hjforbes-diagnoses-eating-disorder.csv": {
+      "id": "user/hjforbes/diagnoses-eating-disorder/62a78820",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/diagnoses-eating-disorder/62a78820/",
+      "downloaded_at": "2022-02-21 16:07:38.884111Z",
+      "sha": "7e6ed67c391b24de8f85adcca66813026596f67d"
+    },
+    "user-hjforbes-severe-mental-illness.csv": {
+      "id": "user/hjforbes/severe-mental-illness/2dd5e1c0",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/severe-mental-illness/2dd5e1c0/",
+      "downloaded_at": "2022-02-21 16:07:39.009709Z",
+      "sha": "34556a280d7c7e90ce823c84930a5209f011ad0e"
+    },
+    "user-hjforbes-intentional-self-harm-aged10-years.csv": {
+      "id": "user/hjforbes/intentional-self-harm-aged10-years/18951e5c",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/intentional-self-harm-aged10-years/18951e5c/",
+      "downloaded_at": "2022-02-21 16:07:39.144697Z",
+      "sha": "1178e91131e6c33a05854dc0c80e5b1bc96d4604"
+    },
+    "user-hjforbes-undetermined-intent-self-harm-aged15-years.csv": {
+      "id": "user/hjforbes/undetermined-intent-self-harm-aged15-years/4d66c4bc",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/undetermined-intent-self-harm-aged15-years/4d66c4bc/",
+      "downloaded_at": "2022-02-21 16:07:39.281139Z",
+      "sha": "f1984cc22e5046b1f68319d8459e0715106768e0"
+    },
+    "user-hjforbes-suicide-icd-10.csv": {
+      "id": "user/hjforbes/suicide-icd-10/3b53a18e",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/suicide-icd-10/3b53a18e/",
+      "downloaded_at": "2022-02-21 16:07:39.493305Z",
+      "sha": "806be08bebc267e8abb26b8ceeefd713dacb1eb8"
+    },
+    "user-hjforbes-opioid-dependency-clinical-diagnosis.csv": {
+      "id": "user/hjforbes/opioid-dependency-clinical-diagnosis/46e554f5",
+      "url": "https://codelists.opensafely.org/codelist/user/hjforbes/opioid-dependency-clinical-diagnosis/46e554f5/",
+      "downloaded_at": "2022-02-21 16:07:39.616530Z",
+      "sha": "67304f24e3cbffa04852eb4d86c456df75987590"
+    },
+    "user-tomsrenin-dvt_main.csv": {
+      "id": "user/tomsrenin/dvt_main/1c76a027",
+      "url": "https://codelists.opensafely.org/codelist/user/tomsrenin/dvt_main/1c76a027/",
+      "downloaded_at": "2022-02-21 16:07:39.732417Z",
+      "sha": "b4a6e2f5d708f146211e9478d218745c9de5d327"
+    },
+    "user-tomsrenin-dvt_icvt.csv": {
+      "id": "user/tomsrenin/dvt_icvt/03672cf2",
+      "url": "https://codelists.opensafely.org/codelist/user/tomsrenin/dvt_icvt/03672cf2/",
+      "downloaded_at": "2022-02-21 16:07:39.843870Z",
+      "sha": "71e9f95fda4718e9b06fa754aa0903381736924c"
+    },
+    "user-tomsrenin-pvt.csv": {
+      "id": "user/tomsrenin/pvt/51484687",
+      "url": "https://codelists.opensafely.org/codelist/user/tomsrenin/pvt/51484687/",
+      "downloaded_at": "2022-02-21 16:07:40.011080Z",
+      "sha": "1cc8fc446e9c757f979df44f63e0d4003e3bb0a5"
+    },
+    "user-tomsrenin-dvt-preg.csv": {
+      "id": "user/tomsrenin/dvt-preg/6a57b9bc",
+      "url": "https://codelists.opensafely.org/codelist/user/tomsrenin/dvt-preg/6a57b9bc/",
+      "downloaded_at": "2022-02-21 16:07:40.132047Z",
+      "sha": "abe3398410f2a4a195f9cedd6a07bf7139a24c11"
+    },
+    "user-tomsrenin-other_art_embol.csv": {
+      "id": "user/tomsrenin/other_art_embol/3838d352",
+      "url": "https://codelists.opensafely.org/codelist/user/tomsrenin/other_art_embol/3838d352/",
+      "downloaded_at": "2022-02-21 16:07:40.245824Z",
+      "sha": "ab665e36ad2bfd73aea38579fcaab2451f2aff46"
+    },
+    "user-tomsrenin-dvt-other.csv": {
+      "id": "user/tomsrenin/dvt-other/1f29601d",
+      "url": "https://codelists.opensafely.org/codelist/user/tomsrenin/dvt-other/1f29601d/",
+      "downloaded_at": "2022-02-21 16:07:40.366956Z",
+      "sha": "fcf9ebe14d0240fdc30ee45f7de1fe2503d85bd5"
     },
     "opensafely-type-1-diabetes-secondary-care.csv": {
       "id": "opensafely/type-1-diabetes-secondary-care/2020-09-27",

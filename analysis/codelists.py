@@ -1,4 +1,6 @@
-from cohortextractor import codelist, codelist_from_csv, combine_codelists
+from cohortextractor import codelist_from_csv, combine_codelists, codelist
+
+# COVID RELATED CODELISTS ---------------------------------------------------------------------------------
 
 covid_codes = codelist_from_csv(
     "codelists/opensafely-covid-identification.csv",
@@ -24,29 +26,156 @@ covid_primary_care_sequalae = codelist_from_csv(
     column="CTV3ID",
 )
 
-covid_codes = codelist_from_csv(
-    "codelists/opensafely-covid-identification.csv",
+# DIABETES OUTCOMES CODELISTS ---------------------------------------------------------------------------------
+
+# Type 1 diabetes
+diabetes_type1_snomed = codelist_from_csv(
+    "codelists/user-hjforbes-type-1-diabetes.csv",
+    system="snomed",
+    column="code",
+)
+
+# Type 1 diabetes secondary care
+diabetes_type1_icd10 = codelist_from_csv(
+    "codelists/opensafely-type-1-diabetes-secondary-care.csv",
     system="icd10",
     column="icd10_code",
 )
 
-covid_primary_care_positive_test = codelist_from_csv(
-    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-positive-test.csv",
-    system="ctv3",
-    column="CTV3ID",
+# Type 2 diabetes
+diabetes_type2_snomed = codelist_from_csv(
+    "codelists/user-hjforbes-type-2-diabetes.csv",
+    system="snomed",
+    column="code",
 )
 
-covid_primary_care_code = codelist_from_csv(
-    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv",
-    system="ctv3",
-    column="CTV3ID",
+# Type 2 diabetes secondary care
+diabetes_type2_icd10 = codelist_from_csv(
+    "codelists/user-r_denholm-type-2-diabetes-secondary-care-bristol.csv",
+    system="icd10",
+    column="code",
 )
 
-covid_primary_care_sequalae = codelist_from_csv(
-    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-sequelae.csv",
-    system="ctv3",
-    column="CTV3ID",
+# Non-diagnostic diabetes codes
+diabetes_diagnostic_snomed = codelist_from_csv(
+    "codelists/user-hjforbes-nondiagnostic-diabetes-codes.csv",
+    system="snomed",
+    column="code",
 )
+
+# Other or non-specific diabetes
+diabetes_other_snomed = codelist_from_csv(
+    "codelists/user-hjforbes-other-or-nonspecific-diabetes.csv",
+    system="snomed",
+    column="code",
+)
+
+# Gestational diabetes
+diabetes_gestational_snomed = codelist_from_csv(
+    "codelists/user-hjforbes-gestational-diabetes.csv",
+    system="snomed",
+    column="code",
+)
+
+# Insulin medication 
+insulin_snomed = codelist_from_csv(
+     "codelists/opensafely-insulin-medication.csv",
+     system="snomed",
+     column="id",
+)
+
+# Antidiabetic drugs
+antidiabetic_drugs_snomed = codelist_from_csv(
+     "codelists/opensafely-antidiabetic-drugs.csv",
+     system="snomed",
+     column="id",
+)
+
+# Antidiabetic drugs - non metformin
+non_metformin_dmd = codelist_from_csv(
+    "codelists/user-r_denholm-non-metformin-antidiabetic-drugs_bristol.csv", 
+    system="snomed", 
+    column="id",
+)
+
+# HbA1c
+hba1c_new_codes = codelist(
+    ["XaPbt", "Xaeze", "Xaezd"], system="ctv3"
+)
+
+# MENTAL HEALTH OUTCOMES CODELISTS ---------------------------------------------------------------------------------
+
+# Depression 
+depression_snomed_clinical = codelist_from_csv(
+    "codelists/user-hjforbes-depression-symptoms-and-diagnoses.csv",
+    system="snomed",
+    column="code",
+)
+
+# Anxiety - general
+anxiety_general_snomed_clinical = codelist_from_csv(
+    "codelists/user-hjforbes-anxiety-symptoms-and-diagnoses.csv",
+    system="snomed",
+    column="code",
+)
+
+# Anxiety - obsessive compulsive disorder
+anxiety_ocd_snomed_clinical = codelist_from_csv(
+    "codelists/user-hjforbes-obsessive-compulsive-disorder-ocd.csv",
+    system="snomed",
+    column="code",
+)
+
+# Anxiety - post traumatic stress disorder
+anxiety_ptsd_snomed_clinical = codelist_from_csv(
+    "codelists/user-hjforbes-post-traumatic-stress-disorder.csv",
+    system="snomed",
+    column="code",
+)
+
+# Eating disorders
+eating_disorders_snomed_clinical = codelist_from_csv(
+    "codelists/user-hjforbes-diagnoses-eating-disorder.csv",
+    system="snomed",
+    column="code",
+)
+
+# Serious mental illness
+serious_mental_illness_snomed_clinical = codelist_from_csv(
+    "codelists/user-hjforbes-severe-mental-illness.csv",
+    system="snomed",
+    column="code",
+)
+
+# Self harm - aged >= 10 years
+self_harm_10plus_snomed_clinical = codelist_from_csv(
+    "codelists/user-hjforbes-intentional-self-harm-aged10-years.csv",
+    system="snomed",
+    column="code",
+)
+
+# Self harm - aged >= 15 years
+self_harm_15plus_snomed_clinical = codelist_from_csv(
+    "codelists/user-hjforbes-undetermined-intent-self-harm-aged15-years.csv",
+    system="snomed",
+    column="code",
+)
+
+# Suicide
+suicide_snomed_clinical = codelist_from_csv(
+    "codelists/user-hjforbes-suicide-icd-10.csv",
+    system="snomed",
+    column="code",
+)
+
+# Addiction
+addiction_snomed_clinical = codelist_from_csv(
+    "codelists/user-hjforbes-opioid-dependency-clinical-diagnosis.csv",
+    system="snomed",
+    column="code",
+)
+
+# COVARIATE CODELISTS ---------------------------------------------------------------------------------
 
 opensafely_ethnicity_codes_6 = codelist_from_csv(
     "codelists/opensafely-ethnicity.csv",
@@ -327,36 +456,6 @@ liver_disease_icd10 = codelist_from_csv(
     column="code",
 )
 
-insulin_snomed = codelist_from_csv(
-     "codelists/opensafely-insulin-medication.csv",
-     system="snomed",
-     column="id",
-)
-
-antidiabetic_drugs_snomed = codelist_from_csv(
-     "codelists/opensafely-antidiabetic-drugs.csv",
-     system="snomed",
-     column="id",
-)
-
-non_metformin_dmd = codelist_from_csv(
-    "codelists/user-r_denholm-non-metformin-antidiabetic-drugs_bristol.csv", 
-    system="snomed", 
-    column="id",
-)
-
-depression_icd10 = codelist_from_csv(
-    "codelists/user-elsie_horne-depression_icd10.csv",
-    system="icd10",
-    column="code",
-)
-
-depression_snomed_clinical = codelist_from_csv(
-    "codelists/user-elsie_horne-depression_snomed.csv",
-    system="snomed",
-    column="code",
-)
-
 antiplatelet_dmd = codelist_from_csv(
     "codelists/user-elsie_horne-antiplatelet_dmd.csv",
     system="snomed",
@@ -459,23 +558,8 @@ angina_icd10 = codelist_from_csv(
     column="code",
 )
 
-all_vte_codes_icd10 = combine_codelists(
-    portal_vein_thrombosis_icd10, 
-    dvt_dvt_icd10, 
-    dvt_icvt_icd10, 
-    dvt_pregnancy_icd10, 
-    other_dvt_icd10, 
-    icvt_pregnancy_icd10, 
-    pe_icd10
-)
-
-all_vte_codes_snomed_clinical = combine_codelists(
-    pe_snomed_clinical,
-    dvt_icvt_snomed_clinical
-)
-
 prostate_cancer_icd10 = codelist_from_csv(
-    "codelists/user-RochelleKnight-prostate_cancer_snomed.csv",
+    "codelists/user-RochelleKnight-prostate_cancer_icd10.csv",
     system="icd10",
     column="code",
 )
@@ -492,7 +576,97 @@ pregnancy_snomed_clinical = codelist_from_csv(
     column="code",
 )
 
-#For JCVI groups
+# Other arterial embolism
+other_arterial_embolism_snomed_clinical = codelist_from_csv(
+    "codelists/user-tomsrenin-other_art_embol.csv",
+    system="snomed",
+    column="code",
+)
+
+# DVT
+dvt_dvt_snomed_clinical = codelist_from_csv(
+    "codelists/user-tomsrenin-dvt_main.csv",
+    system="snomed",
+    column="code",
+)
+
+# ICVT
+dvt_icvt_snomed_clinical = codelist_from_csv(
+    "codelists/user-tomsrenin-dvt_icvt.csv",
+    system="snomed",
+    column="code",
+)
+
+# Portal vein thrombosis
+portal_vein_thrombosis_snomed_clinical = codelist_from_csv(
+    "codelists/user-tomsrenin-pvt.csv",
+    system="snomed",
+    column="code",
+)
+
+# DVT in pregnancy
+dvt_pregnancy_snomed_clinical = codelist_from_csv(
+    "codelists/user-tomsrenin-dvt-preg.csv",
+    system="snomed",
+    column="code",
+)
+
+# Other DVT
+other_dvt_snomed_clinical = codelist_from_csv(
+    "codelists/user-tomsrenin-dvt-other.csv",
+    system="snomed",
+    column="code",
+)
+
+# All DVT in SNOMED
+all_dvt_codes_snomed_clinical = combine_codelists(
+    dvt_dvt_snomed_clinical, 
+    dvt_pregnancy_snomed_clinical
+)
+
+# All DVT in ICD10
+all_dvt_codes_icd10 = combine_codelists(
+    dvt_dvt_icd10, 
+    dvt_pregnancy_icd10
+)
+
+# All VTE in SNOMED
+all_vte_codes_snomed_clinical = combine_codelists(
+    portal_vein_thrombosis_snomed_clinical, 
+    dvt_dvt_snomed_clinical, 
+    dvt_icvt_snomed_clinical, 
+    dvt_pregnancy_snomed_clinical, 
+    other_dvt_snomed_clinical, 
+    pe_snomed_clinical
+)
+
+# All VTE in ICD10
+all_vte_codes_icd10 = combine_codelists(
+    portal_vein_thrombosis_icd10, 
+    dvt_dvt_icd10, 
+    dvt_icvt_icd10, 
+    dvt_pregnancy_icd10, 
+    other_dvt_icd10, 
+    icvt_pregnancy_icd10, 
+    pe_icd10
+)
+
+# All ATE in SNOMED
+all_ate_codes_snomed_clinical = combine_codelists(
+    ami_snomed_clinical, 
+    other_arterial_embolism_snomed_clinical, 
+    stroke_isch_snomed_clinical
+)
+
+# All ATE in ICD10
+all_ate_codes_icd10 = combine_codelists(
+    ami_icd10, 
+    other_arterial_embolism_icd10, 
+    stroke_isch_icd10
+)
+
+# FOR JCVI GROUPS ---------------------------------------------------------------------------------
+
 # Pregnancy codes 
 preg_primis = codelist_from_csv(
     "codelists/primis-covid19-vacc-uptake-preg.csv",
@@ -503,20 +677,6 @@ preg_primis = codelist_from_csv(
 # Pregnancy or Delivery codes
 pregdel_primis = codelist_from_csv(
     "codelists/primis-covid19-vacc-uptake-pregdel.csv",
-    system="snomed",
-    column="code",
-)
-
-# High Risk from COVID-19 code
-shield_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-shield.csv",
-    system="snomed",
-    column="code",
-)
-
-# Lower Risk from COVID-19 codes
-nonshield_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-nonshield.csv",
     system="snomed",
     column="code",
 )
@@ -730,71 +890,3 @@ longres_primis = codelist_from_csv(
     system="snomed",
     column="code",
 )
-
-# Pregnancy codes 
-preg_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-preg.csv",
-    system="snomed",
-    column="code",
-)
-
-# Pregnancy or Delivery codes
-pregdel_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-pregdel.csv",
-    system="snomed",
-    column="code",
-)
-
-# Type 1 diabetes primary care
-diabetes_type1_snomed = codelist_from_csv(
-    "codelists/user-hjforbes-type-1-diabetes.csv",
-    system="snomed",
-    column="code",
-)
-
-# Type 1 diabetes secondary care
-diabetes_type1_icd10 = codelist_from_csv(
-    "codelists/opensafely-type-1-diabetes-secondary-care.csv",
-    system="icd10",
-    column="icd10_code",
-)
-
-# Type 2 diabetes
-diabetes_type2_snomed = codelist_from_csv(
-    "codelists/user-hjforbes-type-2-diabetes.csv",
-    system="snomed",
-    column="code",
-)
-
-# Type 2 diabetes secondary care
-diabetes_type2_icd10 = codelist_from_csv(
-    "codelists/user-r_denholm-type-2-diabetes-secondary-care-bristol.csv",
-    system="icd10",
-    column="code",
-)
-
-# Other or non-specific diabetes
-diabetes_other_snomed = codelist_from_csv(
-    "codelists/user-hjforbes-other-or-nonspecific-diabetes.csv",
-    system="snomed",
-    column="code",
-)
-
-#  Gestational diabetes
-diabetes_gestational_snomed = codelist_from_csv(
-    "codelists/user-hjforbes-gestational-diabetes.csv",
-    system="snomed",
-    column="code",
-)
-
-# Non-diagnostic diabetes codes
-diabetes_diagnostic_snomed = codelist_from_csv(
-    "codelists/user-hjforbes-nondiagnostic-diabetes-codes.csv",
-    system="snomed",
-    column="code",
-)
-
-# HbA1c levels (numerical value)
-# HbA1c
-hba1c_new_codes = codelist(["XaPbt", "Xaeze", "Xaezd"], system="ctv3")
-
