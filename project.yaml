@@ -36,4 +36,4 @@ actions:
         QA_rules: output/QA_summary.csv
         IE_criteria: output/cohort_flow.csv
       highly_sensitive:
-        cohort: output/dataset_stage1.rds
+        cohort: output/input_stage1.rds
