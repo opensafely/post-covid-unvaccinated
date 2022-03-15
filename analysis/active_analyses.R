@@ -52,16 +52,16 @@ for (i in 1:length(outcomes)) {
 
 # Add mental health outcomes --------------------------------------------------------
 
-outcomes <- c("depression",
-              "anxiety - general",
-              "anxiety - obsessive compulsive disorder", 
-              "anxiety - post traumatic stress disorder", 
-              "eating disorders", 
-              "serious mental illness",
-              "self harm, aged >=10",
-              "self harm, aged >=15",
-              "suicide",
-              "addiction")
+outcomes <- c("Depression",
+              "Anxiety - general",
+              "Anxiety - obsessive compulsive disorder", 
+              "Anxiety - post traumatic stress disorder", 
+              "Eating disorders", 
+              "Serious mental illness",
+              "Self harm, aged >=10",
+              "Self harm, aged >=15",
+              "Suicide",
+              "Addiction")
 
 outcomes_short <- c("out_date_depression",
                     "out_date_anxiety_general",
