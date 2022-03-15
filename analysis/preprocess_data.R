@@ -99,6 +99,8 @@ df <- df %>%
                          age_under_35_30_1st_diag == "Yes", "Yes",
                          ifelse(step_4 == "No" &                            
                                 age_under_35_30_1st_diag == "No", "No", NA))) %>%
+  mutate(step_5 = ifelse(step_5 == "No" |
+           is.na(step_5) & step_4 == "No", "No", "Yes")) %>%
   
   # Step 6. Type 1 and type 2 codes present? denominator for step 6: no to step 5
   mutate(step_6 = ifelse(step_5 == "No" &                            
@@ -141,7 +143,7 @@ df <- df %>%
   # Step 7. Diabetes medication or >5 process of care codes or HbA1c>=6.5? denominator for step 7: no to step 6
   mutate(step_7 = ifelse(step_6 == "No" &                          
                            ((!is.na(tmp_out_date_diabetes_medication)) |    
-                             (tmp_out_num_max_hba1c_mmol_mol >= 48) |
+                             (tmp_out_num_max_hba1c_mmol_mol >= 47.5) |
                              (tmp_out_count_poccdm_snomed >= 5)), "Yes",
                          ifelse(step_6=="No" , "No", NA))) %>%
   
@@ -208,8 +210,9 @@ df <- df %>%
 df1 <- df %>% 
   dplyr::select(- vax_jcvi_age_1, - vax_jcvi_age_2) %>% #  remove JCVI variables
   # select patient id, death date and variables: subgroups, exposures, outcomes, covariates, quality assurance and vaccination
+  # need diabetes "step" variables for flowchart (diabetes_flowchart.R)
   dplyr::select(patient_id, death_date,
-                contains(c("sub_", "exp_", "out_", "cov_", "qa_", "vax_"))) %>%
+                contains(c("sub_", "exp_", "out_", "cov_", "qa_", "vax_", "step"))) %>%
   dplyr::select(-contains("df_out_")) %>%
   dplyr::select(-contains("tmp_"))
 
