@@ -78,7 +78,7 @@ for (i in 1:length(outcomes)) {
   df[nrow(df)+1,] <- c(FALSE,
                        outcomes[i],
                        paste0("out_date_",outcomes_short[i]),
-                       rep("",22))
+                       rep("",21))
 }
 
 # Save active analyses list ----------------------------------------------------

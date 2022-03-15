@@ -35,8 +35,8 @@ start_date = as.Date("2020-01-01")
 end_date = as.Date("2021-06-18") # General End date: 2021-06-18 (date last JCVI group eligible for vaccination - Decision on Jan 18th 2022)
 
 input <- input %>%
-  mutate(index_date = as.Date(start_date),
-         end_date = as.Date(end_date))
+  mutate(index_date = start_date,
+         end_date = end_date)
 
 # NOTE: no censoring of end date for death/event at this stage
 
@@ -48,10 +48,12 @@ input <- input %>%
 factor_names <- tidyselect::vars_select(names(input), contains(c('_cat_'), ignore.case = TRUE))
   
 input <- input %>%
-  # handle missing values 
+  # handle missing smoking values 
   mutate(cov_cat_smoking_status = replace_na(cov_cat_smoking_status, "M"),
   # Replace " " with "_"     
          cov_cat_region = gsub(" ", "_", cov_cat_region)) %>% 
+  # handle missing region values
+  mutate(cov_cat_region = replace_na(cov_cat_region, "Missing")) %>%
   # Set the variables that should be factor variables as factor
   mutate(across(any_of(factor_names), function(x) factor(x, ordered = FALSE))) %>%
   # Re-code vars and specify references
@@ -115,27 +117,23 @@ input <- input %>%
          rule5 = ifelse(cov_cat_sex=="Male" & cov_bin_hormone_replacement_therapy==TRUE | cov_cat_sex=="Male" & cov_bin_combined_oral_contraceptive_pill == TRUE, TRUE, FALSE),
   # Rule 6: Prostate cancer codes for women
          rule6 = ifelse(qa_bin_prostate_cancer == TRUE & cov_cat_sex=="Female", TRUE, FALSE))
-  # Rule 7: Check index_date (from new 2022 datasets)
-input$rule7=NA
-input$rule7= (is.na(start_date)==TRUE)
 
 # Remove rows that are TRUE for at least one rule
 
-input_QA <- input %>% filter(rule1 == FALSE & rule2 == FALSE & rule3 == FALSE & rule4 == FALSE & rule5 == FALSE & rule6 == FALSE & rule7 == FALSE) 
+input_QA <- input %>% filter(rule1 == FALSE & rule2 == FALSE & rule3 == FALSE & rule4 == FALSE & rule5 == FALSE & rule6 == FALSE) 
 
 # Produce QA summary
 
 QA_summary <- data.frame(matrix(ncol = 2))
 colnames(QA_summary) <- c('Rule', 'N rule TRUE')
-QA_summary[1:8, 1] <- c("Rule 1", "Rule 2", "Rule 3", "Rule 4", "Rule 5", "Rule 6", "Rule 7", "Total excluded from QA")
+QA_summary[1:7, 1] <- c("Rule 1", "Rule 2", "Rule 3", "Rule 4", "Rule 5", "Rule 6", "Total excluded from QA")
 QA_summary[1,2]=nrow(input%>%filter(rule1==T))
 QA_summary[2,2]=nrow(input%>%filter(rule2==T))
 QA_summary[3,2]=nrow(input%>%filter(rule3==T))
 QA_summary[4,2]=nrow(input%>%filter(rule4==T))
 QA_summary[5,2]=nrow(input%>%filter(rule5==T))
 QA_summary[6,2]=nrow(input%>%filter(rule6==T))
-QA_summary[7,2]=nrow(input%>%filter(rule7==T))
-QA_summary[8,2]=nrow(input)-nrow(input_QA)
+QA_summary[7,2]=nrow(input)-nrow(input_QA)
 
 #Save QA summary as .csv
 
@@ -144,7 +142,7 @@ write.csv(QA_summary, file = file.path("output", "QA_summary.csv") , row.names=F
 # Remove QA variables from dataset
 
 input <- input_QA %>%
-  select(-c(rule1,rule2,rule3,rule4,rule5,rule6,rule7,
+  select(-c(rule1,rule2,rule3,rule4,rule5,rule6,
           qa_num_birth_year, qa_bin_pregnancy, qa_bin_prostate_cancer))
 
 #########################################
@@ -179,7 +177,7 @@ cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 2 (Inclusion): Know
 # Inclusion criteria 3: Known sex
 
 input <- input %>% 
-  drop_na(cov_cat_sex)
+  filter(cov_cat_sex == "Male" | cov_cat_sex == "Female")
 cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 3 (Inclusion): Known sex")
 
 # Inclusion criteria 4: Known deprivation 
@@ -205,4 +203,4 @@ write.csv(cohort_flow, file = file.path("output", "cohort_flow.csv"), row.names=
 
 # Create the final stage 1 dataset 
 
-saveRDS(input, file = file.path("output", "dataset_stage1.rds"))
+saveRDS(input, file = file.path("output", "input_stage1.rds"))
