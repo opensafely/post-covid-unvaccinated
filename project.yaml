@@ -49,9 +49,9 @@ actions:
   #       Descriptive_Table: output/Table1.csv
 
   stage3_diabetes_flow:
-    run: r:latest analysis/diabetes_flowhchart.R
+    run: r:latest analysis/diabetes_flowchart.R
     needs:
-    - stage1_data_cleaning_both
+    - stage1_data_cleaning
     outputs:
       moderately_sensitive:
         table2: output/diabetes_flow.png
