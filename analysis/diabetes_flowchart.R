@@ -8,10 +8,8 @@
 ## 
 ## Content: 
 ## 0. Load relevant libraries and read data/arguments
-## 1. 
-## 2. 
-## 3. 
-## 4. Output:
+## 1. Construct flowchart
+## 2. Save output as PNG: "diabetes_flow.png"
 ## =============================================================================
 
 ###############################################
