@@ -18,7 +18,7 @@
 
 # Libraries
 
-libraries <- c("readr", "dplyr", "stringr", "tidyverse", d)
+libraries <- c("readr", "dplyr", "stringr", "tidyverse", "DiagrammeR", "DiagrammeRsvg", "rsvg")
 lapply(libraries, require, character.only=T)
 
 # Load Stage 1 dataset

@@ -37,7 +37,7 @@ outcomes <- c("type 1 diabetes",
               "other or non-specific diabetes",
               "gestational diabetes")
 
-outcomes_short <- c("diabetes_type1","diabetes_type2","diabetes_other","diabetes_gestational")
+outcomes_short <- c("t1dm","t2dm","otherdm","gestationaldm")
 
 for (i in 1:length(outcomes)) {
   df[nrow(df)+1,] <- c(TRUE,
@@ -63,16 +63,16 @@ outcomes <- c("Depression",
               "Suicide",
               "Addiction")
 
-outcomes_short <- c("out_date_depression",
-                    "out_date_anxiety_general",
-                    "out_date_anxiety_ocd", 
-                    "out_date_anxiety_ptsd", 
-                    "out_date_eating_disorders", 
-                    "out_date_serious_mental_illness",
-                    "out_date_self_harm_10plus",
-                    "out_date_self_harm_15plus",
-                    "out_date_suicide",
-                    "out_date_addiction")
+outcomes_short <- c("depression",
+                    "anxiety_general",
+                    "anxiety_ocd", 
+                    "anxiety_ptsd", 
+                    "eating_disorders", 
+                    "serious_mental_illness",
+                    "self_harm_10plus",
+                    "self_harm_15plus",
+                    "suicide",
+                    "addiction")
 
 for (i in 1:length(outcomes)) {
   df[nrow(df)+1,] <- c(FALSE,
