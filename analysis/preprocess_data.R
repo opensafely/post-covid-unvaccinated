@@ -123,16 +123,15 @@ df <- df %>%
                           ifelse(step_6a == "No", "No", NA))) %>%
   
   # Step 6c. Number of type 1 codes>number of type 2 codes? denominator for step 6c: no to step 6b
-  mutate(step_6c = ifelse(step_6b == "No" &                         
-                          tmp_out_count_t1dm > tmp_out_count_t2dm, "Yes",
-                          ifelse(step_6b == "No" &                         
-                                 tmp_out_count_t1dm < tmp_out_count_t2dm, "No", NA))) %>%
-  
+  mutate(step_6c = ifelse(step_6b == "No" &
+                            tmp_out_count_t1dm > tmp_out_count_t2dm, "Yes",
+                          ifelse(step_6b == "No" &
+                                   tmp_out_count_t1dm <= tmp_out_count_t2dm, "No", NA))) %>%
   # Step 6d. Number of type 2 codes>number of type 1 codes denominator for step 6d: no to step 6c
-  mutate(step_6d = ifelse(step_6c == "No" &          
-                          tmp_out_count_t2dm > tmp_out_count_t1dm, "Yes",
-                          ifelse(step_6c == "No" &                         
-                                 tmp_out_count_t2dm < tmp_out_count_t1dm, "No", NA))) %>%
+  mutate(step_6d = ifelse(step_6c == "No" &
+                            tmp_out_count_t2dm > tmp_out_count_t1dm, "Yes",
+                          ifelse(step_6c == "No" &
+                                   tmp_out_count_t2dm <= tmp_out_count_t1dm, "No", NA))) %>%
   
   # Step 6e. Type 2 code most recent? denominator for step 6e: no to step 6d
   mutate(step_6e = ifelse(step_6d == "No" &                        
