@@ -307,7 +307,7 @@ def generate_common_variables(index_date_variable):
         returning="numeric_value",
         include_date_of_match=True,
         return_expectations={
-            "float": {"distribution": "normal", "mean": 40.0, "stddev": 20},
+            "float": {"distribution": "normal", "mean": 30.0, "stddev": 15},
             "incidence": 0.95,
         },
     ),
