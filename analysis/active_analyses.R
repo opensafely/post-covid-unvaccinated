@@ -28,6 +28,7 @@ df <- data.frame(active = logical(),
                  prior_history_TRUE = character(),
                  prior_history_FALSE = character(),
                  prior_history_var = character(),
+                 outcome_group = character(),
                  stringsAsFactors = FALSE)
 
 # Add diabetes outcomes --------------------------------------------------------
@@ -39,6 +40,8 @@ outcomes <- c("type 1 diabetes",
 
 outcomes_short <- c("t1dm","t2dm","otherdm","gestationaldm")
 
+outcome_group <- "diabetes"
+
 for (i in 1:length(outcomes)) {
   df[nrow(df)+1,] <- c(TRUE,
                        outcomes[i],
@@ -47,7 +50,8 @@ for (i in 1:length(outcomes)) {
                        rep("all",2),
                        rep(TRUE,4),
                        rep(FALSE,13),
-                       "")
+                       "",
+                       outcome_group)
 }
 
 # Add mental health outcomes --------------------------------------------------------
@@ -74,11 +78,14 @@ outcomes_short <- c("depression",
                     "suicide",
                     "addiction")
 
+outcome_group <- "mental_health"
+
 for (i in 1:length(outcomes)) {
   df[nrow(df)+1,] <- c(FALSE,
                        outcomes[i],
                        paste0("out_date_",outcomes_short[i]),
-                       rep("",21))
+                       rep("",21),
+                       outcome_group)
 }
 
 # Save active analyses list ----------------------------------------------------
