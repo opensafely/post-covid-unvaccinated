@@ -106,9 +106,9 @@ table_2[which(table_2$no_infection_sub_event_count == "<=5" | table_2$non_hospit
 
 # OUTPUT ------------------------------------------------------------------
 
-# add suffix to out file name 
+# add suffix to out file name using active analyses (diabetes or mental health)
 out_group <- active_analyses %>% filter(active == TRUE) %>% distinct(outcome_group) %>% pull(outcome_group)
 # save 
-write.csv(table_2, file= paste0("output/", "table2_",out_group, ".csv"), row.names = F)
+write.csv(table_2, file= paste0("output/", "table2_",out_group,".csv"), row.names = F)
 
 # END
