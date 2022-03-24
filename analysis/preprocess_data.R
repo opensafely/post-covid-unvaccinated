@@ -107,8 +107,8 @@ df <- df %>%
                          !is.na(out_date_t1dm) &                  
                          !is.na(out_date_t2dm), "Yes", 
                          ifelse(step_5 == "No" &                           
-                                is.na(out_date_t1dm) |                  
-                                is.na(out_date_t2dm), "No", NA))) %>%
+                                (is.na(out_date_t1dm) |                  
+                                is.na(out_date_t2dm)), "No", NA))) %>%
   
   # Step 6a. Type 1 only reported in primary care. denominator for step 6: no to step 6
   mutate(step_6a = ifelse(step_6 == "Yes" &                             

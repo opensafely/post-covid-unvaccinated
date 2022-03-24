@@ -18,7 +18,7 @@
 
 # Libraries
 
-libraries <- c("readr", "dplyr", "stringr", "tidyverse", d)
+libraries <- c("readr", "dplyr", "stringr", "tidyverse", "DiagrammeR", "DiagrammeRsvg", "rsvg")
 lapply(libraries, require, character.only=T)
 
 # Load Stage 1 dataset
@@ -33,7 +33,7 @@ diabetes_df <-read_rds("output/input_stage1.rds")
 
 values <- list(
   # Diabetes diagnostic code / medication / care process code plus ethnicity code in primary or secondary care
-  a = sum(diabetes_df$out_cat_diabetes == "DM unspecified" | diabetes_df$out_cat_diabetes == "GDM" | diabetes_df$out_cat_diabetes == "T1DM" | diabetes_df$out_cat_diabetes == "T2DM"),
+  a = nrow(diabetes_df),
   # Step 1 any gestational diabetes code
   b = sum(diabetes_df$step_1 == "Yes", na.rm = T),
     b2 = sum(diabetes_df$step_1 == "No", na.rm = T),
