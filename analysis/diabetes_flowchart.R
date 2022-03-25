@@ -84,6 +84,11 @@ values <- list(
   # DIABETES UNLIKELY
   s = sum(diabetes_df$out_cat_diabetes == "DM unlikely", na.rm = T))
 
+# REDACT <=5 TO NA --------------------------------------------------------------
+
+values <- lapply(values, function(x) replace(x, x <= 5, NA))
+
+# BUILD FLOW --------------------------------------------------------------
 
 flow <- DiagrammeR::grViz("
 digraph graph2 {
