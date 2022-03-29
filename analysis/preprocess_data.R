@@ -15,6 +15,7 @@
 
 library(magrittr)
 library(tidyverse)
+library(lubridate)
 
 # Define parameters ------------------------------------------------------------
 
@@ -28,7 +29,7 @@ df <- arrow::read_feather(file = "output/input.feather")
 # dates, numerics, factors, logicals
 
 df <- df %>%
-  rename(tmp_out_max_hba1c_mmol_mol_date = tmp_out_num_max_hba1c_mmol_mol_date) %>%
+  rename(tmp_out_max_hba1c_mmol_mol_date = tmp_out_num_max_hba1c_date) %>%
   mutate(across(contains('_date'), ~ as.Date(as.character(.)))) %>%
   mutate(across(contains('_birth_year'), ~ format(as.Date(.), "%Y"))) %>%
   mutate(across(contains('_num'), ~ as.numeric(.))) %>%
@@ -58,9 +59,11 @@ df <- df %>% mutate(tmp_out_date_first_diabetes_diag = format(tmp_out_date_first
   mutate(age_under_35_30_1st_diag = ifelse(!is.na(age_1st_diag) &
                                              (age_1st_diag < 35 & 
                                                 (cov_cat_ethnicity == 1 | cov_cat_ethnicity == 2  | cov_cat_ethnicity == 5)) | 
-                                             (age_1st_diag < 30), "Yes", "No"),
-         over5_pocc = ifelse(!is.na(tmp_out_count_poccdm_snomed) &
-                               (tmp_out_count_poccdm_snomed > 5), "Yes", "No"))
+                                             (age_1st_diag < 30), "Yes", "No")) %>%
+  # HBA1C date var - earliest date for only those with >=47.5
+  mutate(hba1c_date_step7 = as_date(case_when(tmp_out_num_max_hba1c_mmol_mol >= 47.5 ~ pmin(tmp_out_max_hba1c_mmol_mol_date, na.rm = TRUE))),
+  # process codes - this is taking the first process code date in those individuals that have 5 or more process codes
+         over5_pocc_step7 = as_date(case_when(tmp_out_count_poccdm_snomed >= 5 ~ pmin(out_date_poccdm, na.rm = TRUE))))
                                 
 # Diabetes adjudication algorithm
 
@@ -156,7 +159,7 @@ df <- df %>%
                                           step_5 == "No" & step_6 == "No" & step_7 == "Yes" |
                                           step_1 == "Yes" & step_1a == "Yes" & step_2 == "No" & step_3 == "No" & step_4 == "No" &
                                           step_5 == "No" & step_6 == "No" & step_7 == "Yes", 
-                                          "DM unspecified",
+                                          "DM_other",
                                           ifelse(step_1 == "No" & step_2 == "Yes" |
                                                  step_1 == "Yes" & step_1a == "Yes" & step_2 == "Yes" |
                                                  step_1 == "No" & step_2 == "No" & step_3 == "No" & step_4 == "Yes" |
@@ -203,6 +206,23 @@ df <- df %>%
                                                         ifelse(step_1 == "Yes" & step_1a == "No", "GDM", NA)))))) %>%
   # replace NAs with None (no diabetes)
   mutate_at(vars(out_cat_diabetes), ~replace_na(., "None"))
+
+# Define incident diabetes date variables needed for cox analysis -------------------------
+# Uses diabetes cateogory from algorithm above and date of first diabetes related code. 
+
+
+
+df <- df %>%
+  # remove old diabetes variables to avoid duplication / confusion
+  dplyr::select(- out_date_t1dm, - out_date_t2dm, - out_date_otherdm, - out_date_gestationaldm) %>% 
+  # GESTATIONAL
+  mutate(out_date_diabetes_gestational = as_date(case_when(out_cat_diabetes == "GDM" ~ tmp_out_date_first_diabetes_diag)),
+  # T2DM
+         out_date_diabetes_type2 = as_date(case_when(out_cat_diabetes == "T2DM" ~ tmp_out_date_first_diabetes_diag)),
+  # T1DM
+         out_date_diabetes_type1 = as_date(case_when(out_cat_diabetes == "T1DM" ~ tmp_out_date_first_diabetes_diag)),
+  # OTHER
+         out_date_diabetes_other = as_date(case_when(out_cat_diabetes == "DM_other" ~ pmin(hba1c_date_step7, over5_pocc_step7, na.rm = TRUE))))
 
 # Restrict columns and save analysis dataset ---------------------------------
 
