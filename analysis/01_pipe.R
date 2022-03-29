@@ -14,7 +14,7 @@ library(utils); library(stringr); library(rms); library(readr)
 args = commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
-  event_name="ami"
+  event_name="diabetes_other"
 }else{
   event_name  = args[[1]] 
 }
@@ -26,13 +26,11 @@ scripts_dir <- "analysis"
 # Source relevant files --------------------------------------------------------
 source(file.path(scripts_dir,"analyses_to_run.R"))
 
-for(i in cohort_to_run){
-  cohort<-i
-  source(file.path(scripts_dir,"02_pipe.R")) # Prepare dataset for model
-  source(file.path(scripts_dir,"extra_functions_for_cox_models.R"))
-  source(file.path(scripts_dir,paste0("call_mdl.R"))) # Model specification
+source(file.path(scripts_dir,"02_pipe.R")) # Prepare dataset for model
+source(file.path(scripts_dir,"extra_functions_for_cox_models.R"))
+source(file.path(scripts_dir,paste0("call_mdl.R"))) # Model specification
   
-  ls_events_missing <- get(paste0("analyses_to_run_",cohort)) 
+ls_events_missing <- get(paste0("analyses_to_run_")) 
   
   # ------------------------------------ LAUNCH JOBS -----------------------------
   
@@ -48,9 +46,8 @@ for(i in cohort_to_run){
   )
   
   
-  #Save csv of anlayses not run
-  write.csv(analyses_not_run, paste0(output_dir,"/analyses_not_run_" , event_name ,"_",cohort, ".csv"), row.names = T)
-}
+#Save csv of anlayses not run
+write.csv(analyses_not_run, paste0(output_dir,"/analyses_not_run_" , event_name ,"_", ".csv"), row.names = T)
 
 
 #Combine all results into one .csv

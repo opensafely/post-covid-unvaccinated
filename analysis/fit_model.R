@@ -23,7 +23,7 @@ fit_model_reducedcovariates <- function(event,subgroup,stratify_by_subgroup,stra
   non_case_inverse_weight=list_data_surv_noncase_ids_interval_names[[5]]
   less_than_400_events=list_data_surv_noncase_ids_interval_names[[6]]
   if(less_than_400_events=="TRUE"){
-    analyses_not_run[nrow(analyses_not_run)+1,]<<-c(event,subgroup,cohort,mdl,"TRUE","TRUE","TRUE","FALSE")
+    analyses_not_run[nrow(analyses_not_run)+1,]<<-c(event,subgroup,mdl,"TRUE","TRUE","FALSE")
     return(fit_model_reducedcovariates)
   }
 
@@ -50,12 +50,11 @@ fit_model_reducedcovariates <- function(event,subgroup,stratify_by_subgroup,stra
   fit_model <- coxfit(data_surv, interval_names, covar_names, subgroup, mdl)
   fit_model$subgroup <- subgroup
   fit_model$event <- event
-  fit_model$cohort <- cohort
   fit_model$model <- mdl
   fit_model$total_covid19_cases <- total_covid_cases
   
-  write.csv(fit_model, paste0(output_dir,"/tbl_hr_" , event, "_",subgroup,"_", cohort,"_",mdl, ".csv"), row.names = T)
-  print(paste0("Hazard ratios saved: ", output_dir,"/tbl_hr_" , event, "_",subgroup,"_", cohort,"_",mdl, ".csv"))
+  write.csv(fit_model, paste0(output_dir,"/tbl_hr_" , event, "_",subgroup,"_",mdl, ".csv"), row.names = T)
+  print(paste0("Hazard ratios saved: ", output_dir,"/tbl_hr_" , event, "_",subgroup,"_",mdl, ".csv"))
 }
 
 
