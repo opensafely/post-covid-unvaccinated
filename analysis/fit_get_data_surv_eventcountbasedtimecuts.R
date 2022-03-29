@@ -266,7 +266,7 @@ fit_get_data_surv <- function(event,subgroup, stratify_by_subgroup, stratify_by,
     return(list(data_surv, noncase_ids, interval_names, ind_any_zeroeventperiod, non_case_inverse_weight, less_than_400_events))
     
   }else{
-    analyses_not_run[nrow(analyses_not_run)+1,]<- c(event,subgroup,cohort,mdl,any_exposures,any_exposed_events,any_no_expo,"FALSE")
+    analyses_not_run[nrow(analyses_not_run)+1,]<- c(event,subgroup,mdl,any_exposures,any_exposed_events,any_no_expo,"FALSE")
     
     return(list(analyses_not_run))
   }
