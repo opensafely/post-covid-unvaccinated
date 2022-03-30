@@ -30,7 +30,7 @@ source(file.path(scripts_dir,"02_pipe.R")) # Prepare dataset for model
 source(file.path(scripts_dir,"extra_functions_for_cox_models.R"))
 source(file.path(scripts_dir,paste0("call_mdl.R"))) # Model specification
   
-ls_events_missing <- get(paste0("analyses_to_run_")) 
+ls_events_missing <- get(paste0("analyses_to_run")) 
   
   # ------------------------------------ LAUNCH JOBS -----------------------------
   
