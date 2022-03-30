@@ -23,7 +23,7 @@ fit_model_reducedcovariates <- function(event,subgroup,stratify_by_subgroup,stra
   non_case_inverse_weight=list_data_surv_noncase_ids_interval_names[[5]]
   less_than_400_events=list_data_surv_noncase_ids_interval_names[[6]]
   if(less_than_400_events=="TRUE"){
-    analyses_not_run[nrow(analyses_not_run)+1,]<<-c(event,subgroup,mdl,"TRUE","TRUE","FALSE")
+    analyses_not_run[nrow(analyses_not_run)+1,]<<-c(event,subgroup,mdl,"TRUE", "TRUE","TRUE","FALSE")
     return(fit_model_reducedcovariates)
   }
 
