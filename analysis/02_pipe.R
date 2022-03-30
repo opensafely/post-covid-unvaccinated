@@ -57,7 +57,8 @@ setnames(input,
                  "sub_cat_covid19_hospital",
                  "cov_cat_region",
                  "index_date",
-                 "cov_cat_ethnicity"), 
+                 "cov_cat_ethnicity",
+                 c(paste0("out_date_", event_name))), 
          new = c("DATE_OF_DEATH", 
                  "sex",
                  "AGE_AT_COHORT_START", 
@@ -65,7 +66,8 @@ setnames(input,
                  "expo_pheno",
                  "region_name",
                  "follow_up_start",
-                 "ethnicity"))
+                 "ethnicity",
+                 "event_date"))
 
 
 
@@ -80,10 +82,14 @@ cohort_cols <- c("patient_id",
                  "expo_date",
                  "expo_pheno",
                  "region_name",
-                 "follow_up_start")
+                 "follow_up_start",
+                 "event_date",
+                 "follow_up_end")
  
+#-----------------Set follow up end date for outcome of interest----------------
 
- 
+input <- input %>% rowwise() %>% mutate(follow_up_end=min(vax_date_covid_1, event_date, DATE_OF_DEATH,cohort_end_date,na.rm = TRUE))
+
 #-----------------------CREATE EMPTY ANALYSES NOT RUN DF------------------------
 analyses_not_run=data.frame(matrix(nrow=0,ncol = 7))
 colnames(analyses_not_run)=c("event","subgroup","model", "any exposures?", "any exposure events?", "any non exposed?", "more than 400 post exposure events?")
