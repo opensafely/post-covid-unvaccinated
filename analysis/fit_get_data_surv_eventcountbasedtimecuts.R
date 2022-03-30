@@ -240,7 +240,6 @@ fit_get_data_surv <- function(event,subgroup, stratify_by_subgroup, stratify_by,
     names(tbl_event_count) <- c("expo_week", "events_total")
     tbl_event_count$event=event
     tbl_event_count$subgroup <- subgroup
-    tbl_event_count$cohort <- cohort
     tbl_event_count$model <- mdl
     tbl_event_count$events_total <- as.numeric(tbl_event_count$events_total)
     
@@ -258,8 +257,8 @@ fit_get_data_surv <- function(event,subgroup, stratify_by_subgroup, stratify_by,
     # Save events counts if less than 400 events as this script will not re-run with reduced time periods
     
     if(ind_any_zeroeventperiod==FALSE | less_than_400_events==TRUE){
-      write.csv(tbl_event_count, paste0(output_dir,"/tbl_event_count_" ,event,"_", subgroup,"_",cohort,"_",mdl,".csv"), row.names = T)
-      print(paste0("Event counts saved: ", output_dir,"/tbl_event_count_" ,event,"_", subgroup,"_",cohort,"_",mdl,".csv"))
+      write.csv(tbl_event_count, paste0(output_dir,"/tbl_event_count_" ,event,"_", subgroup,"_",mdl,".csv"), row.names = T)
+      print(paste0("Event counts saved: ", output_dir,"/tbl_event_count_" ,event,"_", subgroup,"_",mdl,".csv"))
     }
     
     
