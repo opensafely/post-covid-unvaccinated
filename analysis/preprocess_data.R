@@ -52,7 +52,8 @@ df <- df %>%
 
 # define variables needed for diabetes algorithm 
 
-df <- df %>% mutate(tmp_out_date_first_diabetes_diag = format(tmp_out_date_first_diabetes_diag,"%Y")) %>%
+df <- df %>% mutate(date_out_date_first_diabetes_diag = tmp_out_date_first_diabetes_diag) %>%
+  mutate(tmp_out_date_first_diabetes_diag = format(tmp_out_date_first_diabetes_diag,"%Y")) %>%
   mutate(tmp_out_date_first_diabetes_diag = as.integer(tmp_out_date_first_diabetes_diag),
          age_1st_diag = tmp_out_date_first_diabetes_diag - qa_num_birth_year) %>%
   mutate(age_1st_diag = replace(age_1st_diag, which(age_1st_diag < 0), NA)) %>% # assign negative ages to NA)
@@ -214,11 +215,11 @@ df <- df %>%
   # remove old diabetes variables to avoid duplication / confusion - commented out for now 
   # dplyr::select(- out_date_t1dm, - out_date_t2dm, - out_date_otherdm, - out_date_gestationaldm) %>% 
   # GESTATIONAL
-  mutate(out_date_diabetes_gestational = as_date(case_when(out_cat_diabetes == "GDM" ~ tmp_out_date_first_diabetes_diag)),
+  mutate(out_date_diabetes_gestational = as_date(case_when(out_cat_diabetes == "GDM" ~ date_out_date_first_diabetes_diag)),
   # T2DM
-         out_date_diabetes_type2 = as_date(case_when(out_cat_diabetes == "T2DM" ~ tmp_out_date_first_diabetes_diag)),
+         out_date_diabetes_type2 = as_date(case_when(out_cat_diabetes == "T2DM" ~ date_out_date_first_diabetes_diag)),
   # T1DM
-         out_date_diabetes_type1 = as_date(case_when(out_cat_diabetes == "T1DM" ~ tmp_out_date_first_diabetes_diag)),
+         out_date_diabetes_type1 = as_date(case_when(out_cat_diabetes == "T1DM" ~ date_out_date_first_diabetes_diag)),
   # OTHER
          out_date_diabetes_other = as_date(case_when(out_cat_diabetes == "DM_other" ~ pmin(hba1c_date_step7, over5_pocc_step7, na.rm = TRUE))))
 
