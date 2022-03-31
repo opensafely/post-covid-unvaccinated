@@ -55,7 +55,7 @@ summary_stats <- function(input, infection_subgroup, event_dates_names, index){
   input <- input %>%
     mutate(event_date = get(event_dates_names[index]))
   # signify follow up end date
-  input <- input %>% rowwise() %>% mutate(follow_up_end = min(event_date, death_date, cohort_end_date, vax_date_covid_1, na.rm = TRUE))
+  input <- input %>% rowwise() %>% mutate(follow_up_end = min(event_date, death_date, cohort_end_date, vax_date_eligible, vax_date_covid_1, na.rm = TRUE))
   # follow-up days
   input = input %>% mutate(follow_up_period = as.numeric((as.Date(follow_up_end) - as.Date(index_date)))+1) 
   # follow up period and follow up years
