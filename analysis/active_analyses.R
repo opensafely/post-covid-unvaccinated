@@ -38,7 +38,7 @@ outcomes <- c("type 1 diabetes",
               "other or non-specific diabetes",
               "gestational diabetes")
 
-outcomes_short <- c("t1dm","t2dm","otherdm","gestationaldm")
+outcomes_short <- c("diabetes_type1","diabetes_type2","diabetes_other","diabetes_gestational")
 
 outcome_group <- "diabetes"
 

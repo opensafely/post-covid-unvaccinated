@@ -45,7 +45,8 @@ event_names <- event_names <- gsub("out_date_","",event_dates_names)
 col_headings <- c("event", "event_count", "person_years_follow_up", "incidence_rate")
 table_2 <- data.frame(matrix(ncol=length(col_headings), nrow=length(event_dates_names)))
 colnames(table_2) <- col_headings
-table_2$event <- event_names
+table_2_labels <- active_analyses$outcome[which(active_analyses$active==T)]
+table_2$event <- table_2_labels
 
 # Build function for Table 2 ----------------------------------------------
 
@@ -106,9 +107,7 @@ table_2[which(table_2$no_infection_sub_event_count == "<=5" | table_2$non_hospit
 
 # OUTPUT ------------------------------------------------------------------
 
-# add suffix to out file name using active analyses (diabetes or mental health)
-out_group <- active_analyses %>% filter(active == TRUE) %>% distinct(outcome_group) %>% pull(outcome_group)
 # save 
-write.csv(table_2, file= paste0("output/", "table2_",out_group,".csv"), row.names = F)
+write.csv(table_2, file= paste0("output/table2.csv"), row.names = F)
 
 # END
