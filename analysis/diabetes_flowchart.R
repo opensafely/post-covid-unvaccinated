@@ -18,7 +18,7 @@
 
 # Libraries
 
-libraries <- c("readr", "dplyr", "stringr", "tidyverse", "DiagrammeR", "DiagrammeRsvg", "rsvg")
+libraries <- c("readr", "dplyr", "stringr", "tidyverse", "DiagrammeR", "DiagrammeRsvg", "rsvg", "plyr")
 lapply(libraries, require, character.only=T)
 
 # Load Stage 1 dataset
@@ -87,6 +87,16 @@ values <- list(
 # REDACT <=5 TO NA --------------------------------------------------------------
 
 values <- lapply(values, function(x) replace(x, x <= 5, NA))
+
+# EXPORT RAW DATA FOR FLOWCHART -------------------------------------------
+# exporting data so that flow chart can easily be produced/tweaked outside of L4. 
+
+values_df <- ldply(values, data.frame) # convert list to df
+values_df_t <- data.table::transpose(values_df) # transpose df
+names(values_df_t) <- lapply(values_df_t[1, ], as.character) # make row 1 the column names
+values_df_t <- values_df_t[-1, ] 
+write.csv(values_df_t, file = paste0("output/diabetes_flow_values.csv")) # save
+# I have checked and using the dataframe "values_df_t" gets the exact same flow chart as when using the list. 
 
 # BUILD FLOW --------------------------------------------------------------
 

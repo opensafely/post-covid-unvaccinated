@@ -210,11 +210,9 @@ df <- df %>%
 # Define incident diabetes date variables needed for cox analysis -------------------------
 # Uses diabetes cateogory from algorithm above and date of first diabetes related code. 
 
-
-
 df <- df %>%
-  # remove old diabetes variables to avoid duplication / confusion
-  dplyr::select(- out_date_t1dm, - out_date_t2dm, - out_date_otherdm, - out_date_gestationaldm) %>% 
+  # remove old diabetes variables to avoid duplication / confusion - commented out for now 
+  # dplyr::select(- out_date_t1dm, - out_date_t2dm, - out_date_otherdm, - out_date_gestationaldm) %>% 
   # GESTATIONAL
   mutate(out_date_diabetes_gestational = as_date(case_when(out_cat_diabetes == "GDM" ~ tmp_out_date_first_diabetes_diag)),
   # T2DM

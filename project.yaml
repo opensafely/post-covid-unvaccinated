@@ -54,4 +54,5 @@ actions:
   #   - stage1_data_cleaning
   #   outputs:
   #     moderately_sensitive:
-  #       table2: output/diabetes_flow.png
+  #       flow_df: output/diabetes_flow_values.csv      
+  #       flow_fig: output/diabetes_flow.png
