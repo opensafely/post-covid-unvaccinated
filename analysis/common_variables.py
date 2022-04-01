@@ -156,9 +156,9 @@ def generate_common_variables(index_date_variable):
         },
     ),
     # Combined 
-    tmp_out_count_t1dm=patients.minimum_of(
-        "tmp_out_count_t1dm_snomed", "tmp_out_count_t1dm_hes"
-    ),   
+    # tmp_out_count_t1dm=patients.minimum_of(
+    #     "tmp_out_count_t1dm_snomed", "tmp_out_count_t1dm_hes"
+    # ),   
 
     ### Type 2 Diabetes
 
@@ -215,10 +215,10 @@ def generate_common_variables(index_date_variable):
             "int": {"distribution": "poisson", "mean": 2},
         },
     ),
-    # Combined
-    tmp_out_count_t2dm=patients.minimum_of(
-        "tmp_out_count_t2dm_snomed", "tmp_out_count_t2dm_hes"
-    ),     
+    # # Combined
+    # tmp_out_count_t2dm=patients.minimum_of(
+    #     "tmp_out_count_t2dm_snomed", "tmp_out_count_t2dm_hes"
+    # ),     
 
     ### Diabetes unspecified
 
