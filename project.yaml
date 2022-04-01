@@ -37,3 +37,22 @@ actions:
         IE_criteria: output/cohort_flow.csv
       highly_sensitive:
         cohort: output/input_stage1.rds
+
+  # stage2_missing_table1:
+  #   run: r:latest analysis/Stage2_missing_table1.R 
+  #   needs:
+  #   - stage1_data_cleaning
+  #   outputs:
+  #     moderately_sensitive:
+  #       Missing_RangeChecks: output/Check_missing_range.csv
+  #       DateChecks: output/Check_dates_range.csv
+  #       Descriptive_Table: output/Table1.csv
+
+  # stage3_diabetes_flow:
+  #   run: r:latest analysis/diabetes_flowchart.R
+  #   needs:
+  #   - stage1_data_cleaning
+  #   outputs:
+  #     moderately_sensitive:
+  #       flow_df: output/diabetes_flow_values.csv      
+  #       flow_fig: output/diabetes_flow.png

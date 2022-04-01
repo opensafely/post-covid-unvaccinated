@@ -156,9 +156,9 @@ def generate_common_variables(index_date_variable):
         },
     ),
     # Combined 
-    tmp_out_count_t1dm=patients.minimum_of(
-        "tmp_out_count_t1dm_snomed", "tmp_out_count_t1dm_hes"
-    ),   
+    # tmp_out_count_t1dm=patients.minimum_of(
+    #     "tmp_out_count_t1dm_snomed", "tmp_out_count_t1dm_hes"
+    # ),   
 
     ### Type 2 Diabetes
 
@@ -215,10 +215,10 @@ def generate_common_variables(index_date_variable):
             "int": {"distribution": "poisson", "mean": 2},
         },
     ),
-    # Combined
-    tmp_out_count_t2dm=patients.minimum_of(
-        "tmp_out_count_t2dm_snomed", "tmp_out_count_t2dm_hes"
-    ),     
+    # # Combined
+    # tmp_out_count_t2dm=patients.minimum_of(
+    #     "tmp_out_count_t2dm_snomed", "tmp_out_count_t2dm_hes"
+    # ),     
 
     ### Diabetes unspecified
 
@@ -300,17 +300,18 @@ def generate_common_variables(index_date_variable):
 
     ### Variables needed to define diabetes
     ### Maximum latest HbA1c measure
-    tmp_out_num_max_hba1c_mmol_mol=patients.with_these_clinical_events(
+    tmp_out_num_max_hba1c_mmol_mol=patients.max_recorded_value(
         hba1c_new_codes,
-        find_last_match_in_period=True,
+        on_most_recent_day_of_measurement=True, 
         between=["1990-01-01", "today"],
-        returning="numeric_value",
-        include_date_of_match=True,
+        date_format="YYYY-MM-DD",
         return_expectations={
-            "float": {"distribution": "normal", "mean": 40.0, "stddev": 20},
+            "float": {"distribution": "normal", "mean": 30.0, "stddev": 15},
+            "date": {"earliest": "1980-02-01", "latest": "2021-05-31"},
             "incidence": 0.95,
         },
     ),
+    tmp_out_num_max_hba1c_date=patients.date_of("tmp_out_num_max_hba1c_mmol_mol", date_format="YYYY-MM-DD"),
 
     ###  Diabetes drugs
 
@@ -362,9 +363,11 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_first_diabetes_diag=patients.minimum_of(
          "out_date_gestationaldm",
          "out_date_otherdm",
-         "tmp_out_date_t1dm_snomed", "tmp_out_date_t1dm_hes", #"out_date_t1dm", 
-         "tmp_out_date_t2dm_snomed", "tmp_out_date_t2dm_hes", #"out_date_t2dm", 
+         "out_date_t1dm", 
+         "out_date_t2dm", 
          "out_date_poccdm",
+         "tmp_out_date_diabetes_medication",
+         "tmp_out_date_nonmetform_drugs_snomed"
     ),
 
 # #### **** ######
