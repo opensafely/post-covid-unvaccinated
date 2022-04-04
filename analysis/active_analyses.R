@@ -28,6 +28,7 @@ df <- data.frame(active = logical(),
                  prior_history_TRUE = character(),
                  prior_history_FALSE = character(),
                  prior_history_var = character(),
+                 venn = character(),
                  stringsAsFactors = FALSE)
 
 # Add diabetes outcomes --------------------------------------------------------
@@ -37,7 +38,8 @@ outcomes <- c("type 1 diabetes",
               "other or non-specific diabetes",
               "gestational diabetes")
 
-outcomes_short <- c("diabetes_type1","diabetes_type2","diabetes_other","diabetes_gestational")
+outcomes_short <- c("t1dm","t2dm","otherdm","gestationaldm")
+outcome_venn <- c(TRUE, TRUE, FALSE, FALSE)
 
 for (i in 1:length(outcomes)) {
   df[nrow(df)+1,] <- c(TRUE,
@@ -47,7 +49,8 @@ for (i in 1:length(outcomes)) {
                        rep("all",2),
                        rep(TRUE,4),
                        rep(FALSE,13),
-                       "")
+                       "",
+                       outcome_venn[i])
 }
 
 # Add mental health outcomes --------------------------------------------------------
@@ -63,22 +66,25 @@ outcomes <- c("Depression",
               "Suicide",
               "Addiction")
 
-outcomes_short <- c("out_date_depression",
-                    "out_date_anxiety_general",
-                    "out_date_anxiety_ocd", 
-                    "out_date_anxiety_ptsd", 
-                    "out_date_eating_disorders", 
-                    "out_date_serious_mental_illness",
-                    "out_date_self_harm_10plus",
-                    "out_date_self_harm_15plus",
-                    "out_date_suicide",
-                    "out_date_addiction")
+outcomes_short <- c("depression",
+                    "anxiety_general",
+                    "anxiety_ocd", 
+                    "anxiety_ptsd", 
+                    "eating_disorders", 
+                    "serious_mental_illness",
+                    "self_harm_10plus",
+                    "self_harm_15plus",
+                    "suicide",
+                    "addiction")
+
+out_venn <- c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
 
 for (i in 1:length(outcomes)) {
   df[nrow(df)+1,] <- c(FALSE,
                        outcomes[i],
                        paste0("out_date_",outcomes_short[i]),
-                       rep("",21))
+                       rep("",21),
+                       out_venn[i])
 }
 
 # Save active analyses list ----------------------------------------------------

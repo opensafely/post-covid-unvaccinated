@@ -30,6 +30,8 @@ df <- arrow::read_feather(file = "output/input.feather")
 df <- df %>% mutate(tmp_out_count_t2dm = tmp_out_count_t2dm_snomed + tmp_out_count_t2dm_hes,
                     tmp_out_count_t1dm = tmp_out_count_t1dm_snomed + tmp_out_count_t1dm_hes)
 
+print("Diabetes count variables created successfully")
+
 # Format columns -----------------------------------------------------
 # dates, numerics, factors, logicals
 
@@ -40,6 +42,8 @@ df <- df %>%
   mutate(across(contains('_num'), ~ as.numeric(.))) %>%
   mutate(across(contains('_cat'), ~ as.factor(.))) %>%
   mutate(across(contains('_bin'), ~ as.logical(.)))
+
+print("Columns formatted successfully")
 
 # Define COVID-19 severity --------------------------------------------------------------
 
@@ -70,6 +74,8 @@ df <- df %>%
   mutate(hba1c_date_step7 = as_date(case_when(tmp_out_num_max_hba1c_mmol_mol >= 47.5 ~ pmin(tmp_out_max_hba1c_mmol_mol_date, na.rm = TRUE))),
          # process codes - this is taking the first process code date in those individuals that have 5 or more process codes
          over5_pocc_step7 = as_date(case_when(tmp_out_count_poccdm_snomed >= 5 ~ pmin(out_date_poccdm, na.rm = TRUE))))
+
+print("COVID-19 and diabetes variables needed for algorithm created successfully")
 
 # Diabetes adjudication algorithm
 
@@ -213,6 +219,8 @@ df <- df %>%
   # replace NAs with None (no diabetes)
   mutate_at(vars(out_cat_diabetes), ~replace_na(., "None"))
 
+print("Diabetes algorithm run successfully")
+
 # Define incident diabetes date variables needed for cox analysis -------------------------
 # Uses diabetes cateogory from algorithm above and date of first diabetes related code. 
 
@@ -220,13 +228,15 @@ df <- df %>%
   # remove old diabetes variables to avoid duplication / confusion - commented out for now 
   # dplyr::select(- out_date_t1dm, - out_date_t2dm, - out_date_otherdm, - out_date_gestationaldm) %>% 
   # GESTATIONAL
-  mutate(out_date_diabetes_gestational = as_date(case_when(out_cat_diabetes == "GDM" ~ tmp_out_date_first_diabetes_diag)),
+  mutate(out_date_gestationaldm = as_date(case_when(out_cat_diabetes == "GDM" ~ tmp_out_date_first_diabetes_diag)),
          # T2DM
-         out_date_diabetes_type2 = as_date(case_when(out_cat_diabetes == "T2DM" ~ tmp_out_date_first_diabetes_diag)),
+         out_date_t2dm = as_date(case_when(out_cat_diabetes == "T2DM" ~ tmp_out_date_first_diabetes_diag)),
          # T1DM
-         out_date_diabetes_type1 = as_date(case_when(out_cat_diabetes == "T1DM" ~ tmp_out_date_first_diabetes_diag)),
+         out_date_t1dm = as_date(case_when(out_cat_diabetes == "T1DM" ~ tmp_out_date_first_diabetes_diag)),
          # OTHER
-         out_date_diabetes_other = as_date(case_when(out_cat_diabetes == "DM_other" ~ pmin(hba1c_date_step7, over5_pocc_step7, na.rm = TRUE))))
+         out_date_otherdm = as_date(case_when(out_cat_diabetes == "DM_other" ~ pmin(hba1c_date_step7, over5_pocc_step7, na.rm = TRUE))))
+
+print("Diabetes date variables using algorithm created successfully")
 
 # Restrict columns and save analysis dataset ---------------------------------
 
@@ -243,14 +253,18 @@ df1 <- df %>%
 
 saveRDS(df1, file = paste0("output/input.rds"))
 
+print("Dataset saved successfully")
+
 # Restrict columns and save Venn diagram input dataset -----------------------
 
-df2 <- df %>% 
-  dplyr::select(patient_id,
-                starts_with(c("out_")))
+# df2 <- df %>% 
+#   dplyr::select(patient_id,
+#                 starts_with(c("out_")))
 
 # SAVE
 
-saveRDS(df2, file = paste0("output/venn.rds"))
+saveRDS(df, file = paste0("output/venn.rds"))
+
+print("Venn dataset saved successfully")
 
 # END

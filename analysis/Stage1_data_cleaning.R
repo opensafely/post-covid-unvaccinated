@@ -88,14 +88,8 @@ input <- input %>%
                                                                ifelse(cov_cat_deprivation == 9 | cov_cat_deprivation == 10, "9-10 (least deprived)", NA)))))) %>%
          mutate_at(vars(cov_cat_deprivation), as.factor) %>%
   mutate(cov_cat_deprivation = ordered(cov_cat_deprivation, levels = c("1-2 (most deprived)","3-4","5-6","7-8","9-10 (least deprived)")))
-  
-# Save meta data
 
-describe_vars <- tidyselect::vars_select(names(input), contains(c('_cat_', 'cov_bin','cov_cat','qa_bin','exp_cat','vax_cat'), ignore.case = TRUE))
-meta_data_factors <- lapply(input[,describe_vars], table)
-sink(file = file.path("output", "meta_data_factors.csv"))
-print(meta_data_factors)
-sink()
+print("Variable preparation performed successfully")
 
 #####################
 # 2. Apply QA rules #
@@ -122,6 +116,8 @@ input <- input %>%
 
 input_QA <- input %>% filter(rule1 == FALSE & rule2 == FALSE & rule3 == FALSE & rule4 == FALSE & rule5 == FALSE & rule6 == FALSE) 
 
+print("QA filtering performed successfully")
+
 # Produce QA summary
 
 QA_summary <- data.frame(matrix(ncol = 2))
@@ -139,11 +135,23 @@ QA_summary[7,2]=nrow(input)-nrow(input_QA)
 
 write.csv(QA_summary, file = file.path("output", "QA_summary.csv") , row.names=F)
 
+print("QA summary saved successfully")
+
 # Remove QA variables from dataset
 
 input <- input_QA %>%
   select(-c(rule1,rule2,rule3,rule4,rule5,rule6,
           qa_num_birth_year, qa_bin_pregnancy, qa_bin_prostate_cancer))
+
+# Save meta data (after QA rules have been applied)
+
+describe_vars <- tidyselect::vars_select(names(input), contains(c('_cat_', 'cov_bin','cov_cat','qa_bin','exp_cat','vax_cat', 'step'), ignore.case = TRUE))
+meta_data_factors <- lapply(input[,describe_vars], table)
+sink(file = file.path("output", "meta_data_factors.csv"))
+print(meta_data_factors)
+sink()
+
+print("Meta data saved successfully")
 
 #########################################
 # 3. Apply exclusion/inclusion criteria #
@@ -204,3 +212,7 @@ write.csv(cohort_flow, file = file.path("output", "cohort_flow.csv"), row.names=
 # Create the final stage 1 dataset 
 
 saveRDS(input, file = file.path("output", "input_stage1.rds"))
+
+print("Cohort flow and stage 1 saved successfully")
+
+# END

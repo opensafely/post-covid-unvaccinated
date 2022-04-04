@@ -89,6 +89,7 @@ study = StudyDefinition(
             ),
             ### HES APC
             prostate_cancer_hes=patients.admitted_to_hospital(
+                with_these_diagnoses=prostate_cancer_icd10,
                 returning='binary_flag',
                 return_expectations={
                     "incidence": 0.03,
@@ -151,6 +152,21 @@ study = StudyDefinition(
         death_date=patients.minimum_of(
             "primary_care_death_date", "ons_died_from_any_cause_date"
         ),
+
+    # COVID-19 Vaccinations (for censoring)
+
+         ## Any covid vaccination, identified by target disease
+         vax_date_covid_1=patients.with_tpp_vaccination_record(
+             target_disease_matches="SARS-2 CORONAVIRUS",
+             on_or_after="2020-12-08",
+             find_first_match_in_period=True,
+             returning="date",
+             date_format="YYYY-MM-DD",
+             return_expectations={
+                 "date": {"earliest": "2020-12-08", "latest": "today"},
+                 "incidence": 0.7
+             },
+         ),
 
     # Define fixed covariates other than sex
     # NB: sex is required to determine vaccine eligibility covariates so is defined in study_definition_electively_unvaccinated.py
