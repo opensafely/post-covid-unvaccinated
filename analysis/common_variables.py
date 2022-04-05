@@ -156,9 +156,9 @@ def generate_common_variables(index_date_variable):
         },
     ),
     # Combined 
-    tmp_out_count_t1dm=patients.minimum_of(
-        "tmp_out_count_t1dm_snomed", "tmp_out_count_t1dm_hes"
-    ),   
+    # tmp_out_count_t1dm=patients.minimum_of(
+    #     "tmp_out_count_t1dm_snomed", "tmp_out_count_t1dm_hes"
+    # ),   
 
     ### Type 2 Diabetes
 
@@ -215,10 +215,10 @@ def generate_common_variables(index_date_variable):
             "int": {"distribution": "poisson", "mean": 2},
         },
     ),
-    # Combined
-    tmp_out_count_t2dm=patients.minimum_of(
-        "tmp_out_count_t2dm_snomed", "tmp_out_count_t2dm_hes"
-    ),     
+    # # Combined
+    # tmp_out_count_t2dm=patients.minimum_of(
+    #     "tmp_out_count_t2dm_snomed", "tmp_out_count_t2dm_hes"
+    # ),     
 
     ### Diabetes unspecified
 
@@ -454,7 +454,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
         # HES
@@ -467,7 +467,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
         # ONS
@@ -480,7 +480,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03
+            "incidence": 0.1
         },
     ),
         # Prescriptions
@@ -503,7 +503,7 @@ def generate_common_variables(index_date_variable):
 
     ## Anxiety - general
         # Primary Care
-    tmp_out_date_anxiety_general=patients.with_these_clinical_events(
+    tmp_out_date_anxiety_general_snomed=patients.with_these_clinical_events(
         anxiety_general_snomed_clinical,
         returning="date",
         on_or_after=f"{index_date_variable}",
@@ -512,11 +512,11 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.01,
+            "incidence": 0.1,
         },
     ),
         # HES
-    tmp_out_date_anxiety_hes=patients.admitted_to_hospital(
+    tmp_out_date_anxiety_general_hes=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=anxiety_icd10,
         on_or_after=f"{index_date_variable}",
@@ -525,11 +525,11 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
         # ONS
-    tmp_out_date_anxiety_death=patients.with_these_codes_on_death_certificate(
+    tmp_out_date_anxiety_general_death=patients.with_these_codes_on_death_certificate(
         anxiety_icd10,
         returning="date_of_death",
         on_or_after=f"{index_date_variable}",
@@ -538,7 +538,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03
+            "incidence": 0.1
         },
     ),  
         # Prescriptions
@@ -556,12 +556,12 @@ def generate_common_variables(index_date_variable):
     # ),
         # Combined
     out_date_anxiety_general=patients.minimum_of(
-        "tmp_out_date_anxiety_general", "tmp_out_date_anxiety_hes", "tmp_out_date_anxiety_death"
+        "tmp_out_date_anxiety_general_snomed", "tmp_out_date_anxiety_general_hes", "tmp_out_date_anxiety_general_death"
     ),
 
     ## Anxiety - obsessive compulsive disorder
         # Primary care
-    tmp_out_date_anxiety_ocd=patients.with_these_clinical_events(
+    tmp_out_date_anxiety_ocd_snomed=patients.with_these_clinical_events(
         anxiety_ocd_snomed_clinical,
         returning="date",
         on_or_after=f"{index_date_variable}",
@@ -570,11 +570,11 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.01,
+            "incidence": 0.1,
         },
     ),
         # HES
-    tmp_out_date_ocd_hes=patients.admitted_to_hospital(
+    tmp_out_date_anxiety_ocd_hes=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=ocd_icd10,
         on_or_after=f"{index_date_variable}",
@@ -583,11 +583,11 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
         # ONS
-    tmp_out_date_ocd_death=patients.with_these_codes_on_death_certificate(
+    tmp_out_date_anxiety_ocd_death=patients.with_these_codes_on_death_certificate(
         ocd_icd10,
         returning="date_of_death",
         on_or_after=f"{index_date_variable}",
@@ -601,12 +601,12 @@ def generate_common_variables(index_date_variable):
     ),  
         # Combined
     out_date_anxiety_ocd=patients.minimum_of(
-        "tmp_out_date_anxiety_ocd", "tmp_out_date_ocd_hes", "tmp_out_date_ocd_death"
+        "tmp_out_date_anxiety_ocd_snomed", "tmp_out_date_anxiety_ocd_hes", "tmp_out_date_anxiety_ocd_death"
     ),
 
     ## Anxiety - post traumatic stress disorder
         # Primary care
-    tmp_out_date_anxiety_ptsd=patients.with_these_clinical_events(
+    tmp_out_date_anxiety_ptsd_snomed=patients.with_these_clinical_events(
         anxiety_ptsd_snomed_clinical,
         returning="date",
         on_or_after=f"{index_date_variable}",
@@ -615,11 +615,11 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.01,
+            "incidence": 0.1,
         },
     ),
         # HES
-    tmp_out_date_ptsd_hes=patients.admitted_to_hospital(
+    tmp_out_date_anxiety_ptsd_hes=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=ptsd_icd10,
         on_or_after=f"{index_date_variable}",
@@ -632,7 +632,7 @@ def generate_common_variables(index_date_variable):
         },
     ),
         # ONS
-    tmp_out_date_ptsd_death=patients.with_these_codes_on_death_certificate(
+    tmp_out_date_anxiety_ptsd_death=patients.with_these_codes_on_death_certificate(
         ptsd_icd10,
         returning="date_of_death",
         on_or_after=f"{index_date_variable}",
@@ -641,17 +641,17 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03
+            "incidence": 0.1,
         },
     ), 
         # Combined
     out_date_anxiety_ptsd=patients.minimum_of(
-        "tmp_out_date_anxiety_ptsd", "tmp_out_date_ptsd_hes", "tmp_out_date_ptsd_death"
+        "tmp_out_date_anxiety_ptsd_snomed", "tmp_out_date_anxiety_ptsd_hes", "tmp_out_date_anxiety_ptsd_death"
     ),
 
     ## Eating disorders
         # Primary care
-    tmp_out_date_eating_disorders=patients.with_these_clinical_events(
+    tmp_out_date_eating_disorders_snomed=patients.with_these_clinical_events(
         eating_disorders_snomed_clinical,
         returning="date",
         on_or_after=f"{index_date_variable}",
@@ -660,7 +660,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.01,
+            "incidence": 0.1,
         },
     ),
         # HES
@@ -673,7 +673,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
         # ONS
@@ -686,17 +686,17 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03
+            "incidence": 0.1,
         },
     ), 
         # Combined
     out_date_eating_disorders=patients.minimum_of(
-        "tmp_out_date_eating_disorders", "tmp_out_date_eating_disorders_hes", "tmp_out_date_eating_disorders_death"
+        "tmp_out_date_eating_disorders_snomed", "tmp_out_date_eating_disorders_hes", "tmp_out_date_eating_disorders_death"
     ),
 
     ## Serious mental illness
         # Primary care
-    tmp_out_date_serious_mental_illness=patients.with_these_clinical_events(
+    tmp_out_date_serious_mental_illness_snomed=patients.with_these_clinical_events(
         serious_mental_illness_snomed_clinical,
         returning="date",
         on_or_after=f"{index_date_variable}",
@@ -705,7 +705,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.01,
+            "incidence": 0.1,
         },
     ),
         # HES 
@@ -718,7 +718,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
         # ONS
@@ -731,7 +731,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03
+            "incidence": 0.1,
         },
     ), 
         # Prescriptions
@@ -749,12 +749,12 @@ def generate_common_variables(index_date_variable):
     # ),
         # Combined
     out_date_serious_mental_illness=patients.minimum_of(
-        "tmp_out_date_serious_mental_illness", "tmp_out_date_serious_mental_illness_hes", "tmp_out_date_serious_mental_illness_death"
+        "tmp_out_date_serious_mental_illness_snomed", "tmp_out_date_serious_mental_illness_hes", "tmp_out_date_serious_mental_illness_death"
     ),
 
     ## Self harm - aged >= 10 years
         # Primary care
-    tmp_out_date_self_harm_10plus=patients.with_these_clinical_events(
+    tmp_out_date_self_harm_10plus_snomed=patients.with_these_clinical_events(
         self_harm_10plus_snomed_clinical,
         returning="date",
         on_or_after=f"{index_date_variable}",
@@ -763,7 +763,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.01,
+            "incidence": 0.1,
         },
     ),
         # HES
@@ -776,7 +776,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
         # ONS
@@ -789,17 +789,17 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03
+            "incidence": 0.1,
         },
     ), 
         # Combined
     out_date_self_harm_10plus=patients.minimum_of(
-        "tmp_out_date_self_harm_10plus", "tmp_out_date_self_harm_10plus_hes", "tmp_out_date_self_harm_10plus_death"
+        "tmp_out_date_self_harm_10plus_snomed", "tmp_out_date_self_harm_10plus_hes", "tmp_out_date_self_harm_10plus_death"
     ),
 
     ## Self harm - aged >= 15 years
         # Primary care
-    tmp_out_date_self_harm_15plus=patients.with_these_clinical_events(
+    tmp_out_date_self_harm_15plus_snomed=patients.with_these_clinical_events(
         combine_codelists(
             self_harm_10plus_snomed_clinical,
             self_harm_15plus_snomed_clinical,
@@ -811,7 +811,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.01,
+            "incidence": 0.1,
         },
     ),
         # HES
@@ -824,7 +824,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
         # ONS
@@ -837,17 +837,17 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03
+            "incidence": 0.1,
         },
     ), 
         # Combined
     out_date_self_harm_15plus=patients.minimum_of(
-        "tmp_out_date_self_harm_15plus", "tmp_out_date_self_harm_15plus_hes","tmp_out_date_self_harm_15plus_death"
+        "tmp_out_date_self_harm_15plus_snomed", "tmp_out_date_self_harm_15plus_hes","tmp_out_date_self_harm_15plus_death"
     ),
 
     ## Suicide
         # HES
-    tmp_out_date_suicide=patients.admitted_to_hospital(
+    tmp_out_date_suicide_hes=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=suicide_icd10,
         on_or_after=f"{index_date_variable}",
@@ -856,7 +856,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.01,
+            "incidence": 0.1,
         },
     ),
         # ONS
@@ -869,17 +869,17 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.01
+            "incidence": 0.1,
         },
     ),
         # Combined
     out_date_suicide=patients.minimum_of(
-        "tmp_out_date_suicide", "tmp_out_date_suicide_death"
+        "tmp_out_date_suicide_hes", "tmp_out_date_suicide_death"
     ),     
 
     ## Addiction
         # Primary care
-    tmp_out_date_addiction=patients.with_these_clinical_events(
+    tmp_out_date_addiction_snomed=patients.with_these_clinical_events(
         addiction_snomed_clinical,
         returning="date",
         on_or_after=f"{index_date_variable}",
@@ -888,7 +888,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.01,
+            "incidence": 0.1,
         },
     ),
         # HES
@@ -901,7 +901,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
         # ONS
@@ -914,14 +914,14 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "index_date", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03
+            "incidence": 0.1,
         },
     ), 
         # Prescription
 
         # Combined
     out_date_addiction=patients.minimum_of(
-        "tmp_out_date_addiction", "tmp_out_date_addiction_hes","tmp_out_date_addiction_death"
+        "tmp_out_date_addiction_snomed", "tmp_out_date_addiction_hes","tmp_out_date_addiction_death"
     ),
 
     ################################################################################################
