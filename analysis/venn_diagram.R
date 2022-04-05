@@ -178,7 +178,7 @@ venn_output <- function(population){
   
   # Save summary file ----------------------------------------------------------
   
-  write.csv(df, file = paste0("output/venn_diagram_number_check_", outcome,".csv"), row.names = F)
+  write.csv(df, file = paste0("output/venn_diagram_number_check.csv"), row.names = F)
   
 }
 
