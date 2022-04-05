@@ -32,8 +32,8 @@ actions:
     needs: [preprocess_data]
     outputs:
       moderately_sensitive:
-        refactoring: output/meta_data_factors.csv
         QA_rules: output/QA_summary.csv
+        refactoring: output/meta_data_factors.csv
         IE_criteria: output/cohort_flow.csv
       highly_sensitive:
         cohort: output/input_stage1.rds
@@ -48,11 +48,29 @@ actions:
   #       DateChecks: output/Check_dates_range.csv
   #       Descriptive_Table: output/Table1.csv
 
-  # stage3_diabetes_flow:
-  #   run: r:latest analysis/diabetes_flowchart.R
+  stage3_diabetes_flow:
+    run: r:latest analysis/diabetes_flowchart.R
+    needs:
+    - stage1_data_cleaning
+    outputs:
+      moderately_sensitive:
+        flow_df: output/diabetes_flow_values.csv      
+        # flow_fig: output/diabetes_flow.png
+
+  # stage4_table2:
+  #   run: r:latest analysis/table_2.R
   #   needs:
   #   - stage1_data_cleaning
   #   outputs:
   #     moderately_sensitive:
-  #       flow_df: output/diabetes_flow_values.csv      
-  #       flow_fig: output/diabetes_flow.png
+  #       table2: output/table2.csv
+
+  stage4_venn_diagram:
+    run: r:latest analysis/venn_diagram.R
+    needs:
+    - preprocess_data
+    - stage1_data_cleaning
+    outputs:
+      moderately_sensitive:
+        venn_diagram: output/venn_diagram_*.svg
+        venn_diagram_number_check: output/venn_diagram_number_check_*.csv
