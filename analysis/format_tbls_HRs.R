@@ -192,12 +192,21 @@ if(length(results_done)>0){
   write.csv(supressed_combined_hr_event_counts,paste0(output_dir,"/suppressed_compiled_HR_results_",event_name ,".csv") , row.names=F)
   print(paste0("Supressed HR with event counts saved: ", output_dir,"/suppressed_compiled_HR_results_",event_name ,".csv"))
   
+  supressed_combined_hr_event_counts <- supressed_combined_hr_event_counts %>% select(!c("expo_week","events_total"))
+  write.csv(supressed_combined_hr_event_counts,paste0(output_dir,"/suppressed_compiled_HR_results_",event_name,"_","to_release.csv") , row.names=F)
+  
+  
 }else{
   supressed_combined_hr_event_counts <- as.data.frame(matrix(ncol = 13))
   colnames(supressed_combined_hr_event_counts) <- c("term","estimate","conf.low","conf.high","std.error","robust.se","P","expo_week","events_total",
                                                     "event","subgroup","model","total_covid19_cases")
   write.csv(supressed_combined_hr_event_counts,paste0(output_dir,"/suppressed_compiled_HR_results_",event_name ,".csv") , row.names=F)
   print(paste0("Supressed HR with event counts saved: ", output_dir,"/suppressed_compiled_HR_results_",event_name ,".csv"))
+  
+  
+  supressed_combined_hr_event_counts <- supressed_combined_hr_event_counts[!colnames(supressed_combined_hr_event_counts) %in% c("expo_week","events_total")]
+  write.csv(supressed_combined_hr_event_counts,paste0(output_dir,"/suppressed_compiled_HR_results_",event_name,"_","to_release.csv") , row.names=F)
+  
 }
 rmarkdown::render("analysis/compiled_HR_results.Rmd",output_file=paste0("/suppressed_compiled_HR_results_",event_name),output_dir="output")
 
