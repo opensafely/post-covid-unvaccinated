@@ -13,7 +13,7 @@ library(utils); library(stringr); library(rms); library(readr)
 args = commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
-  event_name="diabetes_other"
+  event_name="otherdm"
 }else{
   event_name  = args[[1]] 
 }

@@ -72,6 +72,8 @@ input <- input %>%
                                             cov_cat_smoking_status == "N" ~ "Never smoker",
                                             cov_cat_smoking_status == "S" ~ "Current smoker")) %>%
   mutate(cov_cat_smoking_status = ordered(cov_cat_smoking_status, levels = c("Never smoker","Ever smoker","Current smoker","Missing")),
+         # BMI
+         cov_cat_bmi_groups = ordered(cov_cat_bmi_groups, levels = c("Healthy_weight", "Underweight", "Overweight", "Obese", "Missing")),
          # region
          cov_cat_region = relevel(cov_cat_region, ref = "London"),
          # sex

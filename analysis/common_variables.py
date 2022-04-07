@@ -1302,7 +1302,7 @@ def generate_common_variables(index_date_variable):
        return_expectations={"incidence": 0.1},
     ),
     ### DMD
-    tmp_cov_bin_hypertension_drugs_dmd=patients.with_these_clinical_events(
+    cov_bin_hypertension_drugs_dmd=patients.with_these_clinical_events(
         hypertension_drugs_dmd,
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
@@ -1310,7 +1310,7 @@ def generate_common_variables(index_date_variable):
     ),
     ### Combined
     cov_bin_hypertension=patients.maximum_of(
-        "tmp_cov_bin_hypertension_snomed", "tmp_cov_bin_hypertension_hes", "tmp_cov_bin_hypertension_drugs_dmd",
+        "tmp_cov_bin_hypertension_snomed", "tmp_cov_bin_hypertension_hes", "cov_bin_hypertension_drugs_dmd",
     ),
 
     # ## Diabetes
@@ -1375,6 +1375,14 @@ def generate_common_variables(index_date_variable):
     ## Any diabetes
     cov_bin_diabetes=patients.maximum_of(
         "cov_bin_diabetes_type1", "cov_bin_diabetes_type2", "cov_bin_diabetes_other", "cov_bin_diabetes_gestational",
+    ),
+
+    ## Prediabetes
+    cov_bin_prediabetes=patients.with_these_clinical_events(
+        prediabetes_snomed,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
     ),
 
     ## Obesity
@@ -1561,6 +1569,67 @@ def generate_common_variables(index_date_variable):
         "tmp_cov_bin_self_harm_snomed", "tmp_cov_bin_self_harm_icd10",
     ),
 
+    ## Total Cholesterol
+    tmp_cov_num_cholesterol=patients.max_recorded_value(
+        cholesterol_snomed,
+        on_most_recent_day_of_measurement=True, 
+        between=["2015-01-01", "today"],
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "float": {"distribution": "normal", "mean": 5.0, "stddev": 2.5},
+            "date": {"earliest": "1980-02-01", "latest": "2021-05-31"},
+            "incidence": 0.80,
+        },
+    ),
+
+    ## HDL Cholesterol
+    tmp_cov_num_hdl_cholesterol=patients.max_recorded_value(
+        hdl_cholesterol_snomed,
+        on_most_recent_day_of_measurement=True, 
+        between=["2015-01-01", "today"],
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
+            "date": {"earliest": "1980-02-01", "latest": "2021-05-31"},
+            "incidence": 0.80,
+        },
+    ),
+
+    ## BMI
+    # taken from: https://github.com/opensafely/BMI-and-Metabolic-Markers/blob/main/analysis/common_variables.py 
+    cov_num_bmi=patients.most_recent_bmi(
+        between=["index_date", "index_date + 1 year"],
+        minimum_age_at_measurement=18,
+        include_measurement_date=True,
+        date_format="YYYY-MM",
+        return_expectations={
+            "date": {"earliest": "2010-02-01", "latest": "2022-02-01"},
+            "float": {"distribution": "normal", "mean": 28, "stddev": 8},
+            "incidence": 0.7,
+        },
+    ),
+     ### Categorising BMI
+    cov_cat_bmi_groups = patients.categorised_as(
+        {
+            "Underweight": "cov_num_bmi < 18.5", 
+            "Healthy_weight": "cov_num_bmi >= 18.5 AND cov_num_bmi < 25", 
+            "Overweight": "cov_num_bmi >= 25 AND cov_num_bmi < 30",
+            "Obese": "cov_num_bmi >=30", 
+            "Missing": "DEFAULT", 
+        }, 
+        return_expectations = {
+            "rate": "universal", 
+            "category": {
+                "ratios": {
+                    "Underweight": 0.05, 
+                    "Healthy_weight": 0.25, 
+                    "Overweight": 0.4,
+                    "Obese": 0.3, 
+                }
+            },
+        },
+        
+    ),
     
     # Define subgroups (for variables that don't have a corresponding covariate only)
 

@@ -28,7 +28,9 @@ df <- arrow::read_feather(file = "output/input.feather")
 # create vars -------------------------------------------------------------
 # vars could not be created in common vars file
 df <- df %>% mutate(tmp_out_count_t2dm = tmp_out_count_t2dm_snomed + tmp_out_count_t2dm_hes,
-                    tmp_out_count_t1dm = tmp_out_count_t1dm_snomed + tmp_out_count_t1dm_hes)
+                    tmp_out_count_t1dm = tmp_out_count_t1dm_snomed + tmp_out_count_t1dm_hes) %>%
+      # cholesterol ratio              
+             mutate(cov_num_tc_hdl_ratio = tmp_cov_num_cholesterol / tmp_cov_num_hdl_cholesterol)
 
 print("Diabetes count variables created successfully")
 
