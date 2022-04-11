@@ -58,7 +58,7 @@ fit_get_data_surv <- function(event,subgroup, stratify_by_subgroup, stratify_by,
   #   CACHE some features
   #-------------------------------------------------------------------------------  
   df_sex <- survival_data %>% dplyr::select(patient_id, sex)
-  df_age_region_ethnicity <- survival_data %>% dplyr::select(patient_id, AGE_AT_COHORT_START, region_name, ethnicity) %>% rename(age = AGE_AT_COHORT_START)
+  df_age_region_ethnicity <- survival_data %>% dplyr::select(patient_id, AGE_AT_COHORT_START, region_name, ethnicity) %>% dplyr::rename(age = AGE_AT_COHORT_START)
   df_age_region_ethnicity$age_sq <- df_age_region_ethnicity$age^2
   
   #===============================================================================
