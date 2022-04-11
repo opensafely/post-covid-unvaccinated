@@ -39,7 +39,7 @@ actions:
         cohort: output/input_stage1.rds
 
    stage2_missing_table1:
-     run: r:latest analysis/Stage2_missing_table1.R 
+     run: r:latest analysis/Stage2_Missing_Table1.R 
      needs:
      - stage1_data_cleaning
      outputs:
