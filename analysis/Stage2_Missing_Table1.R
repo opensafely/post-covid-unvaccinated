@@ -16,7 +16,7 @@
 ## 2. Output table 1
 ## 
 ## NOTE: This code outputs 3 .csv files and 1 R dataset
-## XXX
+## 
 ## =============================================================================
 
 ###############################################
@@ -27,11 +27,6 @@ library(dplyr)
 library(data.table)
 library(tidyverse)
 library(lubridate)
-
-#########################################################################
-# UPDATED TO HERE / UPDATED TO HERE / UPDATED TO HERE / UPDATED TO HERE #
-#########################################################################
-
 
 # # Specify command arguments ----------------------------------------------------
 
