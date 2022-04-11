@@ -55,7 +55,7 @@ stage2 <- function(cohort_name) {
   # 1.a. Create a table with missing data information (N,%) for variables #
   #-----------------------------------------------------------------------#
   
-  covariate_names <- tidyselect::vars_select(names(input), starts_with(c('sub_bin_','cov_','qa_','vax_cat','exp_cat'), ignore.case = TRUE))
+  covariate_names <- tidyselect::vars_select(names(input), starts_with(c('sub_bin_','cov_','vax_cat'), ignore.case = TRUE))
   check_missing <- data.frame(variable = as.vector(covariate_names), N_missing = NA)
   
   for (i in covariate_names){
@@ -165,10 +165,7 @@ stage2 <- function(cohort_name) {
   
   table1 <- table1 %>% 
     filter(!str_detect(Covariate_level, "^FALSE"))
-  
-  table1  <- table1 %>% 
-    dplyr::select("Covariate","Covariate_level")
-  
+
   table1$Covariate <- gsub("\\s","",table1$Covariate) # Remove spaces
   
   table1$Covariate_level <-  sub('\\:.*', '', table1$Covariate_level) # Remove everything after :
@@ -245,6 +242,40 @@ stage2 <- function(cohort_name) {
   table1$Covariate <- gsub("cov_bin_", "History of ",table1$Covariate)
   table1$Covariate <- gsub("cov_\\D\\D\\D_", "",table1$Covariate)
   table1$Covariate <- gsub("_", " ",table1$Covariate)
+
+  # Add in suppression controls for counts <=5 and then alter totals accordingly
+  table1_suppressed <- table1[0,]
+  unique(table1$Covariate[which(!startsWith(table1$Covariate_level, "Mean"))])
+  
+  for(i in unique(table1$Covariate[which(!startsWith(table1$Covariate_level, "Mean"))])){
+    df<- table1 %>% filter(Covariate == i)
+    df <- df %>% mutate(across(!c("Covariate","Covariate_level"),as.numeric))
+    df$No_infection <- df$Whole_population - df$COVID_exposed
+    
+    if(any(df$COVID_hospitalised <= 5 | df$COVID_non_hospitalised <= 5 )){
+      df$COVID_hospitalised <- "[Redacted]"
+      df$COVID_non_hospitalised <- "[Redacted]"
+    }
+    
+    if(any(df$COVID_exposed <= 5 | df$No_infection <=5)){
+      df$COVID_exposed <- "[Redacted]"
+    }
+    
+    if(any(df$Whole_population <= 5)){
+      df$Whole_population <- "[Redacted]"
+    }
+    
+    df <- df %>% select(!No_infection)
+    df <- df %>% mutate(across(!c("Covariate","Covariate_level"),as.character))
+    if(i == "consulation rate group"){
+      df <- rbind(df, table1 %>% filter(startsWith(Covariate_level, "Mean")))
+    }
+    
+    table1_suppressed <- rbind(table1_suppressed,df)
+    
+  }
+  #table1_suppressed[which(startsWith(table1_suppressed$Covariate_level, "Mean")),] <- table1[startsWith(table1$Covariate_level, "Mean"),]
+  table1_suppressed <- table1_suppressed %>% filter(!str_detect(Covariate_level, "^FALSE"))
   
   # Save table 1
   
@@ -255,4 +286,3 @@ stage2 <- function(cohort_name) {
 # Run function using specified commandArgs
 
 stage2(cohort_name)
-
