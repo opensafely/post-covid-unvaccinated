@@ -8,7 +8,7 @@
 ##  - Table 1 - Descriptive statistics
 ## 
 ## Authors: Lucy Teece (adapted from original written by Genevieve & Rochelle for vaccinated project)
-## Reviewer: 
+## Reviewer: Yinghui Wei
 ## 
 ## Content: 
 ## 0. Load relevant libraries and read data/arguments
@@ -16,7 +16,7 @@
 ## 2. Output table 1
 ## 
 ## NOTE: This code outputs 3 .csv files and 1 R dataset
-## 
+##  
 ## =============================================================================
 
 ###############################################
@@ -33,7 +33,7 @@ library(lubridate)
 args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
-  cohort_name <- "" # interactive testing
+  cohort_name <- "" # interactive testing - NOTE - left empty as we only have a single cohort. 
 } else {
   cohort_name <- args[[1]]
 }
