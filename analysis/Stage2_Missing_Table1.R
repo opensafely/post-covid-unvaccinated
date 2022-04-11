@@ -7,7 +7,7 @@
 ##  - Table 0 - Missing data and range
 ##  - Table 1 - Descriptive statistics
 ## 
-## Authors: Lucy Teece (adapted from origional written by Genevieve & Rochelle for vaccinated project)
+## Authors: Lucy Teece (adapted from original written by Genevieve & Rochelle for vaccinated project)
 ## Reviewer: 
 ## 
 ## Content: 
