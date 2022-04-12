@@ -68,75 +68,75 @@ actions:
         venn_diagram: output/venn_diagram_*.svg
         venn_diagram_number_check: output/venn_diagram_number_check.csv
 
-  ## Apply cox model for t1dm 
+  ## Apply cox model for depression 
 
-  Analysis_cox_t1dm:
-    run: r:latest analysis/01_pipe.R t1dm
+  Analysis_cox_depression:
+    run: r:latest analysis/01_pipe.R depression
     needs:
     - stage1_data_cleaning
     outputs:
       moderately_sensitive:
-        compiled_hrs_html: output/suppressed_compiled_HR_results_t1dm.html
-        compiled_event_counts_html: output/suppressed_compiled_event_counts_t1dm.html
-        analyses_not_run: output/analyses_not_run_t1dm.csv
-        compiled_hrs_csv: output/suppressed_compiled_HR_results_t1dm.csv
-        compiled_hrs_csv_to_release: output/suppressed_compiled_HR_results_t1dm_to_release.csv
-        compiled_event_counts_csv: output/suppressed_compiled_event_counts_t1dm.csv
+        compiled_hrs_html: output/suppressed_compiled_HR_results_depression.html
+        compiled_event_counts_html: output/suppressed_compiled_event_counts_depression.html
+        analyses_not_run: output/analyses_not_run_depression.csv
+        compiled_hrs_csv: output/suppressed_compiled_HR_results_depression.csv
+        compiled_hrs_csv_to_release: output/suppressed_compiled_HR_results_depression_to_release.csv
+        compiled_event_counts_csv: output/suppressed_compiled_event_counts_depression.csv
       highly_sensitive:
-        compiled_hrs: output/compiled_HR_results_t1dm.csv
-        compiled_event_counts: output/compiled_event_counts_t1dm.csv
+        compiled_hrs: output/compiled_HR_results_depression.csv
+        compiled_event_counts: output/compiled_event_counts_depression.csv
 
-  ## Apply cox model for t2dm 
+  ## Apply cox model for anxiety_general 
 
-  Analysis_cox_t2dm:
-    run: r:latest analysis/01_pipe.R t2dm
+  Analysis_cox_anxiety_general:
+    run: r:latest analysis/01_pipe.R anxiety_general
     needs:
     - stage1_data_cleaning
     outputs:
       moderately_sensitive:
-        compiled_hrs_html: output/suppressed_compiled_HR_results_t2dm.html
-        compiled_event_counts_html: output/suppressed_compiled_event_counts_t2dm.html
-        analyses_not_run: output/analyses_not_run_t2dm.csv
-        compiled_hrs_csv: output/suppressed_compiled_HR_results_t2dm.csv
-        compiled_hrs_csv_to_release: output/suppressed_compiled_HR_results_t2dm_to_release.csv
-        compiled_event_counts_csv: output/suppressed_compiled_event_counts_t2dm.csv
+        compiled_hrs_html: output/suppressed_compiled_HR_results_anxiety_general.html
+        compiled_event_counts_html: output/suppressed_compiled_event_counts_anxiety_general.html
+        analyses_not_run: output/analyses_not_run_anxiety_general.csv
+        compiled_hrs_csv: output/suppressed_compiled_HR_results_anxiety_general.csv
+        compiled_hrs_csv_to_release: output/suppressed_compiled_HR_results_anxiety_general_to_release.csv
+        compiled_event_counts_csv: output/suppressed_compiled_event_counts_anxiety_general.csv
       highly_sensitive:
-        compiled_hrs: output/compiled_HR_results_t2dm.csv
-        compiled_event_counts: output/compiled_event_counts_t2dm.csv
+        compiled_hrs: output/compiled_HR_results_anxiety_general.csv
+        compiled_event_counts: output/compiled_event_counts_anxiety_general.csv
 
-  ## Apply cox model for otherdm 
+  ## Apply cox model for anxiety_ocd 
 
-  Analysis_cox_otherdm:
-    run: r:latest analysis/01_pipe.R otherdm
+  Analysis_cox_anxiety_ocd:
+    run: r:latest analysis/01_pipe.R anxiety_ocd
     needs:
     - stage1_data_cleaning
     outputs:
       moderately_sensitive:
-        compiled_hrs_html: output/suppressed_compiled_HR_results_otherdm.html
-        compiled_event_counts_html: output/suppressed_compiled_event_counts_otherdm.html
-        analyses_not_run: output/analyses_not_run_otherdm.csv
-        compiled_hrs_csv: output/suppressed_compiled_HR_results_otherdm.csv
-        compiled_hrs_csv_to_release: output/suppressed_compiled_HR_results_otherdm_to_release.csv
-        compiled_event_counts_csv: output/suppressed_compiled_event_counts_otherdm.csv
+        compiled_hrs_html: output/suppressed_compiled_HR_results_anxiety_ocd.html
+        compiled_event_counts_html: output/suppressed_compiled_event_counts_anxiety_ocd.html
+        analyses_not_run: output/analyses_not_run_anxiety_ocd.csv
+        compiled_hrs_csv: output/suppressed_compiled_HR_results_anxiety_ocd.csv
+        compiled_hrs_csv_to_release: output/suppressed_compiled_HR_results_anxiety_ocd_to_release.csv
+        compiled_event_counts_csv: output/suppressed_compiled_event_counts_anxiety_ocd.csv
       highly_sensitive:
-        compiled_hrs: output/compiled_HR_results_otherdm.csv
-        compiled_event_counts: output/compiled_event_counts_otherdm.csv
+        compiled_hrs: output/compiled_HR_results_anxiety_ocd.csv
+        compiled_event_counts: output/compiled_event_counts_anxiety_ocd.csv
 
-  ## Apply cox model for gestationaldm 
+  ## Apply cox model for anxiety_ptsd 
 
-  Analysis_cox_gestationaldm:
-    run: r:latest analysis/01_pipe.R gestationaldm
+  Analysis_cox_anxiety_ptsd:
+    run: r:latest analysis/01_pipe.R anxiety_ptsd
     needs:
     - stage1_data_cleaning
     outputs:
       moderately_sensitive:
-        compiled_hrs_html: output/suppressed_compiled_HR_results_gestationaldm.html
-        compiled_event_counts_html: output/suppressed_compiled_event_counts_gestationaldm.html
-        analyses_not_run: output/analyses_not_run_gestationaldm.csv
-        compiled_hrs_csv: output/suppressed_compiled_HR_results_gestationaldm.csv
-        compiled_hrs_csv_to_release: output/suppressed_compiled_HR_results_gestationaldm_to_release.csv
-        compiled_event_counts_csv: output/suppressed_compiled_event_counts_gestationaldm.csv
+        compiled_hrs_html: output/suppressed_compiled_HR_results_anxiety_ptsd.html
+        compiled_event_counts_html: output/suppressed_compiled_event_counts_anxiety_ptsd.html
+        analyses_not_run: output/analyses_not_run_anxiety_ptsd.csv
+        compiled_hrs_csv: output/suppressed_compiled_HR_results_anxiety_ptsd.csv
+        compiled_hrs_csv_to_release: output/suppressed_compiled_HR_results_anxiety_ptsd_to_release.csv
+        compiled_event_counts_csv: output/suppressed_compiled_event_counts_anxiety_ptsd.csv
       highly_sensitive:
-        compiled_hrs: output/compiled_HR_results_gestationaldm.csv
-        compiled_event_counts: output/compiled_event_counts_gestationaldm.csv
+        compiled_hrs: output/compiled_HR_results_anxiety_ptsd.csv
+        compiled_event_counts: output/compiled_event_counts_anxiety_ptsd.csv
 
