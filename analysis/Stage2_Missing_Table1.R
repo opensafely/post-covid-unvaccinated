@@ -176,6 +176,7 @@ stage2 <- function(cohort_name) {
   table1_count_all <- as.data.frame(matrix(nrow = 1, ncol = 2))
   colnames(table1_count_all) <- c("Covariate","Covariate_level")
   table1_count_all[1,] <- c("All","All")
+  table1 <- table1 %>% dplyr::select(Covariate, Covariate_level)
   table1 <- rbind(table1_count_all,table1)
   
   for (j in 1:nrow(pop)) {
@@ -279,7 +280,7 @@ stage2 <- function(cohort_name) {
   
   # Save table 1
   
-  write.csv(table1, file = file.path("output", paste0("Table1.csv")) , row.names=F)
+  write.csv(table1_suppressed, file = file.path("output", paste0("Table1.csv")) , row.names=F)
 
 }
 
