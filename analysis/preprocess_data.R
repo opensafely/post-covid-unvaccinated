@@ -265,8 +265,8 @@ print("Dataset saved successfully")
 
 # SAVE
 ## create folders for outputs
-fs::dir_create(here::here("output", "venn"))
-saveRDS(df, file = paste0("output/venn/venn.rds"))
+# fs::dir_create(here::here("output", "venn"))
+saveRDS(df, file = paste0("output/venn.rds"))
 
 print("Venn dataset saved successfully")
 
