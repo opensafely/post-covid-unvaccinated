@@ -27,7 +27,7 @@ actions:
     - vax_eligibility_inputs
     outputs:
       highly_sensitive:
-        cohort: output/input/input.feather
+        cohort: output/input.feather
 
   preprocess_data:
     run: r:latest analysis/preprocess_data.R
@@ -36,7 +36,7 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input.rds
-        venn: output/venn.rds
+        venn: output/venn/venn.rds
 
   stage1_data_cleaning:
     run: r:latest analysis/Stage1_data_cleaning.R
