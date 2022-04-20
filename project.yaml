@@ -33,6 +33,8 @@ actions:
     run: r:latest analysis/preprocess_data.R
     needs:
     - generate_study_population
+    config:
+      output_path: output/venn
     outputs:
       highly_sensitive:
         cohort: output/input.rds
