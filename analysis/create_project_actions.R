@@ -177,7 +177,7 @@ actions_list <- splice(
     needs = list("generate_study_population"),
     highly_sensitive = list(
       cohort = glue("output/input.rds"),
-      venn = glue("output/venn.rds")
+      venn = glue("output/venn/venn.rds")
     )
   ), 
 

@@ -36,7 +36,7 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input.rds
-        venn: output/venn.rds
+        venn: output/venn/venn.rds
 
   stage1_data_cleaning:
     run: r:latest analysis/Stage1_data_cleaning.R
