@@ -136,17 +136,28 @@ stage2 <- function(cohort_name) {
   
   input$cov_cat_consulation_rate_group <- ""
   input$cov_cat_consulation_rate_group <- ifelse(input$cov_num_consulation_rate==0, "0", input$cov_cat_consulation_rate_group)
-  input$cov_cat_consulation_rate_group <- ifelse(input$cov_num_consulation_rate>=1 & input$cov_num_consulation_rate<=5, "1-6", input$cov_cat_consulation_rate_group)
+  input$cov_cat_consulation_rate_group <- ifelse(input$cov_num_consulation_rate>=1 & input$cov_num_consulation_rate<=5, "1-5", input$cov_cat_consulation_rate_group)
   input$cov_cat_consulation_rate_group <- ifelse(input$cov_num_consulation_rate>=6, "6+", input$cov_cat_consulation_rate_group)
-  
+
   # Populate table 1 
-  
+
+  ##When ready to use active analysis can uncomment below
+  # active_analyses <- read_rds("lib/active_analyses.rds")
+  # active_analyses <- active_analyses %>% filter(active==TRUE)
+  # covar_names<-str_split(active_analyses$covariates, ";")[[1]]  
+
+  ##Remember to also uncomment the covariate codes and comment out the existing ones
   categorical_cov <- colnames(input)[grep("cov_cat", colnames(input))]
+  # categorical_cov <- covar_names[grep("cov_cat", covar_names)]
+  # categorical_cov <- append(categorical_cov, c("cov_cat_age_group","cov_cat_consulation_rate_group"))
   
   numerical_cov <- colnames(input)[grep("cov_num", colnames(input))]
   numerical_cov <- numerical_cov[!numerical_cov=="cov_num_age"]
+  # numerical_cov <- covar_names[grep("cov_num", covar_names)]
+  # numerical_cov <- numerical_cov[!numerical_cov=="cov_num_age"]
   
   binary_cov <- colnames(input)[grep("cov_bin", colnames(input))]
+  # binary_cov <- covar_names[grep("cov_bin", covar_names)]
   
   # Base table
   
@@ -260,10 +271,15 @@ stage2 <- function(cohort_name) {
     
     if(any(df$COVID_exposed <= 5 | df$No_infection <=5)){
       df$COVID_exposed <- "[Redacted]"
+      df$COVID_hospitalised <- "[Redacted]"
+      df$COVID_non_hospitalised <- "[Redacted]"
     }
     
     if(any(df$Whole_population <= 5)){
       df$Whole_population <- "[Redacted]"
+      df$COVID_hospitalised <- "[Redacted]"
+      df$COVID_non_hospitalised <- "[Redacted]"
+      df$COVID_exposed <- "[Redacted]"
     }
     
     df <- df %>% select(!No_infection)
