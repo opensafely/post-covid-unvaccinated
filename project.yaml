@@ -38,15 +38,14 @@ actions:
       highly_sensitive:
         cohort: output/input_stage1.rds
 
-  # stage2_missing_table1:
-  #   run: r:latest analysis/Stage2_missing_table1.R 
-  #   needs:
-  #   - stage1_data_cleaning
-  #   outputs:
-  #     moderately_sensitive:
-  #       Missing_RangeChecks: output/Check_missing_range.csv
-  #       DateChecks: output/Check_dates_range.csv
-  #       Descriptive_Table: output/Table1.csv
+  stage2_missing_table1:
+    run: r:latest analysis/Stage2_Missing_Table1.R 
+    needs: [stage1_data_cleaning]
+    outputs:
+      moderately_sensitive:
+        Missing_RangeChecks: output/Check_missing_range.csv
+        DateChecks: output/Check_dates_range.csv
+        Descriptive_Table: output/Table1.csv
 
   stage3_diabetes_flow:
     run: r:latest analysis/diabetes_flowchart.R
