@@ -147,7 +147,7 @@ input <- input_QA %>%
 
 # Save meta data (after QA rules have been applied)
 
-describe_vars <- tidyselect::vars_select(names(input), contains(c('_cat_', 'cov_bin','cov_cat','qa_bin','exp_cat','vax_cat', 'step'), ignore.case = TRUE))
+describe_vars <- tidyselect::vars_select(names(input), contains(c('_cat_', 'cov_bin','cov_cat','qa_bin','exp_cat','vax_cat', 'step_'), ignore.case = TRUE))
 meta_data_factors <- lapply(input[,describe_vars], table)
 sink(file = file.path("output", "meta_data_factors.csv"))
 print(meta_data_factors)

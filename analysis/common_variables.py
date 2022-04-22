@@ -315,7 +315,7 @@ def generate_common_variables(index_date_variable):
 
     ###  Diabetes drugs
 
-    tmp_out_date_insulin_snomed=patients.with_these_clinical_events(
+    tmp_out_date_insulin_snomed=patients.with_these_medications(
         insulin_snomed,
         returning="date",
         between=["1990-01-01", "today"],
@@ -328,7 +328,7 @@ def generate_common_variables(index_date_variable):
         },
     ),
 
-    tmp_out_date_antidiabetic_drugs_snomed=patients.with_these_clinical_events(
+    tmp_out_date_antidiabetic_drugs_snomed=patients.with_these_medications(
         antidiabetic_drugs_snomed,
         returning="date",
         between=["1990-01-01", "today"],
@@ -1340,22 +1340,34 @@ def generate_common_variables(index_date_variable):
     #     "tmp_cov_bin_diabetes_snomed", "tmp_cov_bin_diabetes_dmd", "tmp_cov_bin_diabetes_snomed",
     # ),
 
-    ## Type 1 diabetes
-    cov_bin_diabetes_type1=patients.with_these_clinical_events(
+    ## Type 1 diabetes primary care
+    cov_bin_diabetes_type1_snomed=patients.with_these_clinical_events(
         diabetes_type1_snomed,
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
         return_expectations={"incidence": 0.1},
     ),
-
-    ## Type 2 diabetes
-    cov_bin_diabetes_type2=patients.with_these_clinical_events(
+    ## Type 1 diabetes HES
+    cov_bin_diabetes_type1_hes=patients.admitted_to_hospital(
+       returning='binary_flag',
+       with_these_diagnoses=diabetes_type1_icd10,
+       on_or_before=f"{index_date_variable}",
+       return_expectations={"incidence": 0.1},
+    ),
+    ## Type 2 diabetes primary care
+    cov_bin_diabetes_type2_snomed=patients.with_these_clinical_events(
         diabetes_type2_snomed,
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
         return_expectations={"incidence": 0.1},
     ),
-
+    ## Type 2 diabetes HES
+    cov_bin_diabetes_type2_hes=patients.admitted_to_hospital(
+       returning='binary_flag',
+       with_these_diagnoses=diabetes_type2_icd10,
+       on_or_before=f"{index_date_variable}",
+       return_expectations={"incidence": 0.1},
+    ),
     ## Other or non-specific diabetes
     cov_bin_diabetes_other=patients.with_these_clinical_events(
         diabetes_other_snomed,
@@ -1363,7 +1375,6 @@ def generate_common_variables(index_date_variable):
         on_or_before=f"{index_date_variable}",
         return_expectations={"incidence": 0.1},
     ),
-
     ## Gestational diabetes
     cov_bin_diabetes_gestational=patients.with_these_clinical_events(
         diabetes_gestational_snomed,
@@ -1371,10 +1382,28 @@ def generate_common_variables(index_date_variable):
         on_or_before=f"{index_date_variable}",
         return_expectations={"incidence": 0.1},
     ),
+    ## Diabetes medication
+    tmp_cov_bin_insulin_snomed=patients.with_these_medications(
+        insulin_snomed,
+        returning="binary_flag",
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.05},
+    ),
 
-    ## Any diabetes
+    tmp_cov_bin_antidiabetic_drugs_snomed=patients.with_these_medications(
+        antidiabetic_drugs_snomed,
+        returning="binary_flag",
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.05},
+    ),
+
+    ## Any diabetes covariate
     cov_bin_diabetes=patients.maximum_of(
-        "cov_bin_diabetes_type1", "cov_bin_diabetes_type2", "cov_bin_diabetes_other", "cov_bin_diabetes_gestational",
+        "cov_bin_diabetes_type1_snomed", "cov_bin_diabetes_type1_hes", 
+        "cov_bin_diabetes_type2_snomed", "cov_bin_diabetes_type2_hes",
+        "cov_bin_diabetes_other", 
+        "cov_bin_diabetes_gestational",
+        "tmp_cov_bin_insulin_snomed", "tmp_cov_bin_antidiabetic_drugs_snomed"
     ),
 
     ## Prediabetes
@@ -1402,7 +1431,7 @@ def generate_common_variables(index_date_variable):
     ),
     ### Combined
     cov_bin_obesity=patients.maximum_of(
-        "tmp_cov_bin_obesity_snomed", "tmp_cov_bin_obesity_hes",
+        "tmp_cov_bin_obesity_snomed", "tmp_cov_bin_obesity_hes"
     ),
       
     ## Chronic obstructive pulmonary disease
@@ -1426,7 +1455,7 @@ def generate_common_variables(index_date_variable):
     ),
 
     ## Lipid medications
-    cov_bin_lipid_medications=patients.with_these_clinical_events(
+    cov_bin_lipid_medications=patients.with_these_medications(
         lipid_lowering_dmd,
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
@@ -1434,7 +1463,7 @@ def generate_common_variables(index_date_variable):
     ),
 
     ## Antiplatelet_medications
-    cov_bin_antiplatelet_medications=patients.with_these_clinical_events(
+    cov_bin_antiplatelet_medications=patients.with_these_medications(
         antiplatelet_dmd,
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
@@ -1442,7 +1471,7 @@ def generate_common_variables(index_date_variable):
     ),
 
     ## Anticoagulation_medications
-    cov_bin_anticoagulation_medications=patients.with_these_clinical_events(
+    cov_bin_anticoagulation_medications=patients.with_these_medications(
         anticoagulant_dmd, 
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
@@ -1451,7 +1480,7 @@ def generate_common_variables(index_date_variable):
    
     ## Combined oral contraceptive pill
     ### dmd: dictionary of medicines and devices
-    cov_bin_combined_oral_contraceptive_pill=patients.with_these_clinical_events(
+    cov_bin_combined_oral_contraceptive_pill=patients.with_these_medications(
         cocp_dmd, 
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
@@ -1459,7 +1488,7 @@ def generate_common_variables(index_date_variable):
     ),
 
     ## Hormone replacement therapy
-    cov_bin_hormone_replacement_therapy=patients.with_these_clinical_events(
+    cov_bin_hormone_replacement_therapy=patients.with_these_medications(
         hrt_dmd, 
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
