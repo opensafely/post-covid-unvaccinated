@@ -31,7 +31,7 @@ covid_primary_care_sequalae = codelist_from_csv(
 # Type 1 diabetes
 diabetes_type1_snomed = codelist_from_csv(
     "codelists/user-hjforbes-type-1-diabetes.csv",
-    system="ctv3",
+    system="snomed",
     column="code",
 )
 
@@ -45,7 +45,7 @@ diabetes_type1_icd10 = codelist_from_csv(
 # Type 2 diabetes
 diabetes_type2_snomed = codelist_from_csv(
     "codelists/user-hjforbes-type-2-diabetes.csv",
-    system="ctv3",
+    system="snomed",
     column="code",
 )
 
@@ -59,21 +59,21 @@ diabetes_type2_icd10 = codelist_from_csv(
 # Non-diagnostic diabetes codes
 diabetes_diagnostic_snomed = codelist_from_csv(
     "codelists/user-hjforbes-nondiagnostic-diabetes-codes.csv",
-    system="ctv3",
+    system="snomed",
     column="code",
 )
 
 # Other or non-specific diabetes
 diabetes_other_snomed = codelist_from_csv(
     "codelists/user-hjforbes-other-or-nonspecific-diabetes.csv",
-    system="ctv3",
+    system="snomed",
     column="code",
 )
 
 # Gestational diabetes
 diabetes_gestational_snomed = codelist_from_csv(
     "codelists/user-hjforbes-gestational-diabetes.csv",
-    system="ctv3",
+    system="snomed",
     column="code",
 )
 

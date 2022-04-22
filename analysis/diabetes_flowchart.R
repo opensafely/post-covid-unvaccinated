@@ -81,7 +81,7 @@ values <- list(
   q = sum(diabetes_df$step_7 == "Yes", na.rm = T),
     q2 = sum(diabetes_df$step_7 == "No", na.rm = T),
   # DIABETES UNSPECIFIED TYPE
-  r = sum(diabetes_df$out_cat_diabetes == "DM_other", na.rm = T),
+  r = sum(diabetes_df$out_cat_diabetes == "DM unspecified", na.rm = T),
   # DIABETES UNLIKELY
   s = sum(diabetes_df$out_cat_diabetes == "DM unlikely", na.rm = T))
 
@@ -100,8 +100,6 @@ write.csv(values_df_t, file = paste0("output/diabetes_flow_values.csv")) # save
 # I have checked and using the dataframe "values_df_t" gets the exact same flow chart as when using the list. 
 
 # BUILD FLOW --------------------------------------------------------------
-
-# values <- read.csv("output/diabetes_flow_values.csv")
 
 # flow <- DiagrammeR::grViz("
 # digraph graph2 {
