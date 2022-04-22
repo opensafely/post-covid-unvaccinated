@@ -32,6 +32,10 @@ df <- df %>% mutate(tmp_out_count_t2dm = tmp_out_count_t2dm_snomed + tmp_out_cou
       # cholesterol ratio              
              mutate(cov_num_tc_hdl_ratio = tmp_cov_num_cholesterol / tmp_cov_num_hdl_cholesterol)
 
+# replace NaN and Inf with NA's (probably only an issue with dummy data)
+df$cov_num_tc_hdl_ratio[is.nan(df$cov_num_tc_hdl_ratio)] <- NA
+df$cov_num_tc_hdl_ratio[is.infinite(df$cov_num_tc_hdl_ratio)] <- NA
+
 print("Diabetes count variables created successfully")
 
 # Format columns -----------------------------------------------------

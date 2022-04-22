@@ -114,7 +114,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
     # HES APC
@@ -127,7 +127,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
     # Combined
@@ -174,7 +174,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
     # HES APC
@@ -187,7 +187,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
     # Combined
@@ -234,7 +234,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.05,
         },
     ),
 
@@ -264,7 +264,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.05,
         },
     ),
 
@@ -282,7 +282,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.05,
         },
     ),
 

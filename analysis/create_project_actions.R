@@ -14,7 +14,7 @@ library(readr)
 ## defaults ----
 defaults_list <- list(
   version = "3.0",
-  expectations= list(population_size=300000L)
+  expectations= list(population_size=100000L)
 )
 
 active_analyses <- read_rds("lib/active_analyses.rds")
@@ -181,23 +181,6 @@ actions_list <- splice(
     )
   ), 
 
-  # #comment("Preprocess data - electively_unvaccinated"),
-  # action(
-  #   name = "preprocess_data_electively_unvaccinated",
-  #   run = "r:latest analysis/preprocess_data.R electively_unvaccinated",
-  #   needs = list("generate_study_population_index", "generate_study_population_vaccinated", "generate_study_population_electively_unvaccinated"),
-  #   moderately_sensitive = list(
-  #     describe = glue("output/describe_input_electively_unvaccinated_*.txt"),
-  #     describe_index = glue("output/describe_tmp_index_electively_unvaccinated.txt"),
-  #     describe_cohort = glue("output/describe_tmp_electively_unvaccinated.txt"),
-  #     descrive_venn = glue("output/describe_venn_electively_unvaccinated.txt")
-  #   ),
-  #   highly_sensitive = list(
-  #     cohort = glue("output/input_electively_unvaccinated.rds"),
-  #     venn = glue("output/venn_electively_unvaccinated.rds")
-  #   )
-  # ), 
-
   #comment("Stage 1 - Data cleaning"),
   action(
     name = "stage1_data_cleaning",
@@ -213,17 +196,17 @@ actions_list <- splice(
     )
   ),
 
-  # #comment("Stage 2 - Missing - Table 1"),
-  # action(
-  #   name = "stage2_missing_table1",
-  #   run = "r:latest analysis/Stage2_missing_table1.R",
-  #   needs = list("stage1_data_cleaning"),
-  #   moderately_sensitive = list(
-  #     Missing_RangeChecks = glue("output/Check_missing_range.csv"),
-  #     DateChecks = glue("output/Check_dates_range.csv"),
-  #     Descriptive_Table = glue("output/Table1.csv")
-  #   )
-  # ),
+  #comment("Stage 2 - Missing - Table 1"),
+  action(
+    name = "stage2_missing_table1",
+    run = "r:latest analysis/Stage2_Missing_Table1.R",
+    needs = list("stage1_data_cleaning"),
+    moderately_sensitive = list(
+      Missing_RangeChecks = glue("output/Check_missing_range.csv"),
+      DateChecks = glue("output/Check_dates_range.csv"),
+      Descriptive_Table = glue("output/Table1.csv")
+    )
+  ),
 
   #comment("Stage 3 - Diabetes flow"),  
 
