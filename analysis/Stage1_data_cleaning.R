@@ -113,6 +113,7 @@ input <- input %>%
          rule5 = ifelse(cov_cat_sex=="Male" & cov_bin_hormone_replacement_therapy==TRUE | cov_cat_sex=="Male" & cov_bin_combined_oral_contraceptive_pill == TRUE, TRUE, FALSE),
   # Rule 6: Prostate cancer codes for women
          rule6 = ifelse(qa_bin_prostate_cancer == TRUE & cov_cat_sex=="Female", TRUE, FALSE))
+  # should we add a rule to remove those with COVID history prior to 2020?
 
 # Remove rows that are TRUE for at least one rule
 
