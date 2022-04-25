@@ -89,8 +89,6 @@ apply_model_function <- function(outcome){
       arguments = c(outcome),
       needs = list("stage1_data_cleaning"),
       moderately_sensitive = list(
-        compiled_hrs_html = glue("output/suppressed_compiled_HR_results_{outcome}.html"),
-        compiled_event_counts_html = glue("output/suppressed_compiled_event_counts_{outcome}.html"),
         analyses_not_run = glue("output/analyses_not_run_{outcome}.csv"),
         compiled_hrs_csv = glue("output/suppressed_compiled_HR_results_{outcome}.csv"),
         compiled_hrs_csv_to_release = glue("output/suppressed_compiled_HR_results_{outcome}_to_release.csv"),
