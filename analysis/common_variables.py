@@ -1426,7 +1426,7 @@ def generate_common_variables(index_date_variable):
     ),
 
     ## Lipid medications
-    cov_bin_lipid_medications=patients.with_these_clinical_events(
+    cov_bin_lipid_medications=patients.with_these_medications(
         lipid_lowering_dmd,
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
@@ -1434,7 +1434,7 @@ def generate_common_variables(index_date_variable):
     ),
 
     ## Antiplatelet_medications
-    cov_bin_antiplatelet_medications=patients.with_these_clinical_events(
+    cov_bin_antiplatelet_medications=patients.with_these_medications(
         antiplatelet_dmd,
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
@@ -1442,7 +1442,7 @@ def generate_common_variables(index_date_variable):
     ),
 
     ## Anticoagulation_medications
-    cov_bin_anticoagulation_medications=patients.with_these_clinical_events(
+    cov_bin_anticoagulation_medications=patients.with_these_medications(
         anticoagulant_dmd, 
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
@@ -1451,7 +1451,7 @@ def generate_common_variables(index_date_variable):
    
     ## Combined oral contraceptive pill
     ### dmd: dictionary of medicines and devices
-    cov_bin_combined_oral_contraceptive_pill=patients.with_these_clinical_events(
+    cov_bin_combined_oral_contraceptive_pill=patients.with_these_medications(
         cocp_dmd, 
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
@@ -1459,7 +1459,7 @@ def generate_common_variables(index_date_variable):
     ),
 
     ## Hormone replacement therapy
-    cov_bin_hormone_replacement_therapy=patients.with_these_clinical_events(
+    cov_bin_hormone_replacement_therapy=patients.with_these_medications(
         hrt_dmd, 
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
