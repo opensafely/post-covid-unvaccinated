@@ -66,7 +66,7 @@ diabetes_diagnostic_snomed = codelist_from_csv(
 # Other or non-specific diabetes
 diabetes_other_snomed = codelist_from_csv(
     "codelists/user-hjforbes-other-or-nonspecific-diabetes.csv",
-    system="snomed",
+    system="ctv3",
     column="code",
 )
 
