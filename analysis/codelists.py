@@ -1103,3 +1103,24 @@ longres_primis = codelist_from_csv(
     system="snomed",
     column="code",
 )
+
+# Total Cholesterol
+cholesterol_snomed = codelist_from_csv(
+    "codelists/opensafely-cholesterol-tests-numerical-value.csv",
+    system="snomed",
+    column="code",
+)
+
+# HDL Cholesterol
+hdl_cholesterol_snomed = codelist_from_csv(
+    "codelists/bristol-hdl-cholesterol.csv",
+    system="snomed",
+    column="code",
+)
+
+# Prediabetes
+prediabetes_snomed = codelist_from_csv(
+    "codelists/opensafely-prediabetes-snomed.csv",
+    system="snomed",
+    column="code",
+)

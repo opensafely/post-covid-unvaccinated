@@ -72,6 +72,8 @@ input <- input %>%
                                             cov_cat_smoking_status == "N" ~ "Never smoker",
                                             cov_cat_smoking_status == "S" ~ "Current smoker")) %>%
   mutate(cov_cat_smoking_status = ordered(cov_cat_smoking_status, levels = c("Never smoker","Ever smoker","Current smoker","Missing")),
+         # BMI
+         cov_cat_bmi_groups = ordered(cov_cat_bmi_groups, levels = c("Healthy_weight", "Underweight", "Overweight", "Obese", "Missing")),
          # region
          cov_cat_region = relevel(cov_cat_region, ref = "London"),
          # sex
@@ -111,6 +113,7 @@ input <- input %>%
          rule5 = ifelse(cov_cat_sex=="Male" & cov_bin_hormone_replacement_therapy==TRUE | cov_cat_sex=="Male" & cov_bin_combined_oral_contraceptive_pill == TRUE, TRUE, FALSE),
   # Rule 6: Prostate cancer codes for women
          rule6 = ifelse(qa_bin_prostate_cancer == TRUE & cov_cat_sex=="Female", TRUE, FALSE))
+  # should we add a rule to remove those with COVID history prior to 2020?
 
 # Remove rows that are TRUE for at least one rule
 
@@ -145,7 +148,7 @@ input <- input_QA %>%
 
 # Save meta data (after QA rules have been applied)
 
-describe_vars <- tidyselect::vars_select(names(input), contains(c('_cat_', 'cov_bin','cov_cat','qa_bin','exp_cat','vax_cat', 'step_'), ignore.case = TRUE))
+describe_vars <- tidyselect::vars_select(names(input), contains(c('_cat_', 'cov_bin','cov_cat','qa_bin','exp_cat','vax_cat', 'step'), ignore.case = TRUE))
 meta_data_factors <- lapply(input[,describe_vars], table)
 sink(file = file.path("output", "meta_data_factors.csv"))
 print(meta_data_factors)

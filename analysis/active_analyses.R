@@ -10,7 +10,6 @@ df <- data.frame(active = logical(),
                  covariates = character(),
                  model = character(),
                  main = character(),
-                 covid_history = character(),
                  covid_pheno_hospitalised = character(),
                  covid_pheno_non_hospitalised = character(),
                  agegp_18_39 = character(),
@@ -45,10 +44,10 @@ for (i in 1:length(outcomes)) {
   df[nrow(df)+1,] <- c(TRUE,
                        outcomes[i],
                        paste0("out_date_",outcomes_short[i]),
-                       "cov_num_consulation_rate;cov_bin_healthcare_worker;cov_num_age;cov_cat_ethnicity;cov_cat_deprivation;cov_cat_region;cov_cat_smoking_status;cov_bin_carehome_status;cov_bin_lipid_medications;cov_bin_antiplatelet_medications;cov_bin_anticoagulation_medications;cov_bin_combined_oral_contraceptive_pill;cov_bin_hormone_replacement_therapy;cov_bin_ami;cov_bin_all_stroke;cov_bin_other_arterial_embolism;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_dementia;cov_bin_liver_disease;cov_bin_chronic_kidney_disease;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_obesity;cov_bin_depression;cov_bin_chronic_obstructive_pulmonary_disease;cov_cat_sex",
+                       "cov_cat_sex;cov_num_age;cov_cat_ethnicity;cov_cat_deprivation;cov_cat_region;cov_num_consulation_rate;cov_cat_smoking_status;cov_bin_obesity;cov_bin_ami;cov_bin_all_stroke;cov_bin_other_arterial_embolism;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_dementia;cov_bin_liver_disease;cov_bin_chronic_kidney_disease;cov_bin_cancer;cov_bin_hypertension;cov_bin_depression;cov_bin_chronic_obstructive_pulmonary_disease;cov_bin_healthcare_worker;cov_bin_carehome_status;cov_num_tc_hdl_ratio;cov_cat_bmi_groups;cov_bin_hypertension_drugs_dmd;cov_bin_prediabetes;cov_bin_diabetes_gestational",
                        rep("all",1),
-                       rep(TRUE,5),
-                       rep(FALSE,13),
+                       rep(TRUE,3),
+                       rep(FALSE,14),
                        "",
                        outcome_venn[i])
 }
@@ -80,10 +79,14 @@ outcomes_short <- c("depression",
 out_venn <- c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
 
 for (i in 1:length(outcomes)) {
-  df[nrow(df)+1,] <- c(FALSE,
+  df[nrow(df)+1,] <- c(TRUE,
                        outcomes[i],
                        paste0("out_date_",outcomes_short[i]),
-                       rep("",21),
+                       "cov_cat_sex;cov_num_age;cov_cat_ethnicity;cov_cat_deprivation;cov_cat_region;cov_num_consulation_rate;cov_cat_smoking_status;cov_bin_obesity;cov_bin_ami;cov_bin_all_stroke;cov_bin_other_arterial_embolism;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_dementia;cov_bin_liver_disease;cov_bin_chronic_kidney_disease;cov_bin_cancer;cov_bin_hypertension;cov_bin_depression;cov_bin_chronic_obstructive_pulmonary_disease;cov_bin_healthcare_worker;cov_bin_carehome_status;cov_bin_depression;cov_bin_anxiety;cov_bin_eating_disorders;cov_bin_serious_mental_illness;cov_bin_self_harm",
+                       rep("all",1),
+                       rep(TRUE,3),
+                       rep(FALSE,14),
+                       "",
                        out_venn[i])
 }
 
