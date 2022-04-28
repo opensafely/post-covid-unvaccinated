@@ -40,7 +40,7 @@ if(length(args)==0){
 
 # Define stage2 function -------------------------------------------------------
 
-stage2 <- function(cohort_name) {
+stage2 <- function(cohort_name, group) {
   
   # Load relevant data
   input <- readr::read_rds(file.path("output", paste0("input_stage1.rds")))
@@ -105,7 +105,7 @@ stage2 <- function(cohort_name) {
   }
   
   write.csv(check_dates, file = file.path("output", paste0("Check_dates_range.csv")) , row.names=F)
-
+  
   #####################
   # 2. Output table 1 #
   #####################
@@ -138,14 +138,15 @@ stage2 <- function(cohort_name) {
   input$cov_cat_consulation_rate_group <- ifelse(input$cov_num_consulation_rate==0, "0", input$cov_cat_consulation_rate_group)
   input$cov_cat_consulation_rate_group <- ifelse(input$cov_num_consulation_rate>=1 & input$cov_num_consulation_rate<=5, "1-5", input$cov_cat_consulation_rate_group)
   input$cov_cat_consulation_rate_group <- ifelse(input$cov_num_consulation_rate>=6, "6+", input$cov_cat_consulation_rate_group)
-
+  
   # Populate table 1 
-
+  
   ##When ready to use active analysis can uncomment below
   active_analyses <- read_rds("lib/active_analyses.rds")
-  active_analyses <- active_analyses %>% filter(active==TRUE)
+  active_analyses <- active_analyses %>% filter(active==TRUE,
+                                                outcome_group == group)
   covar_names<-str_split(active_analyses$covariates, ";")[[1]]
-
+  
   ##Remember to also uncomment the covariate codes and comment out the existing ones
   #categorical_cov <- colnames(input)[grep("cov_cat", colnames(input))]
   categorical_cov <- covar_names[grep("cov_cat", covar_names)]
@@ -176,7 +177,7 @@ stage2 <- function(cohort_name) {
   
   table1 <- table1 %>% 
     filter(!str_detect(Covariate_level, "^FALSE"))
-
+  
   table1$Covariate <- gsub("\\s","",table1$Covariate) # Remove spaces
   
   table1$Covariate_level <-  sub('\\:.*', '', table1$Covariate_level) # Remove everything after :
@@ -255,7 +256,7 @@ stage2 <- function(cohort_name) {
   table1$Covariate <- gsub("cov_bin_", "History of ",table1$Covariate)
   table1$Covariate <- gsub("cov_\\D\\D\\D_", "",table1$Covariate)
   table1$Covariate <- gsub("_", " ",table1$Covariate)
-
+  
   # Add in suppression controls for counts <=5 and then alter totals accordingly
   table1_suppressed <- table1[0,]
   unique(table1$Covariate[which(!startsWith(table1$Covariate_level, "Mean"))])
@@ -297,10 +298,16 @@ stage2 <- function(cohort_name) {
   
   # Save table 1
   
-  write.csv(table1_suppressed, file = file.path("output", paste0("Table1.csv")) , row.names=F)
-
+  write.csv(table1_suppressed, file = file.path("output", paste0("Table1_",group,".csv")) , row.names=F)
+  
 }
 
-# Run function using specified commandArgs
+# Run function using specified commandArgs and different outcome groups
+active_analyses <- read_rds("lib/active_analyses.rds")
+active_analyses <- active_analyses %>% filter(active==TRUE)
+groups <- unique(active_analyses$outcome_group)
 
-stage2(cohort_name)
+for(i in groups){
+  stage2(cohort_name, i)
+}
+
