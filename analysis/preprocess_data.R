@@ -42,7 +42,8 @@ print("Diabetes count variables created successfully")
 # dates, numerics, factors, logicals
 
 df <- df %>%
-  rename(tmp_out_max_hba1c_mmol_mol_date = tmp_out_num_max_hba1c_date) %>%
+  rename(tmp_out_max_hba1c_mmol_mol_date = tmp_out_num_max_hba1c_date,
+         tmp_out_bmi_date_measured = cov_num_bmi_date_measured) %>%
   mutate(across(contains('_date'), ~ as.Date(as.character(.)))) %>%
   mutate(across(contains('_birth_year'), ~ format(as.Date(.), "%Y"))) %>%
   mutate(across(contains('_num'), ~ as.numeric(.))) %>%

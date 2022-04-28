@@ -182,7 +182,8 @@ stage2 <- function(cohort_name) {
   table1$Covariate_level <-  sub('\\:.*', '', table1$Covariate_level) # Remove everything after :
   
   table1 <- table1 %>%
-    filter(!(Covariate == "cov_num_consulation_rate" & !Covariate_level=="Mean   "))
+    filter(!(Covariate == "cov_num_consulation_rate" & !Covariate_level=="Mean   ")) %>%
+    filter(!(Covariate == "cov_num_tc_hdl_ratio" & !Covariate_level=="Mean   "))
   
   table1_count_all <- as.data.frame(matrix(nrow = 1, ncol = 2))
   colnames(table1_count_all) <- c("Covariate","Covariate_level")
@@ -263,7 +264,7 @@ stage2 <- function(cohort_name) {
     df<- table1 %>% filter(Covariate == i)
     df <- df %>% mutate(across(!c("Covariate","Covariate_level"),as.numeric))
     df$No_infection <- df$Whole_population - df$COVID_exposed
-    
+    print(df$Whole_population)    
     if(any(df$COVID_hospitalised <= 5 | df$COVID_non_hospitalised <= 5 )){
       df$COVID_hospitalised <- "[Redacted]"
       df$COVID_non_hospitalised <- "[Redacted]"
