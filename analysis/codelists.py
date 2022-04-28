@@ -304,10 +304,10 @@ ssri_depression_prescription = codelist_from_csv(
 )
 
 # Depression prescriptions - SNRI 
-
+# These are in Other
 
 # Depression prescriptions - NASSAs
-
+# These are in Other
 
 # Depression prescriptions - TCA 
 tca_depression_prescription = codelist_from_csv(
@@ -317,7 +317,7 @@ tca_depression_prescription = codelist_from_csv(
 )
 
 # Depression prescriptions - SARIs 
-
+# These are in Other
 
 # Depression prescriptions - MAOIs 
 maoi_depression_prescription = codelist_from_csv(
@@ -332,17 +332,13 @@ other_depression_prescription = codelist_from_csv(
     column="dmd_id",
 )
 
-# Combined depression prescriptions
-# Combine: SSRI, SNRI, NASSA, TCA, SARI, MAOI, Other
-# all_depression_prescriptions = combine_codelists(
-#     ssri_depression_prescription, 
-#     snri_depression_prescription,
-#     nassa_depression_prescription,
-#     tca_depression_prescription,
-#     sari_depression_prescription,
-#     maoi_depression_prescription,
-#     other_depression_prescription
-# )
+# Combined depression prescriptions: SSRI, TCA, MAOI, Other
+all_depression_prescriptions = combine_codelists(
+    ssri_depression_prescription,
+    tca_depression_prescription,
+    maoi_depression_prescription,
+    other_depression_prescription,
+)
 
 # Anxiolytics 
 anxiolytic_prescription = codelist_from_csv(
