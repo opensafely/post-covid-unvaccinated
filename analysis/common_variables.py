@@ -1529,7 +1529,7 @@ def generate_common_variables(index_date_variable):
     ## BMI
     # taken from: https://github.com/opensafely/BMI-and-Metabolic-Markers/blob/main/analysis/common_variables.py 
     cov_num_bmi=patients.most_recent_bmi(
-        between=["index_date", "index_date + 1 year"],
+        between=["2015-01-01", "today"],
         minimum_age_at_measurement=18,
         include_measurement_date=True,
         date_format="YYYY-MM",
@@ -1542,7 +1542,7 @@ def generate_common_variables(index_date_variable):
      ### Categorising BMI
     cov_cat_bmi_groups = patients.categorised_as(
         {
-            "Underweight": "cov_num_bmi < 18.5", 
+            "Underweight": "cov_num_bmi < 18.5 AND cov_num_bmi > 1", 
             "Healthy_weight": "cov_num_bmi >= 18.5 AND cov_num_bmi < 25", 
             "Overweight": "cov_num_bmi >= 25 AND cov_num_bmi < 30",
             "Obese": "cov_num_bmi >=30", 

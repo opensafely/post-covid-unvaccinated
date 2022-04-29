@@ -202,7 +202,7 @@ actions_list <- splice(
     moderately_sensitive = list(
       Missing_RangeChecks = glue("output/Check_missing_range.csv"),
       DateChecks = glue("output/Check_dates_range.csv"),
-      Descriptive_Table = glue("output/Table1.csv")
+      Descriptive_Table = glue("output/Table1*.csv")
     )
   ),
 
