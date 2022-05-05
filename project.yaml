@@ -57,10 +57,3 @@ actions:
   #       flow_df: output/diabetes_flow_values.csv      
   #       flow_fig: output/diabetes_flow.png
   
-  stage4_table2:
-    run: r:latest analysis/table_2.R
-    needs:
-    - stage1_data_cleaning
-    outputs:
-      moderately_sensitive:
-        table2: output/table2.csv
