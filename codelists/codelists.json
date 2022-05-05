@@ -941,6 +941,24 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/tricyclic-and-related-antidepressants-dmd/1268eae1/",
       "downloaded_at": "2022-03-14 13:32:20.257103Z",
       "sha": "83a2fab241ad02c9175479b8cad6955395b2f0ee"
+    },
+    "opensafely-cholesterol-tests-numerical-value.csv": {
+      "id": "opensafely/cholesterol-tests-numerical-value/7e3a22f3",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/cholesterol-tests-numerical-value/7e3a22f3/",
+      "downloaded_at": "2022-04-06 08:51:24.223983Z",
+      "sha": "4e90c401f67eca3a3aa716edea013340a6164f44"
+    },
+    "opensafely-prediabetes-snomed.csv": {
+      "id": "opensafely/prediabetes-snomed/6bdbb7dd",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/prediabetes-snomed/6bdbb7dd/",
+      "downloaded_at": "2022-04-06 09:47:47.313963Z",
+      "sha": "a52da34bd7178717df884211fca799db460a6b43"
+    },
+    "bristol-hdl-cholesterol.csv": {
+      "id": "bristol/hdl-cholesterol/64775990",
+      "url": "https://codelists.opensafely.org/codelist/bristol/hdl-cholesterol/64775990/",
+      "downloaded_at": "2022-04-06 12:39:32.227443Z",
+      "sha": "ce9f10f91453a33d5de195b7d02656bf11782760"
     }
   }
 }

@@ -31,7 +31,7 @@ covid_primary_care_sequalae = codelist_from_csv(
 # Type 1 diabetes
 diabetes_type1_snomed = codelist_from_csv(
     "codelists/user-hjforbes-type-1-diabetes.csv",
-    system="snomed",
+    system="ctv3",
     column="code",
 )
 
@@ -45,7 +45,7 @@ diabetes_type1_icd10 = codelist_from_csv(
 # Type 2 diabetes
 diabetes_type2_snomed = codelist_from_csv(
     "codelists/user-hjforbes-type-2-diabetes.csv",
-    system="snomed",
+    system="ctv3",
     column="code",
 )
 
@@ -59,21 +59,21 @@ diabetes_type2_icd10 = codelist_from_csv(
 # Non-diagnostic diabetes codes
 diabetes_diagnostic_snomed = codelist_from_csv(
     "codelists/user-hjforbes-nondiagnostic-diabetes-codes.csv",
-    system="snomed",
+    system="ctv3",
     column="code",
 )
 
 # Other or non-specific diabetes
 diabetes_other_snomed = codelist_from_csv(
     "codelists/user-hjforbes-other-or-nonspecific-diabetes.csv",
-    system="snomed",
+    system="ctv3",
     column="code",
 )
 
 # Gestational diabetes
 diabetes_gestational_snomed = codelist_from_csv(
     "codelists/user-hjforbes-gestational-diabetes.csv",
-    system="snomed",
+    system="ctv3",
     column="code",
 )
 
@@ -304,10 +304,10 @@ ssri_depression_prescription = codelist_from_csv(
 )
 
 # Depression prescriptions - SNRI 
-
+# These are in Other
 
 # Depression prescriptions - NASSAs
-
+# These are in Other
 
 # Depression prescriptions - TCA 
 tca_depression_prescription = codelist_from_csv(
@@ -317,7 +317,7 @@ tca_depression_prescription = codelist_from_csv(
 )
 
 # Depression prescriptions - SARIs 
-
+# These are in Other
 
 # Depression prescriptions - MAOIs 
 maoi_depression_prescription = codelist_from_csv(
@@ -332,17 +332,13 @@ other_depression_prescription = codelist_from_csv(
     column="dmd_id",
 )
 
-# Combined depression prescriptions
-# Combine: SSRI, SNRI, NASSA, TCA, SARI, MAOI, Other
-# all_depression_prescriptions = combine_codelists(
-#     ssri_depression_prescription, 
-#     snri_depression_prescription,
-#     nassa_depression_prescription,
-#     tca_depression_prescription,
-#     sari_depression_prescription,
-#     maoi_depression_prescription,
-#     other_depression_prescription
-# )
+# Combined depression prescriptions: SSRI, TCA, MAOI, Other
+all_depression_prescriptions = combine_codelists(
+    ssri_depression_prescription,
+    tca_depression_prescription,
+    maoi_depression_prescription,
+    other_depression_prescription,
+)
 
 # Anxiolytics 
 anxiolytic_prescription = codelist_from_csv(
@@ -1100,6 +1096,27 @@ domcare_primis = codelist_from_csv(
 # Patients in long-stay nursing and residential care
 longres_primis = codelist_from_csv(
     "codelists/primis-covid19-vacc-uptake-longres.csv",
+    system="snomed",
+    column="code",
+)
+
+# Total Cholesterol
+cholesterol_snomed = codelist_from_csv(
+    "codelists/opensafely-cholesterol-tests-numerical-value.csv",
+    system="snomed",
+    column="code",
+)
+
+# HDL Cholesterol
+hdl_cholesterol_snomed = codelist_from_csv(
+    "codelists/bristol-hdl-cholesterol.csv",
+    system="snomed",
+    column="code",
+)
+
+# Prediabetes
+prediabetes_snomed = codelist_from_csv(
+    "codelists/opensafely-prediabetes-snomed.csv",
     system="snomed",
     column="code",
 )

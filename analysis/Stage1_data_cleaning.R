@@ -72,6 +72,8 @@ input <- input %>%
                                             cov_cat_smoking_status == "N" ~ "Never smoker",
                                             cov_cat_smoking_status == "S" ~ "Current smoker")) %>%
   mutate(cov_cat_smoking_status = ordered(cov_cat_smoking_status, levels = c("Never smoker","Ever smoker","Current smoker","Missing")),
+         # BMI
+         cov_cat_bmi_groups = ordered(cov_cat_bmi_groups, levels = c("Healthy_weight", "Underweight", "Overweight", "Obese", "Missing")),
          # region
          cov_cat_region = relevel(cov_cat_region, ref = "London"),
          # sex
@@ -88,14 +90,8 @@ input <- input %>%
                                                                ifelse(cov_cat_deprivation == 9 | cov_cat_deprivation == 10, "9-10 (least deprived)", NA)))))) %>%
          mutate_at(vars(cov_cat_deprivation), as.factor) %>%
   mutate(cov_cat_deprivation = ordered(cov_cat_deprivation, levels = c("1-2 (most deprived)","3-4","5-6","7-8","9-10 (least deprived)")))
-  
-# Save meta data
 
-describe_vars <- tidyselect::vars_select(names(input), contains(c('_cat_', 'cov_bin','cov_cat','qa_bin','exp_cat','vax_cat'), ignore.case = TRUE))
-meta_data_factors <- lapply(input[,describe_vars], table)
-sink(file = file.path("output", "meta_data_factors.csv"))
-print(meta_data_factors)
-sink()
+print("Variable preparation performed successfully")
 
 #####################
 # 2. Apply QA rules #
@@ -117,10 +113,13 @@ input <- input %>%
          rule5 = ifelse(cov_cat_sex=="Male" & cov_bin_hormone_replacement_therapy==TRUE | cov_cat_sex=="Male" & cov_bin_combined_oral_contraceptive_pill == TRUE, TRUE, FALSE),
   # Rule 6: Prostate cancer codes for women
          rule6 = ifelse(qa_bin_prostate_cancer == TRUE & cov_cat_sex=="Female", TRUE, FALSE))
+  # should we add a rule to remove those with COVID history prior to 2020?
 
 # Remove rows that are TRUE for at least one rule
 
 input_QA <- input %>% filter(rule1 == FALSE & rule2 == FALSE & rule3 == FALSE & rule4 == FALSE & rule5 == FALSE & rule6 == FALSE) 
+
+print("QA filtering performed successfully")
 
 # Produce QA summary
 
@@ -139,11 +138,26 @@ QA_summary[7,2]=nrow(input)-nrow(input_QA)
 
 write.csv(QA_summary, file = file.path("output", "QA_summary.csv") , row.names=F)
 
+print("QA summary saved successfully")
+
 # Remove QA variables from dataset
 
 input <- input_QA %>%
   select(-c(rule1,rule2,rule3,rule4,rule5,rule6,
           qa_num_birth_year, qa_bin_pregnancy, qa_bin_prostate_cancer))
+
+# Save meta data (after QA rules have been applied)
+
+describe_vars <- tidyselect::vars_select(names(input), contains(c('_cat_', 'cov_bin','cov_cat','qa_bin','exp_cat','vax_cat', 'step_'), ignore.case = TRUE))
+describe_vars_num <- tidyselect::vars_select(names(input), contains(c('_num'), ignore.case = TRUE))
+meta_data_factors <- lapply(input[,describe_vars], table)
+meta_data_factors_num <- lapply(input[,describe_vars_num], summary)
+meta_data_factors <- c(meta_data_factors, meta_data_factors_num)
+sink(file = file.path("output", "meta_data_factors.csv"))
+print(meta_data_factors)
+sink()
+
+print("Meta data saved successfully")
 
 #########################################
 # 3. Apply exclusion/inclusion criteria #
@@ -204,3 +218,7 @@ write.csv(cohort_flow, file = file.path("output", "cohort_flow.csv"), row.names=
 # Create the final stage 1 dataset 
 
 saveRDS(input, file = file.path("output", "input_stage1.rds"))
+
+print("Cohort flow and stage 1 saved successfully")
+
+# END
