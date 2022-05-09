@@ -156,3 +156,6 @@ opensafely/prochlorperazine-dmd/058baf47
 opensafely/monoamine-oxidase-inhibitors-dmd/2b785e16
 opensafely/other-antidepressants-dmd/795977ab
 opensafely/tricyclic-and-related-antidepressants-dmd/1268eae1
+opensafely/cholesterol-tests-numerical-value/7e3a22f3
+opensafely/prediabetes-snomed/6bdbb7dd
+bristol/hdl-cholesterol/64775990

@@ -304,10 +304,10 @@ ssri_depression_prescription = codelist_from_csv(
 )
 
 # Depression prescriptions - SNRI 
-
+# These are in Other
 
 # Depression prescriptions - NASSAs
-
+# These are in Other
 
 # Depression prescriptions - TCA 
 tca_depression_prescription = codelist_from_csv(
@@ -317,7 +317,7 @@ tca_depression_prescription = codelist_from_csv(
 )
 
 # Depression prescriptions - SARIs 
-
+# These are in Other
 
 # Depression prescriptions - MAOIs 
 maoi_depression_prescription = codelist_from_csv(
@@ -332,17 +332,13 @@ other_depression_prescription = codelist_from_csv(
     column="dmd_id",
 )
 
-# Combined depression prescriptions
-# Combine: SSRI, SNRI, NASSA, TCA, SARI, MAOI, Other
-# all_depression_prescriptions = combine_codelists(
-#     ssri_depression_prescription, 
-#     snri_depression_prescription,
-#     nassa_depression_prescription,
-#     tca_depression_prescription,
-#     sari_depression_prescription,
-#     maoi_depression_prescription,
-#     other_depression_prescription
-# )
+# Combined depression prescriptions: SSRI, TCA, MAOI, Other
+all_depression_prescriptions = combine_codelists(
+    ssri_depression_prescription,
+    tca_depression_prescription,
+    maoi_depression_prescription,
+    other_depression_prescription,
+)
 
 # Anxiolytics 
 anxiolytic_prescription = codelist_from_csv(
@@ -1100,6 +1096,27 @@ domcare_primis = codelist_from_csv(
 # Patients in long-stay nursing and residential care
 longres_primis = codelist_from_csv(
     "codelists/primis-covid19-vacc-uptake-longres.csv",
+    system="snomed",
+    column="code",
+)
+
+# Total Cholesterol
+cholesterol_snomed = codelist_from_csv(
+    "codelists/opensafely-cholesterol-tests-numerical-value.csv",
+    system="snomed",
+    column="code",
+)
+
+# HDL Cholesterol
+hdl_cholesterol_snomed = codelist_from_csv(
+    "codelists/bristol-hdl-cholesterol.csv",
+    system="snomed",
+    column="code",
+)
+
+# Prediabetes
+prediabetes_snomed = codelist_from_csv(
+    "codelists/opensafely-prediabetes-snomed.csv",
     system="snomed",
     column="code",
 )

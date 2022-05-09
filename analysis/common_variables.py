@@ -114,7 +114,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
     # HES APC
@@ -127,7 +127,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
     # Combined
@@ -174,7 +174,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
     # HES APC
@@ -187,7 +187,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.1,
         },
     ),
     # Combined
@@ -234,7 +234,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.05,
         },
     ),
 
@@ -264,7 +264,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.05,
         },
     ),
 
@@ -282,7 +282,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.03,
+            "incidence": 0.05,
         },
     ),
 
@@ -346,7 +346,7 @@ def generate_common_variables(index_date_variable):
         "tmp_out_date_insulin_snomed","tmp_out_date_antidiabetic_drugs_snomed"
     ),
 
-    tmp_out_date_nonmetform_drugs_snomed=patients.with_these_clinical_events(
+    tmp_out_date_nonmetform_drugs_snomed=patients.with_these_medications(
         non_metformin_dmd,
         returning="date",
         between=["1990-01-01", "today"],
@@ -369,77 +369,6 @@ def generate_common_variables(index_date_variable):
          "tmp_out_date_diabetes_medication",
          "tmp_out_date_nonmetform_drugs_snomed"
     ),
-
-# #### **** ######
-#     ## Type 1 diabetes
-#     out_date_diabetes_type1=patients.with_these_clinical_events(
-#         diabetes_type1_snomed_clinical,
-#         returning="date",
-#         on_or_after=f"{index_date_variable}",
-#         date_format="YYYY-MM-DD",
-#         find_first_match_in_period=True,
-#         return_expectations={
-#             "date": {"earliest": "index_date", "latest" : "today"},
-#             "rate": "uniform",
-#             "incidence": 0.1,
-#         },
-#     ),
-
-#     ## Type 2 diabetes
-#     out_date_diabetes_type2=patients.with_these_clinical_events(
-#         diabetes_type2_snomed_clinical,
-#         returning="date",
-#         on_or_after=f"{index_date_variable}",
-#         date_format="YYYY-MM-DD",
-#         find_first_match_in_period=True,
-#         return_expectations={
-#             "date": {"earliest": "index_date", "latest" : "today"},
-#             "rate": "uniform",
-#             "incidence": 0.1,
-#         },
-#     ),
-
-#     ## Other or non-diagnostic diabetes
-#     out_date_diabetes_nond=patients.with_these_clinical_events(
-#         diabetes_diagnostic_snomed,
-#         returning="date",
-#         on_or_after=f"{index_date_variable}",
-#         date_format="YYYY-MM-DD",
-#         find_first_match_in_period=True,
-#         return_expectations={
-#             "date": {"earliest": "index_date", "latest" : "today"},
-#             "rate": "uniform",
-#             "incidence": 0.1,
-#         },
-#     ),
-
-#     ## Other or non-specific diabetes
-#     out_date_diabetes_other=patients.with_these_clinical_events(
-#         diabetes_other_snomed_clinical,
-#         returning="date",
-#         on_or_after=f"{index_date_variable}",
-#         date_format="YYYY-MM-DD",
-#         find_first_match_in_period=True,
-#         return_expectations={
-#             "date": {"earliest": "index_date", "latest" : "today"},
-#             "rate": "uniform",
-#             "incidence": 0.1,
-#         },
-#     ),
-
-#     ## Gestational diabetes
-#     out_date_diabetes_gestational=patients.with_these_clinical_events(
-#         diabetes_gestational_snomed_clinical,
-#         returning="date",
-#         on_or_after=f"{index_date_variable}",
-#         date_format="YYYY-MM-DD",
-#         find_first_match_in_period=True,
-#         return_expectations={
-#             "date": {"earliest": "index_date", "latest" : "today"},
-#             "rate": "uniform",
-#             "incidence": 0.1,
-#         },
-#     ),
 
     ## MENTAL HEALTH OUTCOMES -------------------
 
@@ -484,18 +413,18 @@ def generate_common_variables(index_date_variable):
         },
     ),
         # Prescriptions
-    # tmp_out_date_depression_prescriptions=patients.with_these_clinical_events(
-    #     all_depression_prescriptions,
-    #     returning="date",
-    #     on_or_after=f"{index_date_variable}",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "index_date", "latest" : "today"},
-    #         "rate": "uniform",
-    #         "incidence": 0.03,
-    #     },
-    # ),
+    tmp_out_date_depression_prescriptions=patients.with_these_medications(
+        all_depression_prescriptions,
+        returning="date",
+        on_or_after=f"{index_date_variable}",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "index_date", "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.03,
+        },
+    ),
         # Combined
     out_date_depression=patients.minimum_of(
         "tmp_out_date_depression_snomed", "tmp_out_date_depression_hes", "tmp_out_date_depression_death"
@@ -1302,7 +1231,7 @@ def generate_common_variables(index_date_variable):
        return_expectations={"incidence": 0.1},
     ),
     ### DMD
-    tmp_cov_bin_hypertension_drugs_dmd=patients.with_these_clinical_events(
+    cov_bin_hypertension_drugs_dmd=patients.with_these_clinical_events(
         hypertension_drugs_dmd,
         returning='binary_flag',
         on_or_before=f"{index_date_variable}",
@@ -1310,35 +1239,8 @@ def generate_common_variables(index_date_variable):
     ),
     ### Combined
     cov_bin_hypertension=patients.maximum_of(
-        "tmp_cov_bin_hypertension_snomed", "tmp_cov_bin_hypertension_hes", "tmp_cov_bin_hypertension_drugs_dmd",
+        "tmp_cov_bin_hypertension_snomed", "tmp_cov_bin_hypertension_hes", "cov_bin_hypertension_drugs_dmd",
     ),
-
-    # ## Diabetes
-    # ### Primary care
-    # tmp_cov_bin_diabetes_snomed=patients.with_these_clinical_events(
-    #     diabetes_snomed_clinical,
-    #     returning='binary_flag',
-    #     on_or_before=f"{index_date_variable}",
-    #     return_expectations={"incidence": 0.1},
-    # ),
-    # ### HES APC
-    # tmp_cov_bin_diabetes_hes=patients.admitted_to_hospital(
-    #    returning='binary_flag',
-    #    with_these_diagnoses=diabetes_icd10,
-    #    on_or_before=f"{index_date_variable}",
-    #    return_expectations={"incidence": 0.1},
-    # ),
-    # ### DMD
-    # tmp_cov_bin_diabetes_dmd=patients.with_these_clinical_events(
-    #     diabetes_drugs_dmd,
-    #     returning='binary_flag',
-    #     on_or_before=f"{index_date_variable}",
-    #     return_expectations={"incidence": 0.1},
-    # ),
-    # ### Combined
-    # cov_bin_diabetes = patients.maximum_of(
-    #     "tmp_cov_bin_diabetes_snomed", "tmp_cov_bin_diabetes_dmd", "tmp_cov_bin_diabetes_snomed",
-    # ),
 
     ## Type 1 diabetes primary care
     cov_bin_diabetes_type1_snomed=patients.with_these_clinical_events(
@@ -1406,6 +1308,14 @@ def generate_common_variables(index_date_variable):
         "tmp_cov_bin_insulin_snomed", "tmp_cov_bin_antidiabetic_drugs_snomed"
     ),
 
+    ## Prediabetes
+    cov_bin_prediabetes=patients.with_these_clinical_events(
+        prediabetes_snomed,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+
     ## Obesity
     ### Primary care
     tmp_cov_bin_obesity_snomed=patients.with_these_clinical_events(
@@ -1423,7 +1333,7 @@ def generate_common_variables(index_date_variable):
     ),
     ### Combined
     cov_bin_obesity=patients.maximum_of(
-        "tmp_cov_bin_obesity_snomed", "tmp_cov_bin_obesity_hes"
+        "tmp_cov_bin_obesity_snomed", "tmp_cov_bin_obesity_hes",
     ),
       
     ## Chronic obstructive pulmonary disease
@@ -1590,6 +1500,67 @@ def generate_common_variables(index_date_variable):
         "tmp_cov_bin_self_harm_snomed", "tmp_cov_bin_self_harm_icd10",
     ),
 
+    ## Total Cholesterol
+    tmp_cov_num_cholesterol=patients.max_recorded_value(
+        cholesterol_snomed,
+        on_most_recent_day_of_measurement=True, 
+        between=["2015-01-01", "today"],
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "float": {"distribution": "normal", "mean": 5.0, "stddev": 2.5},
+            "date": {"earliest": "1980-02-01", "latest": "2021-05-31"},
+            "incidence": 0.80,
+        },
+    ),
+
+    ## HDL Cholesterol
+    tmp_cov_num_hdl_cholesterol=patients.max_recorded_value(
+        hdl_cholesterol_snomed,
+        on_most_recent_day_of_measurement=True, 
+        between=["2015-01-01", "today"],
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
+            "date": {"earliest": "1980-02-01", "latest": "2021-05-31"},
+            "incidence": 0.80,
+        },
+    ),
+
+    ## BMI
+    # taken from: https://github.com/opensafely/BMI-and-Metabolic-Markers/blob/main/analysis/common_variables.py 
+    cov_num_bmi=patients.most_recent_bmi(
+        between=["2015-01-01", "today"],
+        minimum_age_at_measurement=18,
+        include_measurement_date=True,
+        date_format="YYYY-MM",
+        return_expectations={
+            "date": {"earliest": "2010-02-01", "latest": "2022-02-01"},
+            "float": {"distribution": "normal", "mean": 28, "stddev": 8},
+            "incidence": 0.7,
+        },
+    ),
+     ### Categorising BMI
+    cov_cat_bmi_groups = patients.categorised_as(
+        {
+            "Underweight": "cov_num_bmi < 18.5 AND cov_num_bmi > 1", 
+            "Healthy_weight": "cov_num_bmi >= 18.5 AND cov_num_bmi < 25", 
+            "Overweight": "cov_num_bmi >= 25 AND cov_num_bmi < 30",
+            "Obese": "cov_num_bmi >=30", 
+            "Missing": "DEFAULT", 
+        }, 
+        return_expectations = {
+            "rate": "universal", 
+            "category": {
+                "ratios": {
+                    "Underweight": 0.05, 
+                    "Healthy_weight": 0.25, 
+                    "Overweight": 0.4,
+                    "Obese": 0.3, 
+                }
+            },
+        },
+        
+    ),
     
     # Define subgroups (for variables that don't have a corresponding covariate only)
 
