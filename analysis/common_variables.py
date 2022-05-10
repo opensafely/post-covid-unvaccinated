@@ -1529,7 +1529,7 @@ def generate_common_variables(index_date_variable):
     ## BMI
     # taken from: https://github.com/opensafely/BMI-and-Metabolic-Markers/blob/main/analysis/common_variables.py 
     cov_num_bmi=patients.most_recent_bmi(
-        between=["2015-01-01", "today"],
+        on_or_before=f"{index_date_variable}",
         minimum_age_at_measurement=18,
         include_measurement_date=True,
         date_format="YYYY-MM",
