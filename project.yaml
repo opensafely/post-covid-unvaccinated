@@ -46,9 +46,9 @@ actions:
       moderately_sensitive:
         QA_rules: output/QA_summary.csv
         refactoring: output/meta_data_factors.csv
-        IE_criteria: output/cohort_flow.csv
+        IE_criteria: output/cohort_flow*.csv
       highly_sensitive:
-        cohort: output/input_stage1.rds
+        cohort: output/input_stage1*.rds
 
   stage2_missing_table1:
     run: r:latest analysis/Stage2_Missing_Table1.R
