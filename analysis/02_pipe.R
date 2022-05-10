@@ -24,7 +24,18 @@ if(active_analyses$prior_history_var != ""){
   read_in_cols <- unique(append(read_in_cols, c(covar_names)))
 }
 
-input <- read_rds(paste0("output/input_stage1.rds"))
+if(event_name == "t1dm" | event_name == "t2dm" | event_name == "otherdm"){
+  input <- read_rds(paste0("output/input_stage1_diabetes.rds"))
+  
+} else if (event_name == "gestationaldm"){
+  input <- read_rds(paste0("output/input_stage1_diabetes_gestational.rds"))
+  
+} else if (event_name == "depression" | event_name == "anxiety_general" | event_name == "anxiety_ocd" |
+           event_name == "anxiety_ptsd" | event_name == "eating_disorders" | event_name == "serious_mental_illness" |
+           event_name == "self_harm_10plus" | event_name == "self_harm_15plus" | event_name == "suicide" | event_name == "addiction"){
+  input <- read_rds(paste0("output/input_stage1_mental_health.rds"))
+}
+
 input <- input %>% select(all_of(read_in_cols))
 
 #---------------------------SPECIFY MAIN PARAMETERS-----------------------------

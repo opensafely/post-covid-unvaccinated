@@ -55,6 +55,12 @@ for (i in 1:length(outcomes)) {
                        "",
                        outcome_venn[i])
 }
+
+# change outcome group so that gestational diabetes has its own group
+
+df <- df %>% mutate(outcome_group = case_when(outcome_variable == "out_date_gestationaldm" ~ "diabetes_gestational",
+                                              TRUE ~ as.character(outcome_group)))
+
 # removed cov_cat_bmi_groups
 
 # Add mental health outcomes --------------------------------------------------------
