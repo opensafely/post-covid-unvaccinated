@@ -76,7 +76,7 @@ actions:
     outputs:
       moderately_sensitive:
         venn_diagram: output/venn_diagram_*.svg
-        venn_diagram_number_check: output/venn_diagram_number_check.csv
+        venn_diagram_number_check: output/venn_diagram_number_check*.csv
 
   ## Apply cox model for t1dm 
 
