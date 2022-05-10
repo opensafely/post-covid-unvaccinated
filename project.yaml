@@ -56,8 +56,8 @@ actions:
     - stage1_data_cleaning
     outputs:
       moderately_sensitive:
-        Missing_RangeChecks: output/Check_missing_range.csv
-        DateChecks: output/Check_dates_range.csv
+        Missing_RangeChecks: output/Check_missing_range*.csv
+        DateChecks: output/Check_dates_range*.csv
         Descriptive_Table: output/Table1*.csv
 
   stage3_diabetes_flow:
