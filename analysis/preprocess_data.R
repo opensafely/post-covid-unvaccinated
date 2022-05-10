@@ -38,10 +38,11 @@ df$cov_num_tc_hdl_ratio[is.infinite(df$cov_num_tc_hdl_ratio)] <- NA
 
 print("Diabetes count variables created successfully")
 
-#Combine BMI variables to create one history of obesity variable ---------------
+# Combine BMI variables to create one history of obesity variable ---------------
 
-df$cov_bin_obesity <-ifelse(df$cov_bin_obesity==TRUE |df$cov_cat_bmi_groups=="Obese",TRUE,FALSE)
-df[,c("cov_num_bmi")] <- NULL
+df <- df %>%
+  mutate(cov_bin_obesity = ifelse(cov_bin_obesity == TRUE | cov_cat_bmi_groups == "Obese", TRUE, FALSE)) %>%
+  dplyr::select(- cov_num_bmi)
 
 # Format columns -----------------------------------------------------
 # dates, numerics, factors, logicals
