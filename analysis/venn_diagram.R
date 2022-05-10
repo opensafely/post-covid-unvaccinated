@@ -23,6 +23,17 @@ if(length(args)==0){
   population <- args[[1]]
 }
 
+
+# libraries ---------------------------------------------------------------
+
+
+library(readr)
+library(dplyr)
+library(stringr)
+library(tidyverse)
+
+# create function ---------------------------------------------------------
+
 venn_output <- function(population, group){
   
   # Identify active outcomes ---------------------------------------------------
