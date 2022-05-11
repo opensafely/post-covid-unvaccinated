@@ -1039,7 +1039,7 @@ def generate_common_variables(index_date_variable):
     ### Combined
     cov_bin_all_stroke=patients.maximum_of(
         "tmp_cov_bin_stroke_isch_hes", "tmp_cov_bin_stroke_isch_snomed", "tmp_cov_bin_stroke_sah_hs_hes", "tmp_cov_bin_stroke_sah_hs_snomed",
-    )
+    ),
 
     cov_bin_stroke_isch=patients.maximum_of(
         "tmp_cov_bin_stroke_isch_hes", "tmp_cov_bin_stroke_isch_snomed")
