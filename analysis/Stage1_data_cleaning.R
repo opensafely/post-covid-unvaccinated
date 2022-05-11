@@ -222,10 +222,10 @@ stage2 <- function(group) {
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Diabetes specific criteria: Remove those with diabetes prior to study start date")
     
   } else if (group == "diabetes_gestational"){
-    # Exclude men and non-pregnant women from gestational diabetes analysis
+    # Exclude men from gestational diabetes analysis
     input <- input %>% 
-      filter()
-    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Gestational diabetes: The study population will be restricted to pregnant women.")
+      filter(cov_cat_sex == "Female")
+    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Gestational diabetes: The study population will be restricted to women.")
   
   } else if (group == "mental_health"){
   # Mental health analyses exclusion criteria
