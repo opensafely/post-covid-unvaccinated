@@ -159,3 +159,4 @@ opensafely/tricyclic-and-related-antidepressants-dmd/1268eae1
 opensafely/cholesterol-tests-numerical-value/7e3a22f3
 opensafely/prediabetes-snomed/6bdbb7dd
 bristol/hdl-cholesterol/64775990
+user/RochelleKnight/confirmed-hospitalised-covid-19/1f0d2526
