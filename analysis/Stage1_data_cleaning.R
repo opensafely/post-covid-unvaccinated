@@ -215,8 +215,7 @@ stage2 <- function(group) {
   if (group == "diabetes"){
     # Exclude individuals with a recorded diagnosis of diabetes prior to 1st January 2020 
     input <- input %>% 
-      filter(! out_date_gestationaldm < index_date |
-             ! out_date_t1dm < index_date |
+      filter(! out_date_t1dm < index_date |
              ! out_date_t2dm < index_date |
              ! out_date_otherdm < index_date)
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Diabetes specific criteria: Remove those with diabetes prior to study start date")
@@ -224,13 +223,16 @@ stage2 <- function(group) {
   } else if (group == "diabetes_gestational"){
     # Exclude men from gestational diabetes analysis
     input <- input %>% 
+      filter(! out_date_t1dm < index_date |
+             ! out_date_t2dm < index_date |
+             ! out_date_otherdm < index_date) %>%
       filter(cov_cat_sex == "Female")
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Gestational diabetes: The study population will be restricted to women.")
   
   } else if (group == "mental_health"){
   # Mental health analyses exclusion criteria
   input <- input %>% 
-    filter(cov_bin_obesity == TRUE)
+    filter()
   cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Mental health: .")
   }
   
