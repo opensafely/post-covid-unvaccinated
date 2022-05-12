@@ -27,6 +27,9 @@ library(dplyr)
 library(stringr)
 library(tidyverse)
 
+fs::dir_create(here::here("output", "not-for-review"))
+fs::dir_create(here::here("output", "review", "descriptives"))
+
 # Input dataset
 input <-read_rds("output/input.rds")
 
@@ -136,7 +139,7 @@ QA_summary[7,2]=nrow(input)-nrow(input_QA)
 
 #Save QA summary as .csv
 
-write.csv(QA_summary, file = file.path("output", "QA_summary.csv") , row.names=F)
+write.csv(QA_summary, file = file.path("output/review/descriptives", "QA_summary.csv") , row.names=F)
 
 print("QA summary saved successfully")
 
@@ -153,7 +156,7 @@ describe_vars_num <- tidyselect::vars_select(names(input), contains(c('_num'), i
 meta_data_factors <- lapply(input[,describe_vars], table)
 meta_data_factors_num <- lapply(input[,describe_vars_num], summary)
 meta_data_factors <- c(meta_data_factors, meta_data_factors_num)
-sink(file = file.path("output", "meta_data_factors.csv"))
+sink(file = file.path("output/not-for-review", "meta_data_factors.csv"))
 print(meta_data_factors)
 sink()
 
@@ -213,7 +216,7 @@ cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 5 (Inclusion): Regi
 
 # Create csv file 
 
-write.csv(cohort_flow, file = file.path("output", "cohort_flow.csv"), row.names=F)
+write.csv(cohort_flow, file = file.path("output/review/descriptives", "cohort_flow.csv"), row.names=F)
 
 # Create the final stage 1 dataset 
 

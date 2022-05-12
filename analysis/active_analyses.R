@@ -44,7 +44,7 @@ outcomes_short <- c("t1dm","t2dm","otherdm","gestationaldm")
 outcome_venn <- c(TRUE, TRUE, FALSE, FALSE)
 
 for (i in 1:length(outcomes)) {
-  df[nrow(df)+1,] <- c(TRUE,
+  df[nrow(df)+1,] <- c(FALSE,
                        outcomes[i],
                        outcome_group,
                        paste0("out_date_",outcomes_short[i]),
@@ -86,7 +86,7 @@ outcomes_short <- c("depression",
 out_venn <- c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
 
 for (i in 1:length(outcomes)) {
-  df[nrow(df)+1,] <- c(TRUE,
+  df[nrow(df)+1,] <- c(FALSE,
                        outcomes[i],
                        outcome_group,
                        paste0("out_date_",outcomes_short[i]),
@@ -97,7 +97,7 @@ for (i in 1:length(outcomes)) {
                        "",
                        out_venn[i])
 }
-
+df[5,1] <- TRUE
 # Save active analyses list ----------------------------------------------------
 
 saveRDS(df, file = "lib/active_analyses.rds")

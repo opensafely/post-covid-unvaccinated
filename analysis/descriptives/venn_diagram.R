@@ -23,6 +23,9 @@ if(length(args)==0){
   population <- args[[1]]
 }
 
+fs::dir_create(here::here("output", "not-for-review"))
+fs::dir_create(here::here("output", "review", "venn-diagrams"))
+
 venn_output <- function(population){
   
   # Identify active outcomes ---------------------------------------------------
@@ -159,7 +162,7 @@ venn_output <- function(population){
       
       # Make Venn diagram --------------------------------------------------------
       
-      svglite::svglite(file = paste0("output/venn_diagram",population,"_",gsub("out_date_","",outcome),".svg"))
+      svglite::svglite(file = paste0("output/review/venn-diagrams/venn_diagram",population,"_",gsub("out_date_","",outcome),".svg"))
       g <- ggvenn::ggvenn(
         index, 
         fill_color = mycol,
@@ -178,7 +181,7 @@ venn_output <- function(population){
   
   # Save summary file ----------------------------------------------------------
   
-  write.csv(df, file = paste0("output/venn_diagram_number_check.csv"), row.names = F)
+  write.csv(df, file = paste0("output/review/venn-diagrams/venn_diagram_number_check.csv"), row.names = F)
   
 }
 
