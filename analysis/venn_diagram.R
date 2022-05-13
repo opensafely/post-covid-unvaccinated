@@ -23,7 +23,18 @@ if(length(args)==0){
   population <- args[[1]]
 }
 
-venn_output <- function(population){
+
+# libraries ---------------------------------------------------------------
+
+
+library(readr)
+library(dplyr)
+library(stringr)
+library(tidyverse)
+
+# create function ---------------------------------------------------------
+
+venn_output <- function(population, group){
   
   # Identify active outcomes ---------------------------------------------------
   
@@ -34,7 +45,7 @@ venn_output <- function(population){
   # Load data ------------------------------------------------------------------
   
   input <- readr::read_rds(paste0("output/venn",population,".rds"))
-  input_stage1 <- readr::read_rds(paste0("output/input", population,"_stage1.rds"))
+  input_stage1 <- readr::read_rds(paste0("output/input", population,"_stage1_",group,".rds"))
   input <- input[input$patient_id %in% input_stage1$patient_id,]
   
   # Create empty table ---------------------------------------------------------
@@ -159,7 +170,7 @@ venn_output <- function(population){
       
       # Make Venn diagram --------------------------------------------------------
       
-      svglite::svglite(file = paste0("output/venn_diagram",population,"_",gsub("out_date_","",outcome),".svg"))
+      svglite::svglite(file = paste0("output/venn_diagram",population,"_",gsub("out_date_","",outcome),group,".svg"))
       g <- ggvenn::ggvenn(
         index, 
         fill_color = mycol,
@@ -178,7 +189,7 @@ venn_output <- function(population){
   
   # Save summary file ----------------------------------------------------------
   
-  write.csv(df, file = paste0("output/venn_diagram_number_check.csv"), row.names = F)
+  write.csv(df, file = paste0("output/venn_diagram_number_check_",group,".csv"), row.names = F)
   
 }
 
@@ -188,5 +199,13 @@ venn_output <- function(population){
 #   venn_output("electively_unvaccinated")
 #   venn_output("vaccinated")
 # } else{
-  venn_output(population)
+# Run function using outcome group
 # }
+
+active_analyses <- read_rds("lib/active_analyses.rds")
+active_analyses <- active_analyses %>% filter(active==TRUE)
+group <- unique(active_analyses$outcome_group)
+
+for(i in group){
+  venn_output(population, i)
+}

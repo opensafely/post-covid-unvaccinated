@@ -43,7 +43,7 @@ if(length(args)==0){
 stage2 <- function(cohort_name, group) {
   
   # Load relevant data
-  input <- readr::read_rds(file.path("output", paste0("input_stage1.rds")))
+  input <- readr::read_rds(file.path("output", paste0("input_stage1_",group,".rds")))
   
   ################################
   # 1. Output missing data table #
@@ -87,7 +87,7 @@ stage2 <- function(cohort_name, group) {
   #---------------------------------------------------------------------------#
   
   check_both <- merge(x=check_missing, y=check_range, by = "variable",all.x=TRUE)
-  write.csv(check_both, file = file.path("output", paste0("Check_missing_range.csv")) , row.names=F)
+  write.csv(check_both, file = file.path("output", paste0("Check_missing_range_",group,".csv")) , row.names=F)
   
   #---------------------------------------------------------#
   # 1.d. Create a table with min and max for date variables #
@@ -104,7 +104,7 @@ stage2 <- function(cohort_name, group) {
     check_dates[nrow(check_dates),3] <- paste0("",max(na.omit(date_var)))
   }
   
-  write.csv(check_dates, file = file.path("output", paste0("Check_dates_range.csv")) , row.names=F)
+  write.csv(check_dates, file = file.path("output", paste0("Check_dates_range_",group,".csv")) , row.names=F)
   
   #####################
   # 2. Output table 1 #
@@ -266,12 +266,12 @@ stage2 <- function(cohort_name, group) {
     df <- df %>% mutate(across(!c("Covariate","Covariate_level"),as.numeric))
     df$No_infection <- df$Whole_population - df$COVID_exposed
     print(df$Whole_population)    
-    if(any(df$COVID_hospitalised <= 5 | df$COVID_non_hospitalised <= 5 )){
+    if(any(df$COVID_hospitalised <= 5 | df$COVID_non_hospitalised <= 5 | is.na(df$COVID_hospitalised | is.na(df$COVID_non_hospitalised)))){
       df$COVID_hospitalised <- "[Redacted]"
       df$COVID_non_hospitalised <- "[Redacted]"
     }
     
-    if(any(df$COVID_exposed <= 5 | df$No_infection <=5)){
+    if(any(df$COVID_exposed <= 5 | df$No_infection <=5 | is.na(df$No_infection))){
       df$COVID_exposed <- "[Redacted]"
       df$COVID_hospitalised <- "[Redacted]"
       df$COVID_non_hospitalised <- "[Redacted]"

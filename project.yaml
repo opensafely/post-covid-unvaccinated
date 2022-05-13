@@ -46,9 +46,9 @@ actions:
       moderately_sensitive:
         QA_rules: output/QA_summary.csv
         refactoring: output/meta_data_factors.csv
-        IE_criteria: output/cohort_flow.csv
+        IE_criteria: output/cohort_flow*.csv
       highly_sensitive:
-        cohort: output/input_stage1.rds
+        cohort: output/input_stage1*.rds
 
   stage2_missing_table1:
     run: r:latest analysis/Stage2_Missing_Table1.R
@@ -56,8 +56,8 @@ actions:
     - stage1_data_cleaning
     outputs:
       moderately_sensitive:
-        Missing_RangeChecks: output/Check_missing_range.csv
-        DateChecks: output/Check_dates_range.csv
+        Missing_RangeChecks: output/Check_missing_range*.csv
+        DateChecks: output/Check_dates_range*.csv
         Descriptive_Table: output/Table1*.csv
 
   stage3_diabetes_flow:
@@ -66,7 +66,7 @@ actions:
     - stage1_data_cleaning
     outputs:
       moderately_sensitive:
-        flow_df: output/diabetes_flow_values.csv
+        flow_df: output/diabetes_flow_values*.csv
 
   stage4_venn_diagram:
     run: r:latest analysis/venn_diagram.R
@@ -76,7 +76,7 @@ actions:
     outputs:
       moderately_sensitive:
         venn_diagram: output/venn_diagram_*.svg
-        venn_diagram_number_check: output/venn_diagram_number_check.csv
+        venn_diagram_number_check: output/venn_diagram_number_check*.csv
 
   ## Apply cox model for t1dm 
 
