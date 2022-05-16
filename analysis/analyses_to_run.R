@@ -58,5 +58,15 @@ for(i in c("covid_pheno_","agegp_","sex_","ethnicity_","prior_history_")){
 
 analyses_to_run$strata[analyses_to_run$strata=="South_Asian"]<- "South Asian"
 
+# add subgroup category
 
-
+analyses_to_run <- analyses_to_run %>% 
+  dplyr::mutate(subgroup_cat = case_when(
+    startsWith(subgroup, "agegp") ~ "age",
+    startsWith(subgroup, "covid_history") ~ "covid_history",
+    startsWith(subgroup, "covid_pheno") ~ "covid_pheno",
+    startsWith(subgroup, "ethnicity") ~ "ethnicity",
+    startsWith(subgroup, "main") ~ "main",
+    startsWith(subgroup, "prior_history") ~ "prior_history",
+    startsWith(subgroup, "sex") ~ "sex",
+    TRUE ~ as.character(subgroup)))

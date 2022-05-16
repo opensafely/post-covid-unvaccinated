@@ -187,10 +187,10 @@ actions_list <- splice(
     moderately_sensitive = list(
       QA_rules = glue("output/QA_summary.csv"),
       refactoring = glue("output/meta_data_factors.csv"),
-      IE_criteria = glue("output/cohort_flow.csv")
+      IE_criteria = glue("output/cohort_flow*.csv")
     ),
     highly_sensitive = list(
-      cohort = glue("output/input_stage1.rds")
+      cohort = glue("output/input_stage1*.rds")
     )
   ),
 
@@ -200,8 +200,8 @@ actions_list <- splice(
     run = "r:latest analysis/Stage2_Missing_Table1.R",
     needs = list("stage1_data_cleaning"),
     moderately_sensitive = list(
-      Missing_RangeChecks = glue("output/Check_missing_range.csv"),
-      DateChecks = glue("output/Check_dates_range.csv"),
+      Missing_RangeChecks = glue("output/Check_missing_range*.csv"),
+      DateChecks = glue("output/Check_dates_range*.csv"),
       Descriptive_Table = glue("output/Table1*.csv")
     )
   ),
@@ -213,7 +213,7 @@ actions_list <- splice(
     run = "r:latest analysis/diabetes_flowchart.R",
     needs = list("stage1_data_cleaning"),
     moderately_sensitive = list(
-      flow_df = glue("output/diabetes_flow_values.csv")
+      flow_df = glue("output/diabetes_flow_values*.csv")
       # flow_fig = glue("output/diabetes_flow.png"),
     ),
   ),
@@ -231,7 +231,7 @@ actions_list <- splice(
     needs = list("preprocess_data", "stage1_data_cleaning"),
     moderately_sensitive = list(
       venn_diagram = glue("output/venn_diagram_*.svg"),
-      venn_diagram_number_check = glue("output/venn_diagram_number_check.csv")
+      venn_diagram_number_check = glue("output/venn_diagram_number_check*.csv")
     )
   ),
 
