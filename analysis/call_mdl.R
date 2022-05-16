@@ -5,7 +5,7 @@
 ## =============================================================================
 source(file.path(scripts_dir,"fit_model.R"))
 
-get_vacc_res <- function(event,subgroup,stratify_by_subgroup,stratify_by,mdl,time_point,input,covar_names,cuts_days_since_expo,cuts_days_since_expo_reduced){
+get_vacc_res <- function(event,subgroup,stratify_by_subgroup,stratify_by,mdl,time_point,input,cuts_days_since_expo,cuts_days_since_expo_reduced,covar_names){
   print(paste0("Working on subgroup: ", subgroup, ", ",mdl,", "))
   print(paste0("Using ",time_point," time point"))
   
