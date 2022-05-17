@@ -210,7 +210,7 @@ actions_list <- splice(
 
   action(
     name = "stage3_diabetes_flow",
-    run = "r:latest analysis/descriptives/diabetes_flowchart*.R",
+    run = "r:latest analysis/descriptives/diabetes_flowchart.R",
     needs = list("stage1_data_cleaning"),
     moderately_sensitive = list(
       flow_df = glue("output/review/figure-data/diabetes_flow_values*.csv")
