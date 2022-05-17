@@ -27,6 +27,7 @@ if(active_analyses$model=="all"){
 ## Transpose active_analyses to single column so can filter to analysis models to run
 
 analyses_to_run <- as.data.frame(t(active_analyses))
+analyses_to_run <- analyses_to_run[row.names(analyses_to_run) != "venn", , drop = FALSE]
 analyses_to_run$subgroup <- row.names(analyses_to_run)
 colnames(analyses_to_run) <- c("run","subgroup")
 analyses_to_run<- analyses_to_run %>% filter(run=="TRUE" & subgroup != "active" ) 

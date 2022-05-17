@@ -15,7 +15,7 @@ library(utils); library(stringr); library(rms); library(readr)
 args = commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
-  event_name="anxiety_general"
+  event_name="t2dm"
 }else{
   event_name  = args[[1]] 
 }
