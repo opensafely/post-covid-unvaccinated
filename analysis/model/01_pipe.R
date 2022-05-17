@@ -76,7 +76,7 @@ source(file.path(scripts_dir,paste0("call_mdl.R"))) # Model specification
   
   lapply(split(analyses_to_run,seq(nrow(analyses_to_run))),
          function(analyses_to_run) 
-           get_vacc_res(
+           if(nrow(analyses_to_run)>0) { get_vacc_res(
              event=analyses_to_run$event,
              subgroup=analyses_to_run$subgroup,
              stratify_by_subgroup=analyses_to_run$stratify_by_subgroup,
@@ -84,6 +84,7 @@ source(file.path(scripts_dir,paste0("call_mdl.R"))) # Model specification
              mdl=analyses_to_run$mdl,
              time_point=analyses_to_run$reduced_timepoint,
              input, cuts_days_since_expo,cuts_days_since_expo_reduced,covar_names)
+           }
   )
   
   
