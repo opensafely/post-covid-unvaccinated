@@ -19,16 +19,16 @@ get_vacc_res <- function(event,subgroup,stratify_by_subgroup,stratify_by,mdl,tim
   # }
   
   # Select the relevant cohort columns required to stratify by subgroup if necessary
-  if(startsWith(subgroup,"prior_history")){
-    survival_data <- input %>% dplyr::select(all_of(cohort_cols),all_of(stratify_by_subgroup))
-  }else{
+  # if(startsWith(subgroup,"prior_history")){
+  #   survival_data <- input %>% dplyr::select(all_of(cohort_cols),all_of(stratify_by_subgroup))
+  # }else{
     survival_data <- input %>% dplyr::select(all_of(cohort_cols))
-  }
+  # }
   
   # Stratify to the relevant subgroup if either sex/ethnicity/prior history subgroup
   # COVID pheno subgroup is filtered later in this script
   
-  for(i in c("ethnicity","sex","prior_history")){
+  for(i in c("ethnicity","sex")){
     if(startsWith(subgroup,i)){
       survival_data=survival_data%>%filter_at(stratify_by_subgroup,all_vars(.==stratify_by))
     }
