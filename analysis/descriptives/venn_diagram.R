@@ -135,7 +135,7 @@ venn_output <- function(population, group){
     
     # Proceed to create Venn diagram if all source combos exceed 5 -------------
     
-    if (min(as.numeric(df[df$outcome==outcome,consider]))>5) {
+    # if (min(as.numeric(df[df$outcome==outcome,consider]))>5) {
       
       # Calculate contents of each Venn cell for plotting ----------------------
       
@@ -182,7 +182,7 @@ venn_output <- function(population, group){
       
     }
     
-  }
+  # }
   
   # Save summary file ----------------------------------------------------------
   
