@@ -17,6 +17,11 @@ library(magrittr)
 library(tidyverse)
 library(lubridate)
 
+# FILE PATHS
+
+fs::dir_create(here::here("output", "not-for-review"))
+fs::dir_create(here::here("output", "review"))
+
 # Define parameters ------------------------------------------------------------
 
 ## Study start date
@@ -92,7 +97,7 @@ print("COVID-19 and diabetes variables needed for algorithm created successfully
 
 # Define diabetes outcome (using Sophie Eastwood algorithm) ----------------------------
 
-scripts_dir <- "analysis"
+scripts_dir <- "analysis/preprocess"
 source(file.path(scripts_dir,"diabetes_algorithm.R"))
 df <- diabetes_algo(df)
 print("Diabetes algorithm run successfully")
