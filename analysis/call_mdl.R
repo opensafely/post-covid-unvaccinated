@@ -12,11 +12,11 @@ get_vacc_res <- function(event,subgroup,stratify_by_subgroup,stratify_by,mdl,tim
   #Reduce dataset to those who do NOT have a prior history of COVID unless running the subgroup
   #analysis for this with a prior history
   
-  if(subgroup != "covid_history" ){
-    input=input%>%filter(sub_bin_covid19_confirmed_history == FALSE)
-  }else {
-    input=input%>%filter(sub_bin_covid19_confirmed_history == TRUE)
-  }
+  # if(subgroup != "covid_history" ){
+  #   input=input%>%filter(sub_bin_covid19_confirmed_history == FALSE)
+  # }else {
+  #   input=input%>%filter(sub_bin_covid19_confirmed_history == TRUE)
+  # }
   
   # Select the relevant cohort columns required to stratify by subgroup if necessary
   if(startsWith(subgroup,"prior_history")){
