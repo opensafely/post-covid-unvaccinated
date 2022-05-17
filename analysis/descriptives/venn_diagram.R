@@ -23,16 +23,13 @@ if(length(args)==0){
   population <- args[[1]]
 }
 
-
-# libraries ---------------------------------------------------------------
-
-
 library(readr)
 library(dplyr)
 library(stringr)
 library(tidyverse)
 
-# create function ---------------------------------------------------------
+fs::dir_create(here::here("output", "not-for-review"))
+fs::dir_create(here::here("output", "review", "venn-diagrams"))
 
 venn_output <- function(population, group){
   
@@ -138,7 +135,7 @@ venn_output <- function(population, group){
     
     # Proceed to create Venn diagram if all source combos exceed 5 -------------
     
-    if (min(as.numeric(df[df$outcome==outcome,consider]))>5) {
+    # if (min(as.numeric(df[df$outcome==outcome,consider]))>5) {
       
       # Calculate contents of each Venn cell for plotting ----------------------
       
@@ -170,7 +167,7 @@ venn_output <- function(population, group){
       
       # Make Venn diagram --------------------------------------------------------
       
-      svglite::svglite(file = paste0("output/venn_diagram",population,"_",gsub("out_date_","",outcome),group,".svg"))
+      svglite::svglite(file = paste0("output/review/venn-diagrams/venn_diagram",population,"_",gsub("out_date_","",outcome),".svg"))
       g <- ggvenn::ggvenn(
         index, 
         fill_color = mycol,
@@ -185,11 +182,11 @@ venn_output <- function(population, group){
       
     }
     
-  }
+  # }
   
   # Save summary file ----------------------------------------------------------
   
-  write.csv(df, file = paste0("output/venn_diagram_number_check_",group,".csv"), row.names = F)
+  write.csv(df, file = paste0("output/review/venn-diagrams/venn_diagram_number_check.csv"), row.names = F)
   
 }
 
