@@ -31,7 +31,7 @@ library(tidyverse)
 fs::dir_create(here::here("output", "not-for-review"))
 fs::dir_create(here::here("output", "review", "venn-diagrams"))
 
-venn_output <- function(population){
+venn_output <- function(population, group){
   
   # Identify active outcomes ---------------------------------------------------
   
