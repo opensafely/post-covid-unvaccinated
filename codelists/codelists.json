@@ -959,6 +959,12 @@
       "url": "https://codelists.opensafely.org/codelist/bristol/hdl-cholesterol/64775990/",
       "downloaded_at": "2022-04-06 12:39:32.227443Z",
       "sha": "ce9f10f91453a33d5de195b7d02656bf11782760"
+    },
+    "user-RochelleKnight-confirmed-hospitalised-covid-19.csv": {
+      "id": "user/RochelleKnight/confirmed-hospitalised-covid-19/1f0d2526",
+      "url": "https://codelists.opensafely.org/codelist/user/RochelleKnight/confirmed-hospitalised-covid-19/1f0d2526/",
+      "downloaded_at": "2022-05-12 11:52:37.106794Z",
+      "sha": "7b472652a66eed89b0495a2cf43cf6e894451cb8"
     }
   }
 }

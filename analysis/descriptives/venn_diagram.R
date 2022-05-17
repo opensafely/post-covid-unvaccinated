@@ -23,6 +23,11 @@ if(length(args)==0){
   population <- args[[1]]
 }
 
+library(readr)
+library(dplyr)
+library(stringr)
+library(tidyverse)
+
 fs::dir_create(here::here("output", "not-for-review"))
 fs::dir_create(here::here("output", "review", "venn-diagrams"))
 
@@ -37,7 +42,7 @@ venn_output <- function(population){
   # Load data ------------------------------------------------------------------
   
   input <- readr::read_rds(paste0("output/venn",population,".rds"))
-  input_stage1 <- readr::read_rds(paste0("output/input", population,"_stage1.rds"))
+  input_stage1 <- readr::read_rds(paste0("output/input", population,"_stage1_",group,".rds"))
   input <- input[input$patient_id %in% input_stage1$patient_id,]
   
   # Create empty table ---------------------------------------------------------
@@ -191,5 +196,13 @@ venn_output <- function(population){
 #   venn_output("electively_unvaccinated")
 #   venn_output("vaccinated")
 # } else{
-  venn_output(population)
+# Run function using outcome group
 # }
+
+active_analyses <- read_rds("lib/active_analyses.rds")
+active_analyses <- active_analyses %>% filter(active==TRUE)
+group <- unique(active_analyses$outcome_group)
+
+for(i in group){
+  venn_output(population, i)
+}

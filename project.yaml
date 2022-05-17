@@ -48,7 +48,7 @@ actions:
         refactoring: output/not-for-review/meta_data_factors.csv
         IE_criteria: output/review/descriptives/cohort_flow.csv
       highly_sensitive:
-        cohort: output/input_stage1.rds
+        cohort: output/input_stage1*.rds
 
   stage2_missing_table1:
     run: r:latest analysis/descriptives/Stage2_Missing_Table1.R

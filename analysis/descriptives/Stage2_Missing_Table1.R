@@ -46,7 +46,7 @@ fs::dir_create(here::here("output", "review", "descriptives"))
 stage2 <- function(cohort_name, group) {
   
   # Load relevant data
-  input <- readr::read_rds(file.path("output", paste0("input_stage1.rds")))
+  input <- readr::read_rds(file.path("output", paste0("input_stage1_",group,".rds")))
   
   ################################
   # 1. Output missing data table #
@@ -269,12 +269,12 @@ stage2 <- function(cohort_name, group) {
     df <- df %>% mutate(across(!c("Covariate","Covariate_level"),as.numeric))
     df$No_infection <- df$Whole_population - df$COVID_exposed
     print(df$Whole_population)    
-    if(any(df$COVID_hospitalised <= 5 | df$COVID_non_hospitalised <= 5 )){
+    if(any(df$COVID_hospitalised <= 5 | df$COVID_non_hospitalised <= 5 | is.na(df$COVID_hospitalised | is.na(df$COVID_non_hospitalised)))){
       df$COVID_hospitalised <- "[Redacted]"
       df$COVID_non_hospitalised <- "[Redacted]"
     }
     
-    if(any(df$COVID_exposed <= 5 | df$No_infection <=5)){
+    if(any(df$COVID_exposed <= 5 | df$No_infection <=5 | is.na(df$No_infection))){
       df$COVID_exposed <- "[Redacted]"
       df$COVID_hospitalised <- "[Redacted]"
       df$COVID_non_hospitalised <- "[Redacted]"
