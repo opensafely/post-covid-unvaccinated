@@ -157,7 +157,7 @@ stage2 <- function(group) {
   meta_data_factors <- lapply(input[,describe_vars], table)
   meta_data_factors_num <- lapply(input[,describe_vars_num], summary)
   meta_data_factors <- c(meta_data_factors, meta_data_factors_num)
-  sink(file = file.path("output", "meta_data_factors.csv"))
+  sink(file = file.path("output/not-for-review/", "meta_data_factors.csv"))
   print(meta_data_factors)
   sink()
   

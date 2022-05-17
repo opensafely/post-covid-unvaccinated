@@ -187,10 +187,10 @@ actions_list <- splice(
     moderately_sensitive = list(
       QA_rules = glue("output/review/descriptives/QA_summary.csv"),
       refactoring = glue("output/not-for-review/meta_data_factors.csv"),
-      IE_criteria = glue("output/review/descriptives/cohort_flow.csv")
+      IE_criteria = glue("output/review/descriptives/cohort_flow*.csv")
     ),
     highly_sensitive = list(
-      cohort = glue("output/input_stage1.rds")
+      cohort = glue("output/input_stage1*.rds")
     )
   ),
 
@@ -200,8 +200,8 @@ actions_list <- splice(
     run = "r:latest analysis/descriptives/Stage2_Missing_Table1.R",
     needs = list("stage1_data_cleaning"),
     moderately_sensitive = list(
-      Missing_RangeChecks = glue("output/not-for-review/Check_missing_range.csv"),
-      DateChecks = glue("output/not-for-review/Check_dates_range.csv"),
+      Missing_RangeChecks = glue("output/not-for-review/Check_missing_range*.csv"),
+      DateChecks = glue("output/not-for-review/Check_dates_range*.csv"),
       Descriptive_Table = glue("output/review/descriptives/Table1*.csv")
     )
   ),
@@ -210,19 +210,13 @@ actions_list <- splice(
 
   action(
     name = "stage3_diabetes_flow",
-    run = "r:latest analysis/descriptives/diabetes_flowchart.R",
+    run = "r:latest analysis/descriptives/diabetes_flowchart*.R",
     needs = list("stage1_data_cleaning"),
     moderately_sensitive = list(
-      flow_df = glue("output/review/figure-data/diabetes_flow_values.csv")
+      flow_df = glue("output/review/figure-data/diabetes_flow_values*.csv")
       # flow_fig = glue("output/diabetes_flow.png"),
     ),
   ),
-  
-  #comment("Stage 4 - Table 2"),
-  # splice(
-  #   # over outcomes
-  #   unlist(lapply(cohort_to_run, function(x) apply_table2_function( cohort = x)), recursive = FALSE)
-  #   ),
   
   #comment("Stage 4 - Venn diagrams"),
   action(
@@ -231,7 +225,7 @@ actions_list <- splice(
     needs = list("preprocess_data", "stage1_data_cleaning"),
     moderately_sensitive = list(
       venn_diagram = glue("output/review/venn-diagrams/venn_diagram_*.svg"),
-      venn_diagram_number_check = glue("output/review/venn-diagrams/venn_diagram_number_check.csv")
+      venn_diagram_number_check = glue("output/review/venn-diagrams/venn_diagram_number_check*.csv")
     )
   ),
 
