@@ -29,7 +29,7 @@ get_vacc_res <- function(event,subgroup,stratify_by_subgroup,stratify_by,mdl,tim
   # COVID pheno subgroup is filtered later in this script
   
   for(i in c("ethnicity","sex")){
-    if(isTRUE(subgroup) & startsWith(subgroup,i)){
+    if(startsWith(subgroup,i)){
       survival_data=survival_data%>%filter_at(stratify_by_subgroup,all_vars(.==stratify_by))
     }
   }
