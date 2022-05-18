@@ -55,8 +55,8 @@ cohort_end_date <- as.Date("2021-06-18")
 #Used to split time since COVID exposure; when there are time periods with no events then
 #a reduced number of time periods is used (need 197 instead of 196 as time periods are split using [ , ) 
 
-cuts_days_since_expo <- c(7, 14, 28, 56, 84, 182, 366) 
-cuts_days_since_expo_reduced <- c(28,366) 
+cuts_days_since_expo <- c(7, 14, 28, 56, 84, 197, 365, 535) 
+cuts_days_since_expo_reduced <- c(28, 535) 
 
 #Rename input variable names (by renaming here it means that these scripts can be used for other datasets without
 ## having to keep updating all the varaible names throughout the following scripts)
@@ -103,4 +103,4 @@ input <- input %>% rowwise() %>% mutate(follow_up_end=min(vax_date_covid_1, even
 
 #-----------------------CREATE EMPTY ANALYSES NOT RUN DF------------------------
 analyses_not_run=data.frame(matrix(nrow=0,ncol = 7))
-colnames(analyses_not_run)=c("event","subgroup","model", "any exposures?", "any exposure events?", "any non exposed?", "more than 400 post exposure events?")
+colnames(analyses_not_run)=c("event","subgroup","model", "any exposures?", "any exposure events?", "any non exposed?", "more than 50 post exposure events?")
