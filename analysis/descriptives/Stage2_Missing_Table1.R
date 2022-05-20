@@ -43,7 +43,7 @@ fs::dir_create(here::here("output", "review", "descriptives"))
 
 # Define stage2 function -------------------------------------------------------
 
-stage2 <- function(cohort_name, group) {
+stage2 <- function(group) {
   
   # Load relevant data
   input <- readr::read_rds(file.path("output", paste0("input_stage1_",group,".rds")))
@@ -311,6 +311,6 @@ active_analyses <- active_analyses %>% filter(active==TRUE)
 groups <- unique(active_analyses$outcome_group)
 
 for(i in groups){
-  stage2(cohort_name, i)
+  stage2(i)
 }
 

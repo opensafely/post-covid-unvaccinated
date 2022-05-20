@@ -102,19 +102,20 @@ apply_model_function <- function(outcome){
   )
 }
 
-# apply_table2_function <- function(cohort){
-#   splice(
-#     action(
-#       name = glue("Stage_4_Table_2{cohort}"),
-#       run = "r:latest analysis/table_2.R",
-#       arguments = c(cohort),
-#       needs = list("stage1_data_cleaning_both"),
-#       moderately_sensitive = list(
-#         table2 = glue("output/table2{cohort}.csv")
-#       )
-#     )
-#   )
-# }
+table2 <- function(cohort){
+  splice(
+    comment(glue("Stage 4 - Table 2")),
+    action(
+      name = glue("stage4_table_2"),
+      run = "r:latest analysis/descriptives/table_2.R",
+      arguments = c(cohort),
+      needs = list("stage1_data_cleaning",glue("stage1_end_date_table")),
+      highly_sensitive = list(
+        input_table_2 = glue("output/review/descriptives/table2*.csv")
+      )
+    )
+  )
+}
 
 
 ##########################################################
@@ -150,24 +151,6 @@ actions_list <- splice(
     )
   ),
   
-  # #comment("Generate dummy data for study_definition - vaccinated"),
-  # action(
-  #   name = "generate_study_population_vaccinated",
-  #   run = "cohortextractor:latest generate_cohort --study-definition study_definition_vaccinated --output-format feather",
-  #   highly_sensitive = list(
-  #     cohort = glue("output/input_vaccinated.feather")
-  #   )
-  # ), 
-  # 
-  # #comment("Generate dummy data for study_definition - index"),
-  # action(
-  #   name = "generate_study_population_index",
-  #   run = "cohortextractor:latest generate_cohort --study-definition study_definition_index --output-format feather",
-  #   highly_sensitive = list(
-  #     cohort = glue("output/input_index.feather")
-  #   )
-  # ), 
-
   #comment("Preprocess data"),
   action(
     name = "preprocess_data",
@@ -191,6 +174,16 @@ actions_list <- splice(
     ),
     highly_sensitive = list(
       cohort = glue("output/input_stage1*.rds")
+    )
+  ),
+  
+  #comment("Stage 1 - End date table"),
+  action(
+    name = "stage1_end_date_table",
+    run = "r:latest analysis/preprocess/create_follow_up_end_date.R",
+    needs = list("preprocess_data","stage1_data_cleaning"),
+    highly_sensitive = list(
+      end_date_table = glue("output/follow_up_end_dates*.rds")
     )
   ),
 
@@ -218,11 +211,17 @@ actions_list <- splice(
     ),
   ),
   
+  #comment("Stage 4 - Create input for table2"),
+  splice(
+    # over outcomes
+    unlist(lapply(cohort_to_run, function(x) table2(cohort = x)), recursive = FALSE)
+  ),
+  
   #comment("Stage 4 - Venn diagrams"),
   action(
     name = "stage4_venn_diagram",
     run = "r:latest analysis/descriptives/venn_diagram.R",
-    needs = list("preprocess_data", "stage1_data_cleaning"),
+    needs = list("preprocess_data", "stage1_data_cleaning", "stage1_end_date_table"),
     moderately_sensitive = list(
       venn_diagram = glue("output/review/venn-diagrams/venn_diagram_*.svg"),
       venn_diagram_number_check = glue("output/review/venn-diagrams/venn_diagram_number_check*.csv")

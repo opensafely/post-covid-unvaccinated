@@ -50,6 +50,15 @@ actions:
       highly_sensitive:
         cohort: output/input_stage1*.rds
 
+  stage1_end_date_table:
+    run: r:latest analysis/preprocess/create_follow_up_end_date.R
+    needs:
+    - preprocess_data
+    - stage1_data_cleaning
+    outputs:
+      highly_sensitive:
+        end_date_table: output/follow_up_end_dates*.rds
+
   stage2_missing_table1:
     run: r:latest analysis/descriptives/Stage2_Missing_Table1.R
     needs:
@@ -68,11 +77,23 @@ actions:
       moderately_sensitive:
         flow_df: output/review/figure-data/diabetes_flow_values*.csv
 
+  ## Stage 4 - Table 2 
+
+  stage4_table_2:
+    run: 'r:latest analysis/descriptives/table_2.R '
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      highly_sensitive:
+        input_table_2: output/review/descriptives/table2*.csv
+
   stage4_venn_diagram:
     run: r:latest analysis/descriptives/venn_diagram.R
     needs:
     - preprocess_data
     - stage1_data_cleaning
+    - stage1_end_date_table
     outputs:
       moderately_sensitive:
         venn_diagram: output/review/venn-diagrams/venn_diagram_*.svg

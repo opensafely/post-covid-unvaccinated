@@ -16,6 +16,7 @@ read_in_cols <- c("patient_id",
                   "cov_cat_ethnicity",
                   "sub_bin_covid19_confirmed_history",
                   "vax_date_covid_1",
+                  "vax_date_eligible",
                   paste0("out_date_",event_name))
 
 if(active_analyses$prior_history_var != ""){
@@ -99,7 +100,7 @@ cohort_cols <- c("patient_id",
  
 #-----------------Set follow up end date for outcome of interest----------------
 
-input <- input %>% rowwise() %>% mutate(follow_up_end=min(vax_date_covid_1, event_date, DATE_OF_DEATH,cohort_end_date,na.rm = TRUE))
+input <- input %>% rowwise() %>% mutate(follow_up_end=min(vax_date_eligible, vax_date_covid_1, event_date, DATE_OF_DEATH,cohort_end_date,na.rm = TRUE))
 
 #-----------------------CREATE EMPTY ANALYSES NOT RUN DF------------------------
 analyses_not_run=data.frame(matrix(nrow=0,ncol = 7))
