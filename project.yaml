@@ -85,7 +85,7 @@ actions:
     - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
-      highly_sensitive:
+      moderately_sensitive:
         input_table_2: output/review/descriptives/table2*.csv
 
   stage4_venn_diagram:

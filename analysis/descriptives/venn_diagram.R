@@ -16,6 +16,7 @@
 library(data.table)
 library(readr)
 library(dplyr)
+library(purrr)
 
 args <- commandArgs(trailingOnly=TRUE)
 
@@ -35,7 +36,11 @@ venn_output <- function(group){
   
   active_analyses <- readr::read_rds("lib/active_analyses.rds")
   # added extra statement to include only those with venn == TRUE - because some diabetes outcomes only use one data source and so venn is not applicable
-  outcomes <- active_analyses[active_analyses$active==TRUE & active_analyses$venn==TRUE,]$outcome_variable
+  outcomes <- active_analyses[active_analyses$active==TRUE & active_analyses$venn==TRUE & active_analyses$outcome_group==group,]$outcome_variable
+  
+  if(length(outcomes) == 0){
+    print(paste0("No venn diagram generated for outcome group ",group))
+  } else{
   
   # Load data ------------------------------------------------------------------
   
@@ -69,6 +74,7 @@ venn_output <- function(group){
   # Populate table and make Venn for each outcome ------------------------------
   
   for (outcome in outcomes) {
+    print(paste0("Working on ", outcome))
     # Restrict data to that relevant to the given outcome ----------------------
     tmp <- input[!is.na(input[,outcome]),c("patient_id","index_date",paste0(gsub("out_date_","", outcome),"_follow_up_end"), colnames(input)[grepl(outcome,colnames(input))])]
     colnames(tmp) <- gsub(paste0("tmp_",outcome,"_"),"",colnames(tmp))
@@ -179,18 +185,18 @@ venn_output <- function(group){
       index2 <- integer(0)
       index3 <- integer(0)
       
-      if ("snomed" %in% source_consid) {
+      if ("only_snomed" %in% source_consid) {
         index1 <- which(!is.na(tmp$snomed))
       }
-      if ("hes" %in% source_consid) {
+      if ("only_hes" %in% source_consid) {
         index2 <- which(!is.na(tmp$hes))
       }
-      if ("death" %in% source_consid) {
+      if ("only_death" %in% source_consid) {
         index3 <- which(!is.na(tmp$death))
       }
       
       index <- list(index1, index2, index3)
-      names(index) <- c("Primary care", "Secondary care", "Deaths")
+      names(index) <- c("Primary care", "Secondary care", "Death record")
       index <- Filter(length, index)
       
       # Fix colours --------------------------------------------------------------
@@ -202,28 +208,31 @@ venn_output <- function(group){
       mycol <- mycol[mycol!=""]
       
       # Make Venn diagram --------------------------------------------------------
-      
-      svglite::svglite(file = paste0("output/review/venn-diagrams/venn_diagram_",group,"_",gsub("out_date_","",outcome),".svg"))
-      g <- ggvenn::ggvenn(
-        index, 
-        fill_color = mycol,
-        stroke_color = "white",
-        text_size = 5,
-        set_name_size = 5, 
-        fill_alpha = 0.9
-      ) +  ggplot2::ggtitle(active_analyses[active_analyses$outcome_variable==outcome,]$outcome) +
-        ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5, size = 15, face = "bold"))
-      print(g)
-      dev.off()
+      # only make venn diagram if list is not of length 0 
+      if(length(index) == 0){
+        print("outcome venn not constructed - empty list")
+      } else{
+        svglite::svglite(file = paste0("output/review/venn-diagrams/venn_diagram_",group,"_",gsub("out_date_","",outcome),".svg"))
+        g <- ggvenn::ggvenn(
+          index, 
+          fill_color = mycol,
+          stroke_color = "white",
+          text_size = 5,
+          set_name_size = 5, 
+          fill_alpha = 0.9
+        ) +  ggplot2::ggtitle(active_analyses[active_analyses$outcome_variable==outcome,]$outcome) +
+          ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5, size = 15, face = "bold"))
+        print(g)
+        dev.off()
+      }
       
     }
-    
 
   
   # Save summary file ----------------------------------------------------------
   
   write.csv(df, file = paste0("output/review/venn-diagrams/venn_diagram_number_check_", group,".csv"), row.names = F)
-  
+  }
 }
 
 # Run function using specified commandArgs and different outcome groups

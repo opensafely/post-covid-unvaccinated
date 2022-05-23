@@ -61,7 +61,7 @@ table_2_subgroups_output <- function(group){
                                   "sub_bin_covid19_confirmed_history","exp_date_covid19_confirmed","sub_cat_covid19_hospital",
                                   colnames(survival_data)[grepl("out_",colnames(survival_data))],
                                   colnames(survival_data)[grepl("follow_up",colnames(survival_data))],
-                                  colnames(survival_data)[grepl("expo",colnames(survival_data))],
+                                  colnames(survival_data)[grepl("expo_",colnames(survival_data))],
                                   active_analyses$prior_history_var[active_analyses$prior_history_var !=""])]
   
   setnames(survival_data, 
