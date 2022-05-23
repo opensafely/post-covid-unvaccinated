@@ -84,7 +84,7 @@ if(nrow(analyses_to_run>0)){
              stratify_by=analyses_to_run$strata,           
              mdl=analyses_to_run$mdl,   
              time_point=analyses_to_run$reduced_timepoint,       
-             input,covar_names,cuts_days_since_expo,cuts_days_since_expo_reduced))
+             input,cuts_days_since_expo,cuts_days_since_expo_reduced, covar_names))
 }
   
   

@@ -99,7 +99,7 @@ get_timepoint <- function(event,subgroup,stratify_by_subgroup,stratify_by,mdl,in
   event_count_exposed <- length(which(survival_data$event_date >= survival_data$follow_up_start &
                                         survival_data$event_date >= survival_data$expo_date & 
                                         survival_data$event_date <= survival_data$follow_up_end))
-  if(event_count_exposed < 5){
+  if(event_count_exposed < 50){
     analyses_not_run[nrow(analyses_not_run)+1,]<<- c(event,subgroup,mdl,"NA","NA","NA","FALSE")
     timepoint <- "remove"
   }else if(event_count_exposed >= 50 & event_count_exposed <400 ){

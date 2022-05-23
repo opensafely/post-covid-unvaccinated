@@ -90,7 +90,7 @@ outcomes_short <- c("depression",
 out_venn <- c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
 
 for (i in 1:length(outcomes)) {
-  df[nrow(df)+1,] <- c(TRUE,
+  df[nrow(df)+1,] <- c(FALSE,
                        outcomes[i],
                        outcome_group,
                        paste0("out_date_",outcomes_short[i]),
