@@ -104,7 +104,7 @@ actions:
   Analysis_cox_t1dm:
     run: r:latest analysis/model/01_cox_pipeline.R t1dm
     needs:
-    - stage1_data_cleaning_both
+    - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
@@ -121,7 +121,7 @@ actions:
   Analysis_cox_t2dm:
     run: r:latest analysis/model/01_cox_pipeline.R t2dm
     needs:
-    - stage1_data_cleaning_both
+    - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
@@ -138,7 +138,7 @@ actions:
   Analysis_cox_otherdm:
     run: r:latest analysis/model/01_cox_pipeline.R otherdm
     needs:
-    - stage1_data_cleaning_both
+    - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
@@ -155,7 +155,7 @@ actions:
   Analysis_cox_gestationaldm:
     run: r:latest analysis/model/01_cox_pipeline.R gestationaldm
     needs:
-    - stage1_data_cleaning_both
+    - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
