@@ -102,9 +102,10 @@ actions:
   ## Apply cox model for t1dm 
 
   Analysis_cox_t1dm:
-    run: r:latest analysis/model/01_pipe.R t1dm
+    run: r:latest analysis/model/01_cox_pipeline.R t1dm
     needs:
-    - stage1_data_cleaning
+    - stage1_data_cleaning_both
+    - stage1_end_date_table
     outputs:
       moderately_sensitive:
         analyses_not_run: output/review/model/analyses_not_run_t1dm.csv
@@ -118,9 +119,10 @@ actions:
   ## Apply cox model for t2dm 
 
   Analysis_cox_t2dm:
-    run: r:latest analysis/model/01_pipe.R t2dm
+    run: r:latest analysis/model/01_cox_pipeline.R t2dm
     needs:
-    - stage1_data_cleaning
+    - stage1_data_cleaning_both
+    - stage1_end_date_table
     outputs:
       moderately_sensitive:
         analyses_not_run: output/review/model/analyses_not_run_t2dm.csv
@@ -134,9 +136,10 @@ actions:
   ## Apply cox model for otherdm 
 
   Analysis_cox_otherdm:
-    run: r:latest analysis/model/01_pipe.R otherdm
+    run: r:latest analysis/model/01_cox_pipeline.R otherdm
     needs:
-    - stage1_data_cleaning
+    - stage1_data_cleaning_both
+    - stage1_end_date_table
     outputs:
       moderately_sensitive:
         analyses_not_run: output/review/model/analyses_not_run_otherdm.csv
@@ -150,9 +153,10 @@ actions:
   ## Apply cox model for gestationaldm 
 
   Analysis_cox_gestationaldm:
-    run: r:latest analysis/model/01_pipe.R gestationaldm
+    run: r:latest analysis/model/01_cox_pipeline.R gestationaldm
     needs:
-    - stage1_data_cleaning
+    - stage1_data_cleaning_both
+    - stage1_end_date_table
     outputs:
       moderately_sensitive:
         analyses_not_run: output/review/model/analyses_not_run_gestationaldm.csv
