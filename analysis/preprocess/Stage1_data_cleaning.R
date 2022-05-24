@@ -52,8 +52,9 @@ stage2 <- function(group) {
   factor_names <- tidyselect::vars_select(names(input), contains(c('_cat_'), ignore.case = TRUE))
   
   input <- input %>%
-    # handle missing smoking values 
+    # handle missing smoking and BMI values 
     mutate(cov_cat_smoking_status = replace_na(cov_cat_smoking_status, "M"),
+           cov_cat_bmi_groups = replace_na(cov_cat_bmi_groups, "Missing"),
            # Replace " " with "_"     
            cov_cat_region = gsub(" ", "_", cov_cat_region)) %>% 
     # handle missing region values

@@ -1559,8 +1559,9 @@ def generate_common_variables(index_date_variable):
                 "ratios": {
                     "Underweight": 0.05, 
                     "Healthy_weight": 0.25, 
-                    "Overweight": 0.4,
-                    "Obese": 0.3, 
+                    "Overweight": 0.3,
+                    "Obese": 0.3,
+                    "Missing": 0.1, 
                 }
             },
         },
