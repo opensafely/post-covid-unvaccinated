@@ -108,26 +108,26 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_t1dm_snomed=patients.with_these_clinical_events(
         diabetes_type1_snomed,
         returning="date",
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": "2010-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.3,
         },
     ),
     # HES APC
     tmp_out_date_t1dm_hes=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=diabetes_type1_icd10,
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": "2010-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.3,
         },
     ),
     # Combined
@@ -141,18 +141,18 @@ def generate_common_variables(index_date_variable):
     tmp_out_count_t1dm_snomed=patients.with_these_clinical_events(
         diabetes_type1_snomed,
         returning="number_of_matches_in_period",
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         return_expectations={
-            "int": {"distribution": "poisson", "mean": 2},
+            "int": {"distribution": "poisson", "mean": 4},
         },
     ),  
     # HES APC
     tmp_out_count_t1dm_hes=patients.admitted_to_hospital(
         returning="number_of_matches_in_period",
         with_these_diagnoses=diabetes_type1_icd10,
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         return_expectations={
-            "int": {"distribution": "poisson", "mean": 2},
+            "int": {"distribution": "poisson", "mean": 4},
         },
     ),
     # Combined 
@@ -168,26 +168,26 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_t2dm_snomed=patients.with_these_clinical_events(
         diabetes_type2_snomed,
         returning="date",
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": "2010-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.3,
         },
     ),
     # HES APC
     tmp_out_date_t2dm_hes=patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=diabetes_type2_icd10,
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": "2010-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.3,
         },
     ),
     # Combined
@@ -201,18 +201,18 @@ def generate_common_variables(index_date_variable):
     tmp_out_count_t2dm_snomed=patients.with_these_clinical_events(
         diabetes_type2_snomed,
         returning="number_of_matches_in_period",
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         return_expectations={
-            "int": {"distribution": "poisson", "mean": 2},
+            "int": {"distribution": "poisson", "mean": 4},
         },
     ),
     # HES APC
     tmp_out_count_t2dm_hes=patients.admitted_to_hospital(
         returning="number_of_matches_in_period",
         with_these_diagnoses=diabetes_type2_icd10,
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         return_expectations={
-            "int": {"distribution": "poisson", "mean": 2},
+            "int": {"distribution": "poisson", "mean": 4},
         },
     ),
     # # Combined
@@ -232,9 +232,9 @@ def generate_common_variables(index_date_variable):
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": "2010-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.05,
+            "incidence": 0.2,
         },
     ),
 
@@ -244,9 +244,9 @@ def generate_common_variables(index_date_variable):
     tmp_out_count_otherdm=patients.with_these_clinical_events(
         diabetes_other_snomed,
         returning="number_of_matches_in_period",
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         return_expectations={
-            "int": {"distribution": "poisson", "mean": 2},
+            "int": {"distribution": "poisson", "mean": 4},
         },
     ),
 
@@ -258,13 +258,13 @@ def generate_common_variables(index_date_variable):
     out_date_gestationaldm=patients.with_these_clinical_events(
         diabetes_gestational_snomed,
         returning="date",
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": "2010-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.05,
+            "incidence": 0.1,
         },
     ),
 
@@ -276,13 +276,13 @@ def generate_common_variables(index_date_variable):
     out_date_poccdm=patients.with_these_clinical_events(
         diabetes_diagnostic_snomed,
         returning="date",
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": "2010-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.05,
+            "incidence": 0.1,
         },
     ),
 
@@ -292,7 +292,7 @@ def generate_common_variables(index_date_variable):
     tmp_out_count_poccdm_snomed=patients.with_these_clinical_events(
         diabetes_diagnostic_snomed,
         returning="number_of_matches_in_period",
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         return_expectations={
             "int": {"distribution": "poisson", "mean": 2},
         },
@@ -303,11 +303,11 @@ def generate_common_variables(index_date_variable):
     tmp_out_num_max_hba1c_mmol_mol=patients.max_recorded_value(
         hba1c_new_codes,
         on_most_recent_day_of_measurement=True, 
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "float": {"distribution": "normal", "mean": 30.0, "stddev": 15},
-            "date": {"earliest": "1980-02-01", "latest": "2021-05-31"},
+            "date": {"earliest": "2010-02-01", "latest": "2021-05-31"},
             "incidence": 0.95,
         },
     ),
@@ -318,11 +318,11 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_insulin_snomed=patients.with_these_medications(
         insulin_snomed,
         returning="date",
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": "2010-01-01", "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.03,
         },
@@ -331,11 +331,11 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_antidiabetic_drugs_snomed=patients.with_these_medications(
         antidiabetic_drugs_snomed,
         returning="date",
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": "2010-01-01", "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.03,
         },
@@ -349,11 +349,11 @@ def generate_common_variables(index_date_variable):
     tmp_out_date_nonmetform_drugs_snomed=patients.with_these_medications(
         non_metformin_dmd,
         returning="date",
-        between=["1990-01-01", "today"],
+        between=["2010-01-01", "today"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": "2010-01-01", "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.03,
         },
