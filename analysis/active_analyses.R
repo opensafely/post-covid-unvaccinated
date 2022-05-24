@@ -94,7 +94,7 @@ for (i in 1:length(outcomes)) {
                        outcomes[i],
                        outcome_group,
                        paste0("out_date_",outcomes_short[i]),
-                       "cov_num_age;cov_cat_sex;cov_cat_ethnicity;cov_cat_deprivation;cov_cat_region;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_dementia;cov_bin_liver_disease;cov_bin_chronic_kidney_disease;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_obesity;cov_bin_chronic_obstructive_pulmonary_disease;cov_bin_ami;cov_bin_stroke_isch;cov_bin_depression;cov_bin_anxiety;cov_bin_eating_disorders;cov_bin_serious_mental_illness;cov_bin_self_harm",
+                       "cov_num_age;cov_cat_sex;cov_cat_ethnicity;cov_cat_deprivation;cov_cat_region;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_dementia;cov_bin_liver_disease;cov_bin_chronic_kidney_disease;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_obesity;cov_bin_chronic_obstructive_pulmonary_disease;cov_bin_ami;cov_bin_stroke_isch;cov_bin_recent_episode_depression;cov_bin_history_depression;cov_bin_recent_episode_anxiety;cov_bin_history_anxiety;cov_bin_recent_diagnosis_eating_disorders;cov_bin_history_eating_disorders;cov_bin_recent_report_serious_mental_illness;cov_bin_history_serious_mental_illness;cov_bin_recent_report_self_harm;cov_bin_history_self_harm",
                        rep("all",1),
                        rep(TRUE,3),
                        rep(FALSE,14),
