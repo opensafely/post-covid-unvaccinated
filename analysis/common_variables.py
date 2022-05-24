@@ -1411,7 +1411,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={"incidence": 0.03},
     ),
      ### HES
-    tmp_cov_bin__recent_episode_depression_icd10=patients.admitted_to_hospital(
+    tmp_cov_bin_recent_episode_depression_icd10=patients.admitted_to_hospital(
         returning='binary_flag',
         with_these_diagnoses=depression_icd10,
         between=[f"{index_date_variable} - 6 months", f"{index_date_variable}"], 
