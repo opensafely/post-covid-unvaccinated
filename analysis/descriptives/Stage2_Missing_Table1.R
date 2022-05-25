@@ -38,6 +38,9 @@ if(length(args)==0){
   cohort_name <- args[[1]]
 }
 
+fs::dir_create(here::here("output", "not-for-review"))
+fs::dir_create(here::here("output", "review", "descriptives"))
+
 # Define stage2 function -------------------------------------------------------
 
 stage2 <- function(cohort_name, group) {
@@ -87,7 +90,7 @@ stage2 <- function(cohort_name, group) {
   #---------------------------------------------------------------------------#
   
   check_both <- merge(x=check_missing, y=check_range, by = "variable",all.x=TRUE)
-  write.csv(check_both, file = file.path("output", paste0("Check_missing_range_",group,".csv")) , row.names=F)
+  write.csv(check_both, file = file.path("output/not-for-review", paste0("Check_missing_range.csv")) , row.names=F)
   
   #---------------------------------------------------------#
   # 1.d. Create a table with min and max for date variables #
@@ -104,7 +107,7 @@ stage2 <- function(cohort_name, group) {
     check_dates[nrow(check_dates),3] <- paste0("",max(na.omit(date_var)))
   }
   
-  write.csv(check_dates, file = file.path("output", paste0("Check_dates_range_",group,".csv")) , row.names=F)
+  write.csv(check_dates, file = file.path("output/not-for-review", paste0("Check_dates_range.csv")) , row.names=F)
   
   #####################
   # 2. Output table 1 #
@@ -298,7 +301,7 @@ stage2 <- function(cohort_name, group) {
   
   # Save table 1
   
-  write.csv(table1_suppressed, file = file.path("output", paste0("Table1_",group,".csv")) , row.names=F)
+  write.csv(table1_suppressed, file = file.path("output/review/descriptives", paste0("Table1_",group,".csv")) , row.names=F)
   
 }
 

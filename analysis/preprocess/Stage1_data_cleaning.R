@@ -31,6 +31,9 @@ library(tidyverse)
 start_date = as.Date("2020-01-01")
 end_date = as.Date("2021-06-18") # General End date: 2021-06-18 (date last JCVI group eligible for vaccination - Decision on Jan 18th 2022)
 
+fs::dir_create(here::here("output", "not-for-review"))
+fs::dir_create(here::here("output", "review", "descriptives"))
+
 stage2 <- function(group) {
   # Input dataset
   input <-read_rds("output/input.rds")
@@ -137,7 +140,7 @@ stage2 <- function(group) {
   
   #Save QA summary as .csv
   
-  write.csv(QA_summary, file = file.path("output", "QA_summary.csv") , row.names=F)
+  write.csv(QA_summary, file = file.path("output/review/descriptives", "QA_summary.csv") , row.names=F)
   
   print("QA summary saved successfully")
   
@@ -154,7 +157,7 @@ stage2 <- function(group) {
   meta_data_factors <- lapply(input[,describe_vars], table)
   meta_data_factors_num <- lapply(input[,describe_vars_num], summary)
   meta_data_factors <- c(meta_data_factors, meta_data_factors_num)
-  sink(file = file.path("output", "meta_data_factors.csv"))
+  sink(file = file.path("output/not-for-review/", "meta_data_factors.csv"))
   print(meta_data_factors)
   sink()
   
@@ -224,24 +227,24 @@ stage2 <- function(group) {
     # Exclude individuals with a recorded diagnosis of diabetes prior to 1st January 2020 
     input <- input %>% 
       filter(! out_date_t1dm < index_date |
-             ! out_date_t2dm < index_date |
-             ! out_date_otherdm < index_date)
+               ! out_date_t2dm < index_date |
+               ! out_date_otherdm < index_date)
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Diabetes specific criteria: Remove those with diabetes prior to study start date")
     
   } else if (group == "diabetes_gestational"){
     # Exclude men from gestational diabetes analysis
     input <- input %>% 
       filter(! out_date_t1dm < index_date |
-             ! out_date_t2dm < index_date |
-             ! out_date_otherdm < index_date) %>%
+               ! out_date_t2dm < index_date |
+               ! out_date_otherdm < index_date) %>%
       filter(cov_cat_sex == "Female")
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Gestational diabetes: The study population will be restricted to women.")
-  
+    
   } else if (group == "mental_health"){
-  # Mental health analyses exclusion criteria
-  input <- input %>% 
-    filter()
-  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Mental health: .")
+    # Mental health analyses exclusion criteria
+    input <- input %>% 
+      filter()
+    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Mental health: .")
   }
   
   ##############
@@ -250,7 +253,7 @@ stage2 <- function(group) {
   
   # Create csv file 
   
-  write.csv(cohort_flow, file = file.path("output", paste0("cohort_flow_",group,".csv")), row.names=F)
+  write.csv(cohort_flow, file = file.path("output/review/descriptives", paste0("cohort_flow_",group,".csv")), row.names=F)
   
   # Create the final stage 1 dataset 
   

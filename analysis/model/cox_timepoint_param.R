@@ -3,31 +3,31 @@
 ## 2.Stratify to relevant subgroup if necessary
 ## 3.Add follow up start and end dates
 ## =============================================================================
-source(file.path(scripts_dir,"fit_model.R"))
+# source(file.path(scripts_dir,"fit_model.R"))
 
-get_vacc_res <- function(event,subgroup,stratify_by_subgroup,stratify_by,mdl,input,cuts_days_since_expo,cuts_days_since_expo_reduced,covar_names){
-  print(paste0("Working on subgroup: ", subgroup, ", ",mdl,", "))
+get_timepoint <- function(event,subgroup,stratify_by_subgroup,stratify_by,mdl,input,cuts_days_since_expo,cuts_days_since_expo_reduced,covar_names){
+  print(paste0("Getting event counts and time cut-offs for subgroup: ", subgroup, ", ",mdl,", "))
   
   #Reduce dataset to those who do NOT have a prior history of COVID unless running the subgroup
   #analysis for this with a prior history
   
-  if(subgroup != "covid_history" ){
-    input=input%>%filter(sub_bin_covid19_confirmed_history == FALSE)
-  }else {
-    input=input%>%filter(sub_bin_covid19_confirmed_history == TRUE)
-  }
+  # if(subgroup != "covid_history" ){
+  #   input=input%>%filter(sub_bin_covid19_confirmed_history == FALSE)
+  # }else {
+  #   input=input%>%filter(sub_bin_covid19_confirmed_history == TRUE)
+  # }
   
   # Select the relevant cohort columns required to stratify by subgroup if necessary
-  if(startsWith(subgroup,"prior_history")){
-    survival_data <- input %>% dplyr::select(all_of(cohort_cols),all_of(stratify_by_subgroup))
-  }else{
+  # if(startsWith(subgroup,"prior_history")){
+  #   survival_data <- input %>% dplyr::select(all_of(cohort_cols),all_of(stratify_by_subgroup))
+  # }else{
     survival_data <- input %>% dplyr::select(all_of(cohort_cols))
-  }
+  # }
   
   # Stratify to the relevant subgroup if either sex/ethnicity/prior history subgroup
   # COVID pheno subgroup is filtered later in this script
   
-  for(i in c("ethnicity","sex","prior_history")){
+  for(i in c("ethnicity","sex")){
     if(startsWith(subgroup,i)){
       survival_data=survival_data%>%filter_at(stratify_by_subgroup,all_vars(.==stratify_by))
     }
@@ -55,7 +55,7 @@ get_vacc_res <- function(event,subgroup,stratify_by_subgroup,stratify_by,mdl,inp
   if(startsWith(subgroup,"agegp_")){
     survival_data=survival_data %>% filter(agegroup== stratify_by)
   }
-
+  
   # Detect if a column is of date type, if so impose study start/end dates
   # only really interested in event_date and expo_date being within follow-up at this point as all other date variable 
   #have been checked in inclusion/exclusion & QA
@@ -94,11 +94,22 @@ get_vacc_res <- function(event,subgroup,stratify_by_subgroup,stratify_by,mdl,inp
     
   survival_data=survival_data%>%filter(follow_up_end>=follow_up_start)
   
-  total_covid_cases=nrow(survival_data %>% filter(!is.na(expo_date)))
-    
-  res_vacc <- fit_model_reducedcovariates(event,subgroup,stratify_by_subgroup,stratify_by,mdl, survival_data,input,cuts_days_since_expo,cuts_days_since_expo_reduced,covar_names,total_covid_cases)
-  print(paste0("Finished working on subgroup: ", subgroup, ", ",mdl,", "))
-  return(res_vacc)
-}
   
-    
+  # calculate post-exposure event
+  event_count_exposed <- length(which(survival_data$event_date >= survival_data$follow_up_start &
+                                        survival_data$event_date >= survival_data$expo_date & 
+                                        survival_data$event_date <= survival_data$follow_up_end))
+  if(event_count_exposed < 50){
+    analyses_not_run[nrow(analyses_not_run)+1,]<<- c(event,subgroup,mdl,"NA","NA","NA","FALSE")
+    timepoint <- "remove"
+  }else if(event_count_exposed >= 50 & event_count_exposed <400 ){
+    timepoint <- "reduced"
+  }else{
+    timepoint <- "normal"
+  }
+  
+  ###  
+  # res_vacc <- fit_model_reducedcovariates(event,subgroup,stratify_by_subgroup,stratify_by,mdl, survival_data,input,cuts_days_since_expo,cuts_days_since_expo_reduced,covar_names,total_covid_cases)
+  # print(paste0("Finished working on subgroup: ", subgroup, ", ",mdl,", ", cohort))
+  return(timepoint)
+}
