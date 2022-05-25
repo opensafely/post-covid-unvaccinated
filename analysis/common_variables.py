@@ -1402,6 +1402,26 @@ def generate_common_variables(index_date_variable):
         return_expectations={"incidence": 0.1},
     ),
 
+    ## Depression
+    ### Primary care
+    tmp_cov_bin_depression_snomed=patients.with_these_clinical_events(
+        depression_snomed_clinical,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.03},
+    ),
+     ### HES
+    tmp_cov_bin_depression_icd10=patients.admitted_to_hospital(
+        returning='binary_flag',
+        with_these_diagnoses=depression_icd10,
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.03},
+    ),
+     ### Combined History of depression
+    cov_bin_depression=patients.maximum_of(
+        "tmp_cov_bin_depression_snomed", "tmp_cov_bin_depression_icd10",
+    ), 
+
     ## Recent Episode of depression
     ### Primary care
     tmp_cov_bin_recent_episode_depression_snomed=patients.with_these_clinical_events(
