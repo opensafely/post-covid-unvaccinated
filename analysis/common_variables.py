@@ -1518,7 +1518,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={"incidence": 0.03},
     ), 
         ### Combined History of eating disorders
-    cov_bin_recent_recent_eating_disorders=patients.maximum_of(
+    cov_bin_recent_eating_disorders=patients.maximum_of(
         "tmp_cov_bin_recent_eating_disorders", "tmp_cov_bin_recent_eating_disorders_icd10",
     ),
 
@@ -1578,7 +1578,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={"incidence": 0.03},
     ), 
         ### Combined History of Serious mental illness
-    cov_bin_history_history_serious_mental_illness=patients.maximum_of(
+    cov_bin_history_serious_mental_illness=patients.maximum_of(
         "tmp_cov_bin_history_serious_mental_illness", "tmp_cov_bin_history_serious_mental_illness_icd10",
     ),
 
