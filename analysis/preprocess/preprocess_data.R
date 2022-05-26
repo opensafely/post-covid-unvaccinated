@@ -113,6 +113,12 @@ df1 <- df %>%
   dplyr::select(-contains("df_out_")) %>%
   dplyr::select(-contains("tmp_"))
 
+# Describe data --------------------------------------------------------------
+
+sink(paste0("output/not-for-review/describe_input_stage0.txt"))
+print(Hmisc::describe(df1))
+sink()
+
 # SAVE
 
 saveRDS(df1, file = paste0("output/input.rds"))

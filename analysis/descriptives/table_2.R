@@ -43,7 +43,7 @@ table_2_subgroups_output <- function(group){
   
   # define analyses of interests
   active_analyses <- read_rds("lib/active_analyses.rds")
-  active_analyses <- active_analyses %>%dplyr::filter(active == "TRUE")
+  active_analyses <- active_analyses %>%dplyr::filter(active == "TRUE" & outcome_group == group)
   
   analyses_of_interest <- as.data.frame(matrix(ncol = 8,nrow = 0))
   
@@ -90,7 +90,7 @@ table_2_subgroups_output <- function(group){
     analyses_to_run$subgroup <- row.names(analyses_to_run)
     colnames(analyses_to_run) <- c("run","subgroup")
     
-    analyses_to_run<- analyses_to_run %>% filter(run=="TRUE"  & subgroup != "active" & subgroup != "main") 
+    analyses_to_run<- analyses_to_run %>% filter(run=="TRUE"  & subgroup != "active" & subgroup != "main" & subgroup != "venn")  
     rownames(analyses_to_run) <- NULL
     analyses_to_run <- analyses_to_run %>% select(!run)
     analyses_to_run$event=i
