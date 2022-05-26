@@ -14,12 +14,15 @@ args <- commandArgs(trailingOnly=TRUE)
 cohort_start_date <- as.Date("2020-01-01")
 cohort_end_date <- as.Date("2021-06-18")
 
-## Read in active analyses table and filter to relevant outcomes
-
-active_analyses <- read_rds("lib/active_analyses.rds")
-active_analyses <- active_analyses %>% filter(active == "TRUE") %>% select(outcome_variable)
-
 follow_up_end_dates <- function(group){
+  
+  ## Read in active analyses table and filter to relevant outcomes
+  
+  active_analyses <- read_rds("lib/active_analyses.rds")
+  active_analyses <- active_analyses %>% 
+    filter(active == "TRUE" & outcome_group == group) %>% 
+    select(outcome_variable, outcome_group)
+  
   # Load relevant data
   input <- read_rds(paste0("output/input_stage1_",group,".rds"))
   
