@@ -34,6 +34,8 @@ actions:
     needs:
     - generate_study_population
     outputs:
+      moderately_sensitive:
+        describe: output/not-forreview/describe_input_stage0.txt
       highly_sensitive:
         cohort: output/input.rds
         venn: output/venn.rds
