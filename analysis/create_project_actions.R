@@ -156,6 +156,8 @@ actions_list <- splice(
     name = "preprocess_data",
     run = "r:latest analysis/preprocess/preprocess_data.R",
     needs = list("generate_study_population"),
+    moderately_sensitive = list(
+      describe = glue("output/not-for-review/describe_input_stage0.txt")),
     highly_sensitive = list(
       cohort = glue("output/input.rds"),
       venn = glue("output/venn.rds")
