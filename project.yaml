@@ -34,6 +34,8 @@ actions:
     needs:
     - generate_study_population
     outputs:
+      moderately_sensitive:
+        describe: output/not-for-review/describe_input_stage0.txt
       highly_sensitive:
         cohort: output/input.rds
         venn: output/venn.rds
@@ -49,6 +51,15 @@ actions:
         IE_criteria: output/review/descriptives/cohort_flow*.csv
       highly_sensitive:
         cohort: output/input_stage1*.rds
+
+  stage1_end_date_table:
+    run: r:latest analysis/preprocess/create_follow_up_end_date.R
+    needs:
+    - preprocess_data
+    - stage1_data_cleaning
+    outputs:
+      highly_sensitive:
+        end_date_table: output/follow_up_end_dates*.rds
 
   stage2_missing_table1:
     run: r:latest analysis/descriptives/Stage2_Missing_Table1.R
@@ -68,11 +79,23 @@ actions:
       moderately_sensitive:
         flow_df: output/review/figure-data/diabetes_flow_values*.csv
 
+  ## Stage 4 - Table 2 
+
+  stage4_table_2:
+    run: 'r:latest analysis/descriptives/table_2.R '
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        input_table_2: output/review/descriptives/table2*.csv
+
   stage4_venn_diagram:
     run: r:latest analysis/descriptives/venn_diagram.R
     needs:
     - preprocess_data
     - stage1_data_cleaning
+    - stage1_end_date_table
     outputs:
       moderately_sensitive:
         venn_diagram: output/review/venn-diagrams/venn_diagram_*.svg
@@ -81,9 +104,10 @@ actions:
   ## Apply cox model for t1dm 
 
   Analysis_cox_t1dm:
-    run: r:latest analysis/model/01_pipe.R t1dm
+    run: r:latest analysis/model/01_cox_pipeline.R t1dm
     needs:
     - stage1_data_cleaning
+    - stage1_end_date_table
     outputs:
       moderately_sensitive:
         analyses_not_run: output/review/model/analyses_not_run_t1dm.csv
@@ -97,9 +121,10 @@ actions:
   ## Apply cox model for t2dm 
 
   Analysis_cox_t2dm:
-    run: r:latest analysis/model/01_pipe.R t2dm
+    run: r:latest analysis/model/01_cox_pipeline.R t2dm
     needs:
     - stage1_data_cleaning
+    - stage1_end_date_table
     outputs:
       moderately_sensitive:
         analyses_not_run: output/review/model/analyses_not_run_t2dm.csv
@@ -113,9 +138,10 @@ actions:
   ## Apply cox model for otherdm 
 
   Analysis_cox_otherdm:
-    run: r:latest analysis/model/01_pipe.R otherdm
+    run: r:latest analysis/model/01_cox_pipeline.R otherdm
     needs:
     - stage1_data_cleaning
+    - stage1_end_date_table
     outputs:
       moderately_sensitive:
         analyses_not_run: output/review/model/analyses_not_run_otherdm.csv
@@ -129,9 +155,10 @@ actions:
   ## Apply cox model for gestationaldm 
 
   Analysis_cox_gestationaldm:
-    run: r:latest analysis/model/01_pipe.R gestationaldm
+    run: r:latest analysis/model/01_cox_pipeline.R gestationaldm
     needs:
     - stage1_data_cleaning
+    - stage1_end_date_table
     outputs:
       moderately_sensitive:
         analyses_not_run: output/review/model/analyses_not_run_gestationaldm.csv

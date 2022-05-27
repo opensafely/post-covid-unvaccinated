@@ -114,7 +114,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.3,
         },
     ),
     # HES APC
@@ -127,7 +127,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.3,
         },
     ),
     # Combined
@@ -143,7 +143,7 @@ def generate_common_variables(index_date_variable):
         returning="number_of_matches_in_period",
         between=["1990-01-01", "today"],
         return_expectations={
-            "int": {"distribution": "poisson", "mean": 2},
+            "int": {"distribution": "poisson", "mean": 4},
         },
     ),  
     # HES APC
@@ -152,7 +152,7 @@ def generate_common_variables(index_date_variable):
         with_these_diagnoses=diabetes_type1_icd10,
         between=["1990-01-01", "today"],
         return_expectations={
-            "int": {"distribution": "poisson", "mean": 2},
+            "int": {"distribution": "poisson", "mean": 4},
         },
     ),
     # Combined 
@@ -174,7 +174,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.3,
         },
     ),
     # HES APC
@@ -187,7 +187,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.3,
         },
     ),
     # Combined
@@ -203,7 +203,7 @@ def generate_common_variables(index_date_variable):
         returning="number_of_matches_in_period",
         between=["1990-01-01", "today"],
         return_expectations={
-            "int": {"distribution": "poisson", "mean": 2},
+            "int": {"distribution": "poisson", "mean": 4},
         },
     ),
     # HES APC
@@ -212,7 +212,7 @@ def generate_common_variables(index_date_variable):
         with_these_diagnoses=diabetes_type2_icd10,
         between=["1990-01-01", "today"],
         return_expectations={
-            "int": {"distribution": "poisson", "mean": 2},
+            "int": {"distribution": "poisson", "mean": 4},
         },
     ),
     # # Combined
@@ -234,7 +234,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.05,
+            "incidence": 0.2,
         },
     ),
 
@@ -246,7 +246,7 @@ def generate_common_variables(index_date_variable):
         returning="number_of_matches_in_period",
         between=["1990-01-01", "today"],
         return_expectations={
-            "int": {"distribution": "poisson", "mean": 2},
+            "int": {"distribution": "poisson", "mean": 4},
         },
     ),
 
@@ -264,7 +264,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.05,
+            "incidence": 0.1,
         },
     ),
 
@@ -282,7 +282,7 @@ def generate_common_variables(index_date_variable):
         return_expectations={
             "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.05,
+            "incidence": 0.1,
         },
     ),
 
@@ -1682,8 +1682,9 @@ def generate_common_variables(index_date_variable):
                 "ratios": {
                     "Underweight": 0.05, 
                     "Healthy_weight": 0.25, 
-                    "Overweight": 0.4,
-                    "Obese": 0.3, 
+                    "Overweight": 0.3,
+                    "Obese": 0.3,
+                    "Missing": 0.1, 
                 }
             },
         },
