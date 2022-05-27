@@ -52,8 +52,9 @@ stage2 <- function(group) {
   factor_names <- tidyselect::vars_select(names(input), contains(c('_cat_'), ignore.case = TRUE))
   
   input <- input %>%
-    # handle missing smoking values 
+    # handle missing smoking and BMI values 
     mutate(cov_cat_smoking_status = replace_na(cov_cat_smoking_status, "M"),
+           cov_cat_bmi_groups = replace_na(cov_cat_bmi_groups, "Missing"),
            # Replace " " with "_"     
            cov_cat_region = gsub(" ", "_", cov_cat_region)) %>% 
     # handle missing region values
@@ -226,17 +227,17 @@ stage2 <- function(group) {
   if (group == "diabetes"){
     # Exclude individuals with a recorded diagnosis of diabetes prior to 1st January 2020 
     input <- input %>% 
-      filter(! out_date_t1dm < index_date |
-               ! out_date_t2dm < index_date |
-               ! out_date_otherdm < index_date)
+      filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
+      filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
+      filter(! out_date_otherdm < index_date | is.na(out_date_otherdm))
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Diabetes specific criteria: Remove those with diabetes prior to study start date")
     
   } else if (group == "diabetes_gestational"){
     # Exclude men from gestational diabetes analysis
     input <- input %>% 
-      filter(! out_date_t1dm < index_date |
-               ! out_date_t2dm < index_date |
-               ! out_date_otherdm < index_date) %>%
+      filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
+      filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
+      filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
       filter(cov_cat_sex == "Female")
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Gestational diabetes: The study population will be restricted to women.")
     
