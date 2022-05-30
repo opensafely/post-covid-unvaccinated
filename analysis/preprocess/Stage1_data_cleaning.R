@@ -230,9 +230,10 @@ stage2 <- function(group) {
     mutate(cov_num_tc_hdl_ratio = replace(cov_num_tc_hdl_ratio, which(cov_num_tc_hdl_ratio < 0), NA)) # assign negative ages to NA - should only matter for dummy data)
   
   svglite::svglite(file = file.path("output/not-for-review/", paste0("numeric_histograms_", group, ".svg")))
-  ggplot(gather(numeric_vars), aes(value)) + 
+  g <- ggplot(gather(numeric_vars), aes(value)) + 
     geom_histogram(bins = 10) + 
     facet_wrap(~key, scales = 'free_x')
+  print(g)
   dev.off()
   
   print("Histograms saved successfully")
