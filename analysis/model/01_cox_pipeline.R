@@ -89,7 +89,7 @@ if(nrow(analyses_to_run>0)){
   
   
 #Save csv of anlayses not run
-write.csv(analyses_not_run, paste0(output_dir,"/analyses_not_run_" , event_name ,"_", ".csv"), row.names = T)
+write.csv(analyses_not_run, paste0(output_dir,"/analyses_not_run_" , event_name , ".csv"), row.names = T)
 
 
 #Combine all results into one .csv

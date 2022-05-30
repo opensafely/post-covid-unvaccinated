@@ -205,16 +205,3 @@ if(length(results_done)>0){
   write.csv(supressed_combined_hr_event_counts,paste0(output_dir,"/suppressed_compiled_HR_results_",event_name,"_","to_release.csv") , row.names=F)
   
 }
-
-#==============================ANALYSES NOT RUN=================================
-analyses_not_run=data.frame(matrix(nrow=0,ncol = 7))
-colnames(analyses_not_run)=c("event","subgroup","model", "any exposures?", "any exposure events?", "any non exposed?", "more than 400 post exposure events?")
-
-# for(cohort in cohort_to_run){
-#   analyses_not_run=rbind(analyses_not_run,read_csv(paste0("output/analyses_not_run_",event_name,"_",cohort,".csv")))
-# }
-
-write.csv(analyses_not_run,paste0(output_dir,"/analyses_not_run_",event_name, ".csv") , row.names=F)
-print(paste0("Analyses not run saved: ", output_dir,"/analyses_not_run_",event_name, ".csv"))
-
-
