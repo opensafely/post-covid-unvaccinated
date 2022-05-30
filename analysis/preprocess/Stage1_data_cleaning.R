@@ -26,6 +26,7 @@ library(readr)
 library(dplyr)
 library(stringr)
 library(tidyverse)
+library(ggplot2)
 
 # Define general start date and end date
 start_date = as.Date("2020-01-01")
@@ -54,7 +55,7 @@ stage2 <- function(group) {
   input <- input %>%
     # handle missing smoking and BMI values 
     mutate(cov_cat_smoking_status = replace_na(cov_cat_smoking_status, "M"),
-           cov_cat_bmi_groups = replace_na(cov_cat_bmi_groups, "Missing"),
+           # cov_cat_bmi_groups = replace_na(cov_cat_bmi_groups, "Missing"),
            # Replace " " with "_"     
            cov_cat_region = gsub(" ", "_", cov_cat_region)) %>% 
     # handle missing region values
@@ -220,6 +221,22 @@ stage2 <- function(group) {
   # Exclusion criteria: SARS-CoV-2 infection recorded prior to the start of follow-up
   # No COVID cases prior to 1st Jan 2020
   
+  #--------------------------#
+  # 3.e. Generate histograms #
+  #--------------------------#
+  # generate histograms for numerical variables
+  
+  numeric_vars <- input %>% dplyr::select(contains("_num")) %>%
+    mutate(cov_num_tc_hdl_ratio = replace(cov_num_tc_hdl_ratio, which(cov_num_tc_hdl_ratio < 0), NA)) # assign negative ages to NA - should only matter for dummy data)
+  
+  svglite::svglite(file = file.path("output/not-for-review/", paste0("numeric_histograms_", group, ".svg")))
+  g <- ggplot(gather(numeric_vars), aes(value)) + 
+    geom_histogram(bins = 10) + 
+    facet_wrap(~key, scales = 'free_x')
+  print(g)
+  dev.off()
+  
+  print("Histograms saved successfully")
   #--------------------------------------------#
   # Apply outcome specific exclusions criteria #
   #--------------------------------------------#

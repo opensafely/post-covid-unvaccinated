@@ -100,7 +100,7 @@ diabetes_flow_function <- function(group) {
   values_df_t <- data.table::transpose(values_df) # transpose df
   names(values_df_t) <- lapply(values_df_t[1, ], as.character) # make row 1 the column names
   values_df_t <- values_df_t[-1, ] 
-  write.csv(values_df_t, file = paste0("output/review/figure-data/diabetes_flow_values.csv")) # save
+  write.csv(values_df_t, file = paste0("output/review/figure-data/diabetes_flow_values_",group,".csv")) # save
   # I have checked and using the dataframe "values_df_t" gets the exact same flow chart as when using the list. 
   
 }
