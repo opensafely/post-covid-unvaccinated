@@ -17,6 +17,11 @@ library(magrittr)
 library(tidyverse)
 library(lubridate)
 
+# FILE PATHS
+
+fs::dir_create(here::here("output", "not-for-review"))
+fs::dir_create(here::here("output", "review"))
+
 # Define parameters ------------------------------------------------------------
 
 ## Study start date
@@ -37,6 +42,12 @@ df$cov_num_tc_hdl_ratio[is.nan(df$cov_num_tc_hdl_ratio)] <- NA
 df$cov_num_tc_hdl_ratio[is.infinite(df$cov_num_tc_hdl_ratio)] <- NA
 
 print("Diabetes count variables created successfully")
+
+# Combine BMI variables to create one history of obesity variable ---------------
+
+df <- df %>%
+  mutate(cov_bin_obesity = ifelse(cov_bin_obesity == TRUE | cov_cat_bmi_groups == "Obese", TRUE, FALSE)) %>%
+  dplyr::select(- cov_num_bmi)
 
 # Format columns -----------------------------------------------------
 # dates, numerics, factors, logicals
@@ -86,7 +97,7 @@ print("COVID-19 and diabetes variables needed for algorithm created successfully
 
 # Define diabetes outcome (using Sophie Eastwood algorithm) ----------------------------
 
-scripts_dir <- "analysis"
+scripts_dir <- "analysis/preprocess"
 source(file.path(scripts_dir,"diabetes_algorithm.R"))
 df <- diabetes_algo(df)
 print("Diabetes algorithm run successfully")
@@ -101,6 +112,12 @@ df1 <- df %>%
                 contains(c("sub_", "exp_", "out_", "cov_", "qa_", "vax_", "step"))) %>%
   dplyr::select(-contains("df_out_")) %>%
   dplyr::select(-contains("tmp_"))
+
+# Describe data --------------------------------------------------------------
+
+sink(paste0("output/not-for-review/describe_input_stage0.txt"))
+print(Hmisc::describe(df1))
+sink()
 
 # SAVE
 

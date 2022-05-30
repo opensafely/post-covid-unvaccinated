@@ -4,8 +4,8 @@
 ## 2.Defines the cox survival formula and fits the cox model
 ## 3.Format the results table
 ## =============================================================================
-source(file.path(scripts_dir,"fit_get_data_surv_eventcountbasedtimecuts.R"))
 
+source(file.path(scripts_dir,"04_01_(b)_cox_format_survival_data.R"))
 
 #------------------FORMAT SURVIVAL DATASET AND RUN COX MODEL--------------------
 
@@ -47,7 +47,7 @@ fit_model_reducedcovariates <- function(event,subgroup,stratify_by_subgroup,stra
   data_surv$cox_weights <- ifelse(data_surv$patient_id %in% noncase_ids, non_case_inverse_weight, 1)
   
   # Fit model and prep output csv
-  fit_model <- coxfit(data_surv, interval_names, covar_names, subgroup, mdl)
+  fit_model <- coxfit(data_surv, interval_names, covar_names, subgroup, mdl, event)
   fit_model$subgroup <- subgroup
   fit_model$event <- event
   fit_model$model <- mdl
@@ -59,7 +59,7 @@ fit_model_reducedcovariates <- function(event,subgroup,stratify_by_subgroup,stra
 
 
 #------------------------ GET SURV FORMULA & COXPH() ---------------------------
-coxfit <- function(data_surv, interval_names, covar_names, subgroup, mdl){
+coxfit <- function(data_surv, interval_names, covar_names, subgroup, mdl, event){
   print("Working on cox model")
   
   if(mdl == "mdl_max_adj"){
@@ -102,7 +102,7 @@ coxfit <- function(data_surv, interval_names, covar_names, subgroup, mdl){
   }
  
   #If subgroup is not sex then add sex into formula
-  if ((startsWith(subgroup,"sex"))==F & (!"sex" %in% covariates_excl_region_sex_age)){
+  if ((startsWith(subgroup,"sex"))==F & (!"sex" %in% covariates_excl_region_sex_age) & (event != "gestationaldm")){
     surv_formula <- paste(surv_formula, "sex", sep="+")
   }
   

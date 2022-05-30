@@ -3,9 +3,9 @@ from cohortextractor import codelist_from_csv, combine_codelists, codelist
 # COVID RELATED CODELISTS ---------------------------------------------------------------------------------
 
 covid_codes = codelist_from_csv(
-    "codelists/opensafely-covid-identification.csv",
+    "codelists/user-RochelleKnight-confirmed-hospitalised-covid-19.csv",
     system="icd10",
-    column="icd10_code",
+    column="code",
 )
 
 covid_primary_care_positive_test = codelist_from_csv(
