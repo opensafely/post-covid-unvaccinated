@@ -26,6 +26,7 @@ library(readr)
 library(dplyr)
 library(stringr)
 library(tidyverse)
+library(ggplot2)
 
 # Define general start date and end date
 start_date = as.Date("2020-01-01")
@@ -54,7 +55,7 @@ stage2 <- function(group) {
   input <- input %>%
     # handle missing smoking and BMI values 
     mutate(cov_cat_smoking_status = replace_na(cov_cat_smoking_status, "M"),
-           cov_cat_bmi_groups = replace_na(cov_cat_bmi_groups, "Missing"),
+           # cov_cat_bmi_groups = replace_na(cov_cat_bmi_groups, "Missing"),
            # Replace " " with "_"     
            cov_cat_region = gsub(" ", "_", cov_cat_region)) %>% 
     # handle missing region values
@@ -225,17 +226,16 @@ stage2 <- function(group) {
   #--------------------------#
   # generate histograms for numerical variables
   
-  # write historgrams to PDF
+  numeric_vars <- input %>% dplyr::select(contains("_num")) %>%
+    mutate(cov_num_tc_hdl_ratio = replace(cov_num_tc_hdl_ratio, which(cov_num_tc_hdl_ratio < 0), NA)) # assign negative ages to NA - should only matter for dummy data)
   
-  numeric_vars <- input %>% dplyr::select(contains("_num"))
-  numeric_title <- colnames(numeric_vars)
-  
-  pdf(file = file.path("output/not-for-review/", paste0("numeric_histograms.pdf")))
-  for (col in 1:ncol(numeric_vars)) {
-    hist(numeric_vars[,col], breaks = 20, main = substitute(paste('Histogram of ', a), list(a=numeric_title[col])))
-  }
+  svglite::svglite(file = file.path("output/not-for-review/", paste0("numeric_histograms_", group, ".svg")))
+  ggplot(gather(numeric_vars), aes(value)) + 
+    geom_histogram(bins = 10) + 
+    facet_wrap(~key, scales = 'free_x')
   dev.off()
   
+  print("Histograms saved successfully")
   #--------------------------------------------#
   # Apply outcome specific exclusions criteria #
   #--------------------------------------------#
