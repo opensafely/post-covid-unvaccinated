@@ -172,7 +172,8 @@ actions_list <- splice(
     moderately_sensitive = list(
       QA_rules = glue("output/review/descriptives/QA_summary.csv"),
       refactoring = glue("output/not-for-review/meta_data_factors.csv"),
-      IE_criteria = glue("output/review/descriptives/cohort_flow*.csv")
+      IE_criteria = glue("output/review/descriptives/cohort_flow*.csv"),
+      histograms = glue("output/not-for-review/numeric_histograms.pdf")
     ),
     highly_sensitive = list(
       cohort = glue("output/input_stage1*.rds")

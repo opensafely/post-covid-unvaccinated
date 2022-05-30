@@ -220,6 +220,22 @@ stage2 <- function(group) {
   # Exclusion criteria: SARS-CoV-2 infection recorded prior to the start of follow-up
   # No COVID cases prior to 1st Jan 2020
   
+  #--------------------------#
+  # 3.e. Generate histograms #
+  #--------------------------#
+  # generate histograms for numerical variables
+  
+  # write historgrams to PDF
+  
+  numeric_vars <- input %>% dplyr::select(contains("_num"))
+  numeric_title <- colnames(numeric_vars)
+  
+  pdf(file = file.path("output/not-for-review/", paste0("numeric_histograms.pdf")))
+  for (col in 1:ncol(numeric_vars)) {
+    hist(numeric_vars[,col], breaks = 20, main = substitute(paste('Histogram of ', a), list(a=numeric_title[col])))
+  }
+  dev.off()
+  
   #--------------------------------------------#
   # Apply outcome specific exclusions criteria #
   #--------------------------------------------#
