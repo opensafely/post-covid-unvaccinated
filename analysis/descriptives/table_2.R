@@ -220,8 +220,8 @@ table_2_calculation <- function(survival_data, event,cohort,subgroup, stratify_b
   
   # filter the population according to age/sex categories
   if(subgroup == "age_sex"){
-    data_active=data_active %>% filter(sex== sub("_.*","",strata))
-    data_active=data_active %>% filter(agegroup== sub(".*e_","",strata))
+    data_active=data_active %>% filter(sex== sub("_.*","",stratify_by))
+    data_active=data_active %>% filter(agegroup== sub(".*e_","",stratify_by))
   }
   
   # calculate unexposed follow-up days for AER script
