@@ -218,6 +218,12 @@ table_2_calculation <- function(survival_data, event,cohort,subgroup, stratify_b
     data_active=data_active %>% filter(agegroup== stratify_by)
   }
   
+  # filter the population according to age/sex categories
+  if(subgroup == "age_sex"){
+    data_active=data_active %>% filter(sex== sub("_.*","",strata))
+    data_active=data_active %>% filter(agegroup== sub(".*e_","",strata))
+  }
+  
   # calculate unexposed follow-up days for AER script
   data_active = data_active %>% mutate(person_days_unexposed = as.numeric((as.Date(follow_up_end_unexposed) - as.Date(index_date))))
   index <- which(data_active$follow_up_end_unexposed < data_active$exp_date_covid19_confirmed | is.na(data_active$exp_date_covid19_confirmed))
