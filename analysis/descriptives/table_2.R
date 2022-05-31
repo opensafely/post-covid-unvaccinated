@@ -115,6 +115,14 @@ table_2_subgroups_output <- function(group){
     for(k in c("covid_pheno_","agegp_","sex_","ethnicity_","prior_history_")){
       analyses_to_run$strata <- ifelse(startsWith(analyses_to_run$subgroup,k),gsub(k,"",analyses_to_run$subgroup),analyses_to_run$strata)
     }
+    
+    # Add in rows for age/sex subgroups
+    for(l in c("Female","Male")){
+      for(m in agelabels){
+        analyses_to_run[nrow(analyses_to_run)+1,] = c("age_sex",i,"age_sex",paste0(l,"_",m))
+      }
+    }
+    
     analyses_of_interest <- rbind(analyses_of_interest,analyses_to_run)
     
   }
