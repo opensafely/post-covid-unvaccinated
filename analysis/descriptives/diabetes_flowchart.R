@@ -85,7 +85,7 @@ diabetes_flow_function <- function(group) {
     q = sum(diabetes_df$step_7 == "Yes", na.rm = T),
     q2 = sum(diabetes_df$step_7 == "No", na.rm = T),
     # DIABETES UNSPECIFIED TYPE
-    r = sum(diabetes_df$out_cat_diabetes == "DM unspecified", na.rm = T),
+    r = sum(diabetes_df$out_cat_diabetes == "DM_other", na.rm = T),
     # DIABETES UNLIKELY
     s = sum(diabetes_df$out_cat_diabetes == "DM unlikely", na.rm = T))
   
