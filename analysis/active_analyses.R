@@ -11,7 +11,7 @@ df <- data.frame(active = logical(),
                  covariates = character(),
                  model = character(),
                  main = character(),
-                 #covid_pheno_hospitalised = character(),
+                 covid_pheno_hospitalised = character(),
                  covid_pheno_non_hospitalised = character(),
                  agegp_18_39 = character(),
                  agegp_40_59 = character(),
@@ -33,38 +33,38 @@ df <- data.frame(active = logical(),
 
 # Add diabetes outcomes --------------------------------------------------------
 
-# outcomes <- c("type 1 diabetes",
-#               "type 2 diabetes",
-#               "other or non-specific diabetes",
-#               "gestational diabetes")
+ outcomes <- c("type 1 diabetes",
+               "type 2 diabetes",
+               "other or non-specific diabetes",
+               "gestational diabetes")
 
-# outcome_group <- "diabetes"
+ outcome_group <- "diabetes"
 
-# outcomes_short <- c("t1dm","t2dm","otherdm","gestationaldm")
-# outcome_venn <- c(TRUE, TRUE, FALSE, FALSE)
+ outcomes_short <- c("t1dm","t2dm","otherdm","gestationaldm")
+ outcome_venn <- c(TRUE, TRUE, FALSE, FALSE)
 
-# for (i in 1:length(outcomes)) {
-#   df[nrow(df)+1,] <- c(TRUE,
-#                        outcomes[i],
-#                        outcome_group,
-#                        paste0("out_date_",outcomes_short[i]),
-#                        "cov_cat_sex;cov_num_age;cov_cat_ethnicity;cov_cat_deprivation;cov_cat_region;cov_num_consulation_rate;cov_cat_smoking_status;cov_bin_ami;cov_bin_all_stroke;cov_bin_other_arterial_embolism;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_dementia;cov_bin_liver_disease;cov_bin_chronic_kidney_disease;cov_bin_cancer;cov_bin_hypertension;cov_bin_depression;cov_bin_chronic_obstructive_pulmonary_disease;cov_bin_healthcare_worker;cov_bin_carehome_status;cov_num_tc_hdl_ratio;cov_cat_bmi_groups;cov_bin_prediabetes;cov_bin_diabetes_gestational",
-#                        rep("all",1),
-#                        rep(TRUE,3),
-#                        rep(FALSE,14),
-#                        "",
-#                        outcome_venn[i])
-# }
+ for (i in 1:length(outcomes)) {
+   df[nrow(df)+1,] <- c(FALSE,
+                        outcomes[i],
+                        outcome_group,
+                        paste0("out_date_",outcomes_short[i]),
+                        "cov_cat_sex;cov_num_age;cov_cat_ethnicity;cov_cat_deprivation;cov_cat_region;cov_num_consulation_rate;cov_cat_smoking_status;cov_bin_ami;cov_bin_all_stroke;cov_bin_other_arterial_embolism;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_dementia;cov_bin_liver_disease;cov_bin_chronic_kidney_disease;cov_bin_cancer;cov_bin_hypertension;cov_bin_depression;cov_bin_chronic_obstructive_pulmonary_disease;cov_bin_healthcare_worker;cov_bin_carehome_status;cov_num_tc_hdl_ratio;cov_cat_bmi_groups;cov_bin_prediabetes;cov_bin_diabetes_gestational",
+                        rep("all",1),
+                        rep(TRUE,3),
+                        rep(FALSE,14),
+                        "",
+                        outcome_venn[i])
+ }
 
 # change outcome group so that gestational diabetes has its own group
 
-# df <- df %>% mutate(outcome_group = case_when(outcome_variable == "out_date_gestationaldm" ~ "diabetes_gestational",
-#                                               TRUE ~ as.character(outcome_group)))
+ df <- df %>% mutate(outcome_group = case_when(outcome_variable == "out_date_gestationaldm" ~ "diabetes_gestational",
+                                               TRUE ~ as.character(outcome_group)))
 
-# Remove sex as a covariate for gestational diabetes analysis
+ Remove sex as a covariate for gestational diabetes analysis
 
-# df <- df %>% mutate(covariates = case_when(outcome_variable == "out_date_gestationaldm" ~ "cov_num_age;cov_cat_ethnicity;cov_cat_deprivation;cov_cat_region;cov_num_consulation_rate;cov_cat_smoking_status;cov_bin_ami;cov_bin_all_stroke;cov_bin_other_arterial_embolism;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_dementia;cov_bin_liver_disease;cov_bin_chronic_kidney_disease;cov_bin_cancer;cov_bin_hypertension;cov_bin_depression;cov_bin_chronic_obstructive_pulmonary_disease;cov_bin_healthcare_worker;cov_bin_carehome_status;cov_num_tc_hdl_ratio;cov_cat_bmi_groups;cov_bin_prediabetes;cov_bin_diabetes_gestational",
-#                                               TRUE ~ as.character(covariates)))
+ df <- df %>% mutate(covariates = case_when(outcome_variable == "out_date_gestationaldm" ~ "cov_num_age;cov_cat_ethnicity;cov_cat_deprivation;cov_cat_region;cov_num_consulation_rate;cov_cat_smoking_status;cov_bin_ami;cov_bin_all_stroke;cov_bin_other_arterial_embolism;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_dementia;cov_bin_liver_disease;cov_bin_chronic_kidney_disease;cov_bin_cancer;cov_bin_hypertension;cov_bin_depression;cov_bin_chronic_obstructive_pulmonary_disease;cov_bin_healthcare_worker;cov_bin_carehome_status;cov_num_tc_hdl_ratio;cov_cat_bmi_groups;cov_bin_prediabetes;cov_bin_diabetes_gestational",
+                                               TRUE ~ as.character(covariates)))
 
 # Add mental health outcomes --------------------------------------------------------
 
@@ -95,7 +95,7 @@ outcomes_short <- c("depression",
 out_venn <- c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
 
 for (i in 1:length(outcomes)) {
-  df[nrow(df)+1,] <- c(FALSE,
+  df[nrow(df)+1,] <- c(TRUE,
                        outcomes[i],
                        outcome_group,
                        paste0("out_date_",outcomes_short[i]),
