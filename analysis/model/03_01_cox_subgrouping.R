@@ -26,17 +26,17 @@ get_vacc_res <- function(event,subgroup,stratify_by_subgroup,stratify_by,time_po
     survival_data <- input %>% dplyr::select(all_of(cohort_cols))
   }
   
-  # for(i in c("hospitalised","non_hospitalised")){
-  #   if(stratify_by == i){
-  #     survival_data$follow_up_end <- NULL
-  #     setnames(survival_data, 
-  #              old = c(c(paste0(i,"_follow_up_end")),
-  #                      c(paste0(i,"_censor_date"))),
+  for(i in c("hospitalised","non_hospitalised")){
+    if(stratify_by == i){
+      survival_data$follow_up_end <- NULL
+      setnames(survival_data, 
+               old = c(c(paste0(i,"_follow_up_end")),
+                       c(paste0(i,"_censor_date"))),
                
-  #              new = c("follow_up_end",
-  #                      "date_expo_censor"))
-  #   }
-  # }
+               new = c("follow_up_end",
+                       "date_expo_censor"))
+    }
+  }
   
   # Stratify to the relevant subgroup if either sex/ethnicity/prior history subgroup
   # COVID pheno subgroup is filtered later in this script
