@@ -214,11 +214,11 @@ actions_list <- splice(
     ),
   ),
   
-  # #comment("Stage 4 - Create input for table2"),
-  # splice(
-  #   # over outcomes
-  #   unlist(lapply(cohort_to_run, function(x) table2(cohort = x)), recursive = FALSE)
-  # ),
+  #comment("Stage 4 - Create input for table2"),
+  splice(
+    # over outcomes
+    unlist(lapply(cohort_to_run, function(x) table2(cohort = x)), recursive = FALSE)
+  ),
   
   #comment("Stage 4 - Venn diagrams"),
   action(
