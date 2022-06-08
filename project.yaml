@@ -80,17 +80,6 @@ actions:
       moderately_sensitive:
         flow_df: output/review/figure-data/diabetes_flow_values*.csv
 
-  ## Stage 4 - Table 2 
-
-  stage4_table_2:
-    run: 'r:latest analysis/descriptives/table_2.R '
-    needs:
-    - stage1_data_cleaning
-    - stage1_end_date_table
-    outputs:
-      moderately_sensitive:
-        input_table_2: output/review/descriptives/table2*.csv
-
   stage4_venn_diagram:
     run: r:latest analysis/descriptives/venn_diagram.R
     needs:
