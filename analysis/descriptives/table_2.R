@@ -245,8 +245,8 @@ table_2_calculation <- function(survival_data, event,cohort,subgroup, stratify_b
     data_active$person_days[index] = data_active$person_days[index] + 1
   }
   
-  data_active = data_active %>% filter((person_days_unexposed >=0 & person_days_unexposed <= 197)
-                                       & (person_days >=0 & person_days <= 197)) # filter out follow up period
+  data_active = data_active %>% filter((person_days_unexposed >=0 & person_days_unexposed <= 535)
+                                       & (person_days >=0 & person_days <= 535)) # filter out follow up period
   
 
   person_days_total_unexposed  = round(sum(data_active$person_days_unexposed, na.rm = TRUE),1)
