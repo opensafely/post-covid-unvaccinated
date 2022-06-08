@@ -47,13 +47,12 @@ rm_lowvar_covars <- function(data_surv){
 collapse_categorical_covars <- function(data_surv){
   cov_cat <-colnames(data_surv)[grepl("cov_cat", colnames(data_surv))]
   df <- data_surv %>% dplyr::select(c( "expo", "event", all_of(cov_cat), "patient_id")) %>% distinct() %>% filter((expo==1) & (event==1))
-  df <- df %>%  dplyr::select(!c("expo", "event", "patient_id"))
-  
+  df <- df %>%  dplyr::select(!c("expo", "event", "patient_id"
+                                 
+  ))
   summary <- as.data.frame(summary(df,maxsum=50))
   summary$Freq=gsub(".*:", "",summary$Freq)#Remove everything before:
-  summary$Var2 <- gsub("\\s","",summary$Var2)
   summary$Freq <- as.numeric(summary$Freq)
-  
   cat_cov_to_remove=unique(as.character(summary$Var2[summary$Freq <=2]))
   
   if("cov_cat_deprivation" %in% cat_cov_to_remove){
@@ -92,4 +91,5 @@ covariate_exploration <- function(data_surv, covars){
   summary$Var2 <- gsub("\\s","",summary$Var2)
   return(summary)
 }
+
 
