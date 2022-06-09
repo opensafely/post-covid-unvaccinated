@@ -37,11 +37,34 @@ df <- df %>% mutate(tmp_out_count_t2dm = tmp_out_count_t2dm_snomed + tmp_out_cou
       # cholesterol ratio              
              mutate(cov_num_tc_hdl_ratio = tmp_cov_num_cholesterol / tmp_cov_num_hdl_cholesterol)
 
+print("Diabetes count variables created successfully")
+
 # replace NaN and Inf with NA's (probably only an issue with dummy data)
 df$cov_num_tc_hdl_ratio[is.nan(df$cov_num_tc_hdl_ratio)] <- NA
 df$cov_num_tc_hdl_ratio[is.infinite(df$cov_num_tc_hdl_ratio)] <- NA
+print("Cholesterol ratio before removing values")
+summary(df$cov_num_tc_hdl_ratio)
 
-print("Diabetes count variables created successfully")
+# remove biologically implausible TC/HDL ratio values
+# impossible a ratio < 1 because HDL cholesterol cannot be higher than total cholesterol
+# biologically implausible to have a ratio > 50 (taken from https://doi.org/10.1093/ije/dyz099)
+df <- df %>%
+  mutate(cov_num_tc_hdl_ratio = replace(cov_num_tc_hdl_ratio, cov_num_tc_hdl_ratio > 50 | cov_num_tc_hdl_ratio < 1, NA))
+
+print("Cholesterol ratio after removing values")
+summary(df$cov_num_tc_hdl_ratio)
+
+# QC for consultation variable
+# max to 365 (average of one per day)
+
+print("Consultation variable before QC")
+summary(df$cov_num_consulation_rate)
+
+df <- df %>%
+  mutate(cov_num_consulation_rate = replace(cov_num_consulation_rate, cov_num_tc_hdl_ratio > 365, 365))
+
+print("Consultation variable after QC")
+summary(df$cov_num_consulation_rate)
 
 # Combine BMI variables to create one history of obesity variable ---------------
 

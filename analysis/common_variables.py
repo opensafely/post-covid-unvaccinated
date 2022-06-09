@@ -1632,11 +1632,11 @@ def generate_common_variables(index_date_variable):
     tmp_cov_num_cholesterol=patients.max_recorded_value(
         cholesterol_snomed,
         on_most_recent_day_of_measurement=True, 
-        between=["2015-01-01", "today"],
+        between=["2015-01-01", "index_date"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "float": {"distribution": "normal", "mean": 5.0, "stddev": 2.5},
-            "date": {"earliest": "1980-02-01", "latest": "2021-05-31"},
+            "date": {"earliest": "2015-01-01", "latest": "2020-01-01"},
             "incidence": 0.80,
         },
     ),
