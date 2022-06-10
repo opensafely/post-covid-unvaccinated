@@ -118,7 +118,7 @@ for(i in cohort){
                                                       width = 0), 
                                position = ggplot2::position_dodge(width = 1)) +
         ggplot2::geom_line(position = ggplot2::position_dodge(width = 1)) +
-        ggplot2::scale_y_continuous(lim = c(0.25,64), breaks = c(0.5,1,2,4,8,16,32,64), trans = "log") +
+        ggplot2::scale_y_continuous(lim = c(0.25,16), breaks = c(0.5,1,2,4,8,16), trans = "log") +
         ggplot2::scale_x_continuous(lim = c(0,88), breaks = seq(0,88,8)) +
         ggplot2::scale_fill_manual(values = levels(df$colour), labels = levels(df$subgroup)) +
         ggplot2::scale_color_manual(values = levels(df$colour), labels = levels(df$subgroup)) +
