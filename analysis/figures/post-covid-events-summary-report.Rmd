@@ -1,7 +1,10 @@
 ---
-title: Post-Covid-Events Results Summary Report
-output: pdf_document
-toc: true
+title: "Post-Covid-Events Results Summary Report"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    theme: united
 header-includes:
 - \usepackage{pdflscape}
 - \newcommand{\blandscape}{\begin{landscape}}
@@ -39,6 +42,28 @@ This is a brief report generated using markdown to provide a summary of results 
 
 ```{r T1, out.width="100%"}
 table1 <- read.csv(paste0(results_dir,"Table1_",outcome,".csv"))
+
+# CLEAN TABLE 1
+
+table1 <- table1 %>% 
+  
+  mutate(COVID_exposed_perc = (COVID_exposed/Whole_population)*100,
+         COVID_hospitalised_perc = (COVID_hospitalised/COVID_exposed)*100,
+         COVID_non_hospitalised_perc = (COVID_non_hospitalised/COVID_exposed)*100) %>%
+  mutate_if(is.numeric, round, 1) %>%
+  
+  mutate(Whole_population = formatC(round(Whole_population), format = "f", big.mark = ",", drop0trailing = TRUE),
+         COVID_exposed = formatC(round(COVID_exposed), format = "f", big.mark = ",", drop0trailing = TRUE),
+         COVID_hospitalised = formatC(round(COVID_hospitalised), format = "f", big.mark = ",", drop0trailing = TRUE),
+         COVID_non_hospitalised = formatC(round(COVID_non_hospitalised), format = "f", big.mark = ",", drop0trailing = TRUE),) %>%
+  
+  mutate("COVID exposed (%)" = paste0(COVID_exposed, " (", COVID_exposed_perc, ")"),
+         "COVID hospitalised (% of exposed)" = paste0(COVID_hospitalised, " (", COVID_hospitalised_perc, ")"),
+         "COVID non-hospitalised (% of exposed)" = paste0(COVID_non_hospitalised, " (", COVID_non_hospitalised_perc, ")"),
+         "Covariate Level" = Covariate_level) %>%
+  
+  dplyr::select("Covariate", "Covariate Level", "COVID exposed (%)", "COVID hospitalised (% of exposed)", "COVID non-hospitalised (% of exposed)")
+
 pander::pander(table1, split.cell = 10, split.table = Inf)
 ```
 
@@ -50,11 +75,13 @@ pander::pander(table1, split.cell = 10, split.table = Inf)
 
 ```{r T2, out.width="100%"}
 table2 <- read.csv(paste0(results_dir,"table2_",outcome,".csv"))
+table2 <- table2 %>% dplyr::select(-subgroup, -stratify_by_subgroup)
 # remove "_" to tidy up a little
 table2 <- data.frame(lapply(table2, function(x) {
           gsub("_", " ", x)
               }))
 colnames(table2) = gsub("_", " ", colnames(table2))
+
 pander::pander(table2, split.cells = 8)
 ```
 
