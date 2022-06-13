@@ -32,16 +32,6 @@ df <- arrow::read_feather(file = "output/input.feather")
 
 # create vars -------------------------------------------------------------
 
-# remove biologically implausible TC/HDL ratio values: https://doi.org/10.1093/ije/dyz099
-# Remove TC < 1.75 or > 20 
-# remove HDL < 0.4 or > 5
-df <- df %>%
-  mutate(tmp_cov_num_cholesterol = replace(tmp_cov_num_cholesterol, tmp_cov_num_cholesterol < 1.75 | tmp_cov_num_cholesterol > 20, NA),
-         cov_num_tc_hdl_ratio = replace(tmp_cov_num_hdl_cholesterol, tmp_cov_num_hdl_cholesterol < 0.4 | tmp_cov_num_hdl_cholesterol > 5, NA))
-
-print("Cholesterol ratio after removing values")
-summary(df$cov_num_tc_hdl_ratio)
-
 # vars could not be created in common vars file
 df <- df %>% mutate(tmp_out_count_t2dm = tmp_out_count_t2dm_snomed + tmp_out_count_t2dm_hes,
                     tmp_out_count_t1dm = tmp_out_count_t1dm_snomed + tmp_out_count_t1dm_hes) %>%
@@ -53,6 +43,16 @@ df <- df %>% mutate(tmp_out_count_t2dm = tmp_out_count_t2dm_snomed + tmp_out_cou
   
 
 print("Diabetes count variables created successfully")
+
+# remove biologically implausible TC/HDL ratio values: https://doi.org/10.1093/ije/dyz099
+# Remove TC < 1.75 or > 20 
+# remove HDL < 0.4 or > 5
+df <- df %>%
+  mutate(tmp_cov_num_cholesterol = replace(tmp_cov_num_cholesterol, tmp_cov_num_cholesterol < 1.75 | tmp_cov_num_cholesterol > 20, NA),
+         cov_num_tc_hdl_ratio = replace(tmp_cov_num_hdl_cholesterol, tmp_cov_num_hdl_cholesterol < 0.4 | tmp_cov_num_hdl_cholesterol > 5, NA))
+
+print("Cholesterol ratio after removing values")
+summary(df$cov_num_tc_hdl_ratio)
 
 # replace NaN and Inf with NA's (probably only an issue with dummy data)
 df$cov_num_tc_hdl_ratio[is.nan(df$cov_num_tc_hdl_ratio)] <- NA
