@@ -62,7 +62,7 @@ table1 <- table1 %>%
          "COVID non-hospitalised (% of exposed)" = paste0(COVID_non_hospitalised, " (", COVID_non_hospitalised_perc, ")"),
          "Covariate Level" = Covariate_level) %>%
   
-  dplyr::select("Covariate", "Covariate Level", "COVID exposed (%)", "COVID hospitalised (% of exposed)", "COVID non-hospitalised (% of exposed)")
+  dplyr::select("Covariate", "Covariate Level", "Whole_population", "COVID exposed (%)", "COVID hospitalised (% of exposed)", "COVID non-hospitalised (% of exposed)")
 
 pander::pander(table1, split.cell = 10, split.table = Inf)
 ```

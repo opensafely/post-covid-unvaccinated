@@ -206,16 +206,18 @@ pre code {
 <h2>Number of patients analysed in OpenSAFELY, and the numbers of people who were exposed to COVID-19 and those who were and were not hospitalised within 28 days of diagnosis of COVID-19.</h2>
 <table>
 <colgroup>
-<col width="16%" />
-<col width="30%" />
-<col width="14%" />
-<col width="16%" />
-<col width="21%" />
+<col width="13%" />
+<col width="25%" />
+<col width="17%" />
+<col width="12%" />
+<col width="13%" />
+<col width="17%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="center">Covariate</th>
 <th align="center">Covariate Level</th>
+<th align="center">Whole_population</th>
 <th align="center">COVID exposed (%)</th>
 <th align="center">COVID hospitalised (% of exposed)</th>
 <th align="center">COVID non-hospitalised (% of exposed)</th>
@@ -225,6 +227,7 @@ pre code {
 <tr class="odd">
 <td align="center">All</td>
 <td align="center">All</td>
+<td align="center">16,575,039</td>
 <td align="center">3,290,372 (19.9)</td>
 <td align="center">83,180 (2.5)</td>
 <td align="center">3,207,192 (97.5)</td>
@@ -232,6 +235,7 @@ pre code {
 <tr class="even">
 <td align="center">sex</td>
 <td align="center">Female</td>
+<td align="center">8,373,798</td>
 <td align="center">1,801,578 (21.5)</td>
 <td align="center">39,131 (2.2)</td>
 <td align="center">1,762,447 (97.8)</td>
@@ -239,6 +243,7 @@ pre code {
 <tr class="odd">
 <td align="center">sex</td>
 <td align="center">Male</td>
+<td align="center">8,201,241</td>
 <td align="center">1,488,794 (18.2)</td>
 <td align="center">44,049 (3)</td>
 <td align="center">1,444,745 (97)</td>
@@ -246,6 +251,7 @@ pre code {
 <tr class="even">
 <td align="center">ethnicity</td>
 <td align="center">White</td>
+<td align="center">12,880,563</td>
 <td align="center">2,617,309 (20.3)</td>
 <td align="center">69,474 (2.7)</td>
 <td align="center">2,547,835 (97.3)</td>
@@ -253,6 +259,7 @@ pre code {
 <tr class="odd">
 <td align="center">ethnicity</td>
 <td align="center">Mixed</td>
+<td align="center">194,478</td>
 <td align="center">42,984 (22.1)</td>
 <td align="center">986 (2.3)</td>
 <td align="center">41,998 (97.7)</td>
@@ -260,6 +267,7 @@ pre code {
 <tr class="even">
 <td align="center">ethnicity</td>
 <td align="center">South Asian</td>
+<td align="center">984,707</td>
 <td align="center">215,887 (21.9)</td>
 <td align="center">6,995 (3.2)</td>
 <td align="center">208,892 (96.8)</td>
@@ -267,6 +275,7 @@ pre code {
 <tr class="odd">
 <td align="center">ethnicity</td>
 <td align="center">Black</td>
+<td align="center">348,423</td>
 <td align="center">70,377 (20.2)</td>
 <td align="center">2,628 (3.7)</td>
 <td align="center">67,749 (96.3)</td>
@@ -274,6 +283,7 @@ pre code {
 <tr class="even">
 <td align="center">ethnicity</td>
 <td align="center">Other</td>
+<td align="center">380,564</td>
 <td align="center">54,434 (14.3)</td>
 <td align="center">1,817 (3.3)</td>
 <td align="center">52,617 (96.7)</td>
@@ -281,6 +291,7 @@ pre code {
 <tr class="odd">
 <td align="center">ethnicity</td>
 <td align="center">Missing</td>
+<td align="center">1,786,304</td>
 <td align="center">289,381 (16.2)</td>
 <td align="center">1,280 (0.4)</td>
 <td align="center">288,101 (99.6)</td>
@@ -288,6 +299,7 @@ pre code {
 <tr class="even">
 <td align="center">deprivation</td>
 <td align="center">1-2 (most deprived)</td>
+<td align="center">3,150,083</td>
 <td align="center">678,445 (21.5)</td>
 <td align="center">21,619 (3.2)</td>
 <td align="center">656,826 (96.8)</td>
@@ -295,6 +307,7 @@ pre code {
 <tr class="odd">
 <td align="center">deprivation</td>
 <td align="center">3-4</td>
+<td align="center">3,277,474</td>
 <td align="center">669,624 (20.4)</td>
 <td align="center">17,893 (2.7)</td>
 <td align="center">651,731 (97.3)</td>
@@ -302,6 +315,7 @@ pre code {
 <tr class="even">
 <td align="center">deprivation</td>
 <td align="center">5-6</td>
+<td align="center">3,586,995</td>
 <td align="center">687,312 (19.2)</td>
 <td align="center">16,739 (2.4)</td>
 <td align="center">670,573 (97.6)</td>
@@ -309,6 +323,7 @@ pre code {
 <tr class="odd">
 <td align="center">deprivation</td>
 <td align="center">7-8</td>
+<td align="center">3,408,176</td>
 <td align="center">651,846 (19.1)</td>
 <td align="center">14,653 (2.2)</td>
 <td align="center">637,193 (97.8)</td>
@@ -316,6 +331,7 @@ pre code {
 <tr class="even">
 <td align="center">deprivation</td>
 <td align="center">9-10 (least deprived)</td>
+<td align="center">3,152,311</td>
 <td align="center">603,145 (19.1)</td>
 <td align="center">12,276 (2)</td>
 <td align="center">590,869 (98)</td>
@@ -323,6 +339,7 @@ pre code {
 <tr class="odd">
 <td align="center">region</td>
 <td align="center">London</td>
+<td align="center">1,132,182</td>
 <td align="center">197,740 (17.5)</td>
 <td align="center">5,097 (2.6)</td>
 <td align="center">192,643 (97.4)</td>
@@ -330,6 +347,7 @@ pre code {
 <tr class="even">
 <td align="center">region</td>
 <td align="center">East</td>
+<td align="center">3,871,809</td>
 <td align="center">739,104 (19.1)</td>
 <td align="center">18,196 (2.5)</td>
 <td align="center">720,908 (97.5)</td>
@@ -337,6 +355,7 @@ pre code {
 <tr class="odd">
 <td align="center">region</td>
 <td align="center">East_Midlands</td>
+<td align="center">2,865,361</td>
 <td align="center">598,350 (20.9)</td>
 <td align="center">16,062 (2.7)</td>
 <td align="center">582,288 (97.3)</td>
@@ -344,6 +363,7 @@ pre code {
 <tr class="even">
 <td align="center">region</td>
 <td align="center">North_East</td>
+<td align="center">798,723</td>
 <td align="center">188,885 (23.6)</td>
 <td align="center">5,587 (3)</td>
 <td align="center">183,298 (97)</td>
@@ -351,6 +371,7 @@ pre code {
 <tr class="odd">
 <td align="center">region</td>
 <td align="center">North_West</td>
+<td align="center">1,453,203</td>
 <td align="center">343,358 (23.6)</td>
 <td align="center">9,034 (2.6)</td>
 <td align="center">334,324 (97.4)</td>
@@ -358,6 +379,7 @@ pre code {
 <tr class="even">
 <td align="center">region</td>
 <td align="center">South_East</td>
+<td align="center">1,138,818</td>
 <td align="center">196,558 (17.3)</td>
 <td align="center">5,235 (2.7)</td>
 <td align="center">191,323 (97.3)</td>
@@ -365,6 +387,7 @@ pre code {
 <tr class="odd">
 <td align="center">region</td>
 <td align="center">South_West</td>
+<td align="center">2,328,449</td>
 <td align="center">377,277 (16.2)</td>
 <td align="center">6,641 (1.8)</td>
 <td align="center">370,636 (98.2)</td>
@@ -372,6 +395,7 @@ pre code {
 <tr class="even">
 <td align="center">region</td>
 <td align="center">West_Midlands</td>
+<td align="center">662,387</td>
 <td align="center">144,787 (21.9)</td>
 <td align="center">4,617 (3.2)</td>
 <td align="center">140,170 (96.8)</td>
@@ -379,6 +403,7 @@ pre code {
 <tr class="odd">
 <td align="center">region</td>
 <td align="center">Yorkshire_and_The_Humber</td>
+<td align="center">2,324,107</td>
 <td align="center">504,313 (21.7)</td>
 <td align="center">12,711 (2.5)</td>
 <td align="center">491,602 (97.5)</td>
@@ -386,6 +411,7 @@ pre code {
 <tr class="even">
 <td align="center">smoking status</td>
 <td align="center">Never smoker</td>
+<td align="center">7,732,789</td>
 <td align="center">1,610,292 (20.8)</td>
 <td align="center">33,867 (2.1)</td>
 <td align="center">1,576,425 (97.9)</td>
@@ -393,6 +419,7 @@ pre code {
 <tr class="odd">
 <td align="center">smoking status</td>
 <td align="center">Ever smoker</td>
+<td align="center">5,200,004</td>
 <td align="center">1,032,738 (19.9)</td>
 <td align="center">40,210 (3.9)</td>
 <td align="center">992,528 (96.1)</td>
@@ -400,6 +427,7 @@ pre code {
 <tr class="even">
 <td align="center">smoking status</td>
 <td align="center">Current smoker</td>
+<td align="center">2,891,935</td>
 <td align="center">505,229 (17.5)</td>
 <td align="center">8,070 (1.6)</td>
 <td align="center">497,159 (98.4)</td>
@@ -407,6 +435,7 @@ pre code {
 <tr class="odd">
 <td align="center">smoking status</td>
 <td align="center">Missing</td>
+<td align="center">750,311</td>
 <td align="center">142,113 (18.9)</td>
 <td align="center">1,033 (0.7)</td>
 <td align="center">141,080 (99.3)</td>
@@ -414,6 +443,7 @@ pre code {
 <tr class="even">
 <td align="center">bmi groups</td>
 <td align="center">Healthy_weight</td>
+<td align="center">5,320,172</td>
 <td align="center">1,008,355 (19)</td>
 <td align="center">19,276 (1.9)</td>
 <td align="center">989,079 (98.1)</td>
@@ -421,6 +451,7 @@ pre code {
 <tr class="odd">
 <td align="center">bmi groups</td>
 <td align="center">Underweight</td>
+<td align="center">362,272</td>
 <td align="center">64,495 (17.8)</td>
 <td align="center">1,873 (2.9)</td>
 <td align="center">62,622 (97.1)</td>
@@ -428,6 +459,7 @@ pre code {
 <tr class="even">
 <td align="center">bmi groups</td>
 <td align="center">Overweight</td>
+<td align="center">4,791,549</td>
 <td align="center">919,436 (19.2)</td>
 <td align="center">26,026 (2.8)</td>
 <td align="center">893,410 (97.2)</td>
@@ -435,6 +467,7 @@ pre code {
 <tr class="odd">
 <td align="center">bmi groups</td>
 <td align="center">Obese</td>
+<td align="center">3,380,435</td>
 <td align="center">726,450 (21.5)</td>
 <td align="center">30,293 (4.2)</td>
 <td align="center">696,157 (95.8)</td>
@@ -442,6 +475,7 @@ pre code {
 <tr class="even">
 <td align="center">bmi groups</td>
 <td align="center">Missing</td>
+<td align="center">2,720,611</td>
 <td align="center">571,636 (21)</td>
 <td align="center">5,712 (1)</td>
 <td align="center">565,924 (99)</td>
@@ -449,6 +483,7 @@ pre code {
 <tr class="odd">
 <td align="center">age group</td>
 <td align="center">18-29</td>
+<td align="center">3,135,558</td>
 <td align="center">850,688 (27.1)</td>
 <td align="center">4,727 (0.6)</td>
 <td align="center">845,961 (99.4)</td>
@@ -456,6 +491,7 @@ pre code {
 <tr class="even">
 <td align="center">age group</td>
 <td align="center">30-39</td>
+<td align="center">3,055,989</td>
 <td align="center">754,221 (24.7)</td>
 <td align="center">7,792 (1)</td>
 <td align="center">746,429 (99)</td>
@@ -463,6 +499,7 @@ pre code {
 <tr class="odd">
 <td align="center">age group</td>
 <td align="center">40-49</td>
+<td align="center">2,828,588</td>
 <td align="center">680,391 (24.1)</td>
 <td align="center">10,205 (1.5)</td>
 <td align="center">670,186 (98.5)</td>
@@ -470,6 +507,7 @@ pre code {
 <tr class="even">
 <td align="center">age group</td>
 <td align="center">50-59</td>
+<td align="center">2,889,820</td>
 <td align="center">531,284 (18.4)</td>
 <td align="center">13,708 (2.6)</td>
 <td align="center">517,576 (97.4)</td>
@@ -477,6 +515,7 @@ pre code {
 <tr class="odd">
 <td align="center">age group</td>
 <td align="center">60-69</td>
+<td align="center">2,117,573</td>
 <td align="center">244,517 (11.5)</td>
 <td align="center">12,437 (5.1)</td>
 <td align="center">232,080 (94.9)</td>
@@ -484,6 +523,7 @@ pre code {
 <tr class="even">
 <td align="center">age group</td>
 <td align="center">70-79</td>
+<td align="center">1,629,079</td>
 <td align="center">129,391 (7.9)</td>
 <td align="center">14,943 (11.5)</td>
 <td align="center">114,448 (88.5)</td>
@@ -491,6 +531,7 @@ pre code {
 <tr class="odd">
 <td align="center">age group</td>
 <td align="center">80-89</td>
+<td align="center">747,663</td>
 <td align="center">73,617 (9.8)</td>
 <td align="center">14,581 (19.8)</td>
 <td align="center">59,036 (80.2)</td>
@@ -498,6 +539,7 @@ pre code {
 <tr class="even">
 <td align="center">age group</td>
 <td align="center">90+</td>
+<td align="center">170,769</td>
 <td align="center">26,263 (15.4)</td>
 <td align="center">4,787 (18.2)</td>
 <td align="center">21,476 (81.8)</td>
@@ -505,6 +547,7 @@ pre code {
 <tr class="odd">
 <td align="center">consulation rate group</td>
 <td align="center">0</td>
+<td align="center">4,755,033</td>
 <td align="center">773,259 (16.3)</td>
 <td align="center">11,230 (1.5)</td>
 <td align="center">762,029 (98.5)</td>
@@ -512,6 +555,7 @@ pre code {
 <tr class="even">
 <td align="center">consulation rate group</td>
 <td align="center">1-5</td>
+<td align="center">6,430,408</td>
 <td align="center">1,384,922 (21.5)</td>
 <td align="center">26,027 (1.9)</td>
 <td align="center">1,358,895 (98.1)</td>
@@ -519,6 +563,7 @@ pre code {
 <tr class="odd">
 <td align="center">consulation rate group</td>
 <td align="center">6+</td>
+<td align="center">5,389,598</td>
 <td align="center">1,132,191 (21)</td>
 <td align="center">45,923 (4.1)</td>
 <td align="center">1,086,268 (95.9)</td>
@@ -526,6 +571,7 @@ pre code {
 <tr class="even">
 <td align="center">consulation rate</td>
 <td align="center">Mean</td>
+<td align="center">5</td>
 <td align="center">6 (106.3)</td>
 <td align="center">10 (178)</td>
 <td align="center">6 (98)</td>
@@ -533,6 +579,7 @@ pre code {
 <tr class="odd">
 <td align="center">tc hdl ratio</td>
 <td align="center">Mean</td>
+<td align="center">11</td>
 <td align="center">13 (118.2)</td>
 <td align="center">4 (27.2)</td>
 <td align="center">14 (107.7)</td>
@@ -540,6 +587,7 @@ pre code {
 <tr class="even">
 <td align="center">History of ami</td>
 <td align="center">TRUE</td>
+<td align="center">303,535</td>
 <td align="center">40,808 (13.4)</td>
 <td align="center">6,036 (14.8)</td>
 <td align="center">34,772 (85.2)</td>
@@ -547,6 +595,7 @@ pre code {
 <tr class="odd">
 <td align="center">History of all stroke</td>
 <td align="center">TRUE</td>
+<td align="center">224,940</td>
 <td align="center">31,745 (14.1)</td>
 <td align="center">4,818 (15.2)</td>
 <td align="center">26,927 (84.8)</td>
@@ -554,6 +603,7 @@ pre code {
 <tr class="even">
 <td align="center">History of other arterial embolism</td>
 <td align="center">TRUE</td>
+<td align="center">82,334</td>
 <td align="center">11,787 (14.3)</td>
 <td align="center">1,486 (12.6)</td>
 <td align="center">10,301 (87.4)</td>
@@ -561,6 +611,7 @@ pre code {
 <tr class="odd">
 <td align="center">History of vte</td>
 <td align="center">TRUE</td>
+<td align="center">253,731</td>
 <td align="center">41,378 (16.3)</td>
 <td align="center">4,071 (9.8)</td>
 <td align="center">37,307 (90.2)</td>
@@ -568,6 +619,7 @@ pre code {
 <tr class="even">
 <td align="center">History of hf</td>
 <td align="center">TRUE</td>
+<td align="center">251,880</td>
 <td align="center">36,362 (14.4)</td>
 <td align="center">7,137 (19.6)</td>
 <td align="center">29,225 (80.4)</td>
@@ -575,6 +627,7 @@ pre code {
 <tr class="odd">
 <td align="center">History of angina</td>
 <td align="center">TRUE</td>
+<td align="center">461,897</td>
 <td align="center">60,174 (13)</td>
 <td align="center">8,670 (14.4)</td>
 <td align="center">51,504 (85.6)</td>
@@ -582,6 +635,7 @@ pre code {
 <tr class="even">
 <td align="center">History of dementia</td>
 <td align="center">TRUE</td>
+<td align="center">167,049</td>
 <td align="center">38,670 (23.1)</td>
 <td align="center">6,204 (16)</td>
 <td align="center">32,466 (84)</td>
@@ -589,6 +643,7 @@ pre code {
 <tr class="odd">
 <td align="center">History of liver disease</td>
 <td align="center">TRUE</td>
+<td align="center">99,928</td>
 <td align="center">15,250 (15.3)</td>
 <td align="center">1,167 (7.7)</td>
 <td align="center">14,083 (92.3)</td>
@@ -596,6 +651,7 @@ pre code {
 <tr class="even">
 <td align="center">History of chronic kidney disease</td>
 <td align="center">TRUE</td>
+<td align="center">795,699</td>
 <td align="center">108,107 (13.6)</td>
 <td align="center">16,752 (15.5)</td>
 <td align="center">91,355 (84.5)</td>
@@ -603,6 +659,7 @@ pre code {
 <tr class="odd">
 <td align="center">History of cancer</td>
 <td align="center">TRUE</td>
+<td align="center">4,914,559</td>
 <td align="center">1,136,926 (23.1)</td>
 <td align="center">25,070 (2.2)</td>
 <td align="center">1,111,856 (97.8)</td>
@@ -610,6 +667,7 @@ pre code {
 <tr class="even">
 <td align="center">History of hypertension</td>
 <td align="center">TRUE</td>
+<td align="center">2,789,705</td>
 <td align="center">381,487 (13.7)</td>
 <td align="center">34,270 (9)</td>
 <td align="center">347,217 (91)</td>
@@ -617,6 +675,7 @@ pre code {
 <tr class="odd">
 <td align="center">History of depression</td>
 <td align="center">TRUE</td>
+<td align="center">4,555,520</td>
 <td align="center">967,161 (21.2)</td>
 <td align="center">30,161 (3.1)</td>
 <td align="center">937,000 (96.9)</td>
@@ -624,6 +683,7 @@ pre code {
 <tr class="even">
 <td align="center">History of chronic obstructive pulmonary disease</td>
 <td align="center">TRUE</td>
+<td align="center">459,094</td>
 <td align="center">61,424 (13.4)</td>
 <td align="center">11,052 (18)</td>
 <td align="center">50,372 (82)</td>
@@ -631,6 +691,7 @@ pre code {
 <tr class="odd">
 <td align="center">History of healthcare worker</td>
 <td align="center">TRUE</td>
+<td align="center">504,488</td>
 <td align="center">167,058 (33.1)</td>
 <td align="center">2,219 (1.3)</td>
 <td align="center">164,839 (98.7)</td>
@@ -638,6 +699,7 @@ pre code {
 <tr class="even">
 <td align="center">History of carehome status</td>
 <td align="center">TRUE</td>
+<td align="center">70,124</td>
 <td align="center">22,504 (32.1)</td>
 <td align="center">2,658 (11.8)</td>
 <td align="center">19,846 (88.2)</td>
@@ -645,6 +707,7 @@ pre code {
 <tr class="odd">
 <td align="center">History of prediabetes</td>
 <td align="center">TRUE</td>
+<td align="center">804,114</td>
 <td align="center">112,275 (14)</td>
 <td align="center">9,706 (8.6)</td>
 <td align="center">102,569 (91.4)</td>
@@ -652,6 +715,7 @@ pre code {
 <tr class="even">
 <td align="center">History of diabetes gestational</td>
 <td align="center">TRUE</td>
+<td align="center">87,970</td>
 <td align="center">27,250 (31)</td>
 <td align="center">437 (1.6)</td>
 <td align="center">26,813 (98.4)</td>
