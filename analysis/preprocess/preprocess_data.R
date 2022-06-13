@@ -68,7 +68,7 @@ print("Consultation variable before QC")
 summary(df$cov_num_consulation_rate)
 
 df <- df %>%
-  mutate(cov_num_consulation_rate = replace(cov_num_consulation_rate, cov_num_tc_hdl_ratio > 365, 365))
+  mutate(cov_num_consulation_rate = replace(cov_num_consulation_rate, cov_num_consulation_rate > 365, 365))
 
 print("Consultation variable after QC")
 summary(df$cov_num_consulation_rate)
