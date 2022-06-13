@@ -31,11 +31,26 @@ study_start <- "2020-01-01"
 df <- arrow::read_feather(file = "output/input.feather")
 
 # create vars -------------------------------------------------------------
+
+# remove biologically implausible TC/HDL ratio values: https://doi.org/10.1093/ije/dyz099
+# Remove TC < 1.75 or > 20 
+# remove HDL < 0.4 or > 5
+df <- df %>%
+  mutate(tmp_cov_num_cholesterol = replace(tmp_cov_num_cholesterol, tmp_cov_num_cholesterol < 1.75 | tmp_cov_num_cholesterol > 20, NA),
+         cov_num_tc_hdl_ratio = replace(tmp_cov_num_hdl_cholesterol, tmp_cov_num_hdl_cholesterol < 0.4 | tmp_cov_num_hdl_cholesterol > 5, NA))
+
+print("Cholesterol ratio after removing values")
+summary(df$cov_num_tc_hdl_ratio)
+
 # vars could not be created in common vars file
 df <- df %>% mutate(tmp_out_count_t2dm = tmp_out_count_t2dm_snomed + tmp_out_count_t2dm_hes,
                     tmp_out_count_t1dm = tmp_out_count_t1dm_snomed + tmp_out_count_t1dm_hes) %>%
-      # cholesterol ratio              
-             mutate(cov_num_tc_hdl_ratio = tmp_cov_num_cholesterol / tmp_cov_num_hdl_cholesterol)
+      # cholesterol ratio
+      # impossible a ratio < 1 because HDL cholesterol cannot be higher than total cholesterol
+      # not possible for ratio to be above 50 because of criteria above for cholesterol levels
+             mutate(cov_num_tc_hdl_ratio = tmp_cov_num_cholesterol / tmp_cov_num_hdl_cholesterol) %>%
+  mutate(cov_num_tc_hdl_ratio = replace(cov_num_tc_hdl_ratio, cov_num_tc_hdl_ratio > 50 | cov_num_tc_hdl_ratio < 1, NA))
+  
 
 print("Diabetes count variables created successfully")
 
@@ -45,14 +60,6 @@ df$cov_num_tc_hdl_ratio[is.infinite(df$cov_num_tc_hdl_ratio)] <- NA
 print("Cholesterol ratio before removing values")
 summary(df$cov_num_tc_hdl_ratio)
 
-# remove biologically implausible TC/HDL ratio values
-# impossible a ratio < 1 because HDL cholesterol cannot be higher than total cholesterol
-# biologically implausible to have a ratio > 50 (taken from https://doi.org/10.1093/ije/dyz099)
-df <- df %>%
-  mutate(cov_num_tc_hdl_ratio = replace(cov_num_tc_hdl_ratio, cov_num_tc_hdl_ratio > 50 | cov_num_tc_hdl_ratio < 1, NA))
-
-print("Cholesterol ratio after removing values")
-summary(df$cov_num_tc_hdl_ratio)
 
 # QC for consultation variable
 # max to 365 (average of one per day)
