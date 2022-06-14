@@ -12,7 +12,7 @@ library(ggplot2)
 #dir <- "C:/Users/gic30/OneDrive - University of Cambridge/2. Long Covid/Code/Post-covid-vaccinated - stage 6 - Figure 1 - 2022.02"
 #setwd(dir)
 
-results_dir <- "/Users/kt17109/OneDrive - University of Bristol/Documents - grp-EHR/Projects/post-covid-diabetes/OS-outputs/OS-output-9june2022"
+results_dir <- "/Users/kt17109/OneDrive - University of Bristol/Documents - grp-EHR/Projects/post-covid-diabetes/OS-outputs/OS-output-9june2022/gestational"
 output_dir <- "/Users/kt17109/OneDrive - University of Bristol/Documents - grp-EHR/Projects/post-covid-diabetes/OS-outputs/OS-output-9june2022/figures/"
 
 #------------------#
@@ -29,7 +29,7 @@ cohort=c("unvaccinated")
 #-------------------------#
 active_analyses <- read_rds("lib/active_analyses.rds")
 # active_analyses_table <- subset(active_analyses, active_analyses$active =="TRUE" & active_analyses$outcome_group=="CVD")
-active_analyses_table <- subset(active_analyses, active_analyses$outcome_group=="diabetes")
+active_analyses_table <- subset(active_analyses, active_analyses$outcome_group=="diabetes_gestational")
 outcome_name_table <- active_analyses_table %>% 
   select(outcome, outcome_variable,outcome_group) %>% 
   mutate(outcome_name=active_analyses_table$outcome_variable %>% str_replace("out_date_", ""))

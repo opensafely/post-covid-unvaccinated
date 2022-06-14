@@ -7,13 +7,13 @@ library(data.table)
 
 cohort <- c("unvaccinated")
 
-results_dir <- "/Users/kt17109/OneDrive - University of Bristol/Documents - grp-EHR/Projects/post-covid-diabetes/OS-outputs/OS-output-9june2022"
+results_dir <- "/Users/kt17109/OneDrive - University of Bristol/Documents - grp-EHR/Projects/post-covid-diabetes/OS-outputs/OS-output-9june2022/gestational"
 output_dir <- "/Users/kt17109/OneDrive - University of Bristol/Documents - grp-EHR/Projects/post-covid-diabetes/OS-outputs/OS-output-9june2022/figures/"
 
 #-----------------------Determine active outcome events-------------------------
 active_analyses <- read_rds("lib/active_analyses.rds")
 events <- active_analyses %>% 
-  filter(outcome_group=="diabetes") %>% 
+  filter(outcome_group=="diabetes_gestational") %>% 
   select(outcome,outcome_variable, outcome_group)
 events$outcome_variable <- gsub("out_date_","",events$outcome_variable)
 
