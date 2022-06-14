@@ -1632,11 +1632,11 @@ def generate_common_variables(index_date_variable):
     tmp_cov_num_cholesterol=patients.max_recorded_value(
         cholesterol_snomed,
         on_most_recent_day_of_measurement=True, 
-        between=["2015-01-01", "index_date_variable"],
+        between=["2015-01-01", f"{index_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "float": {"distribution": "normal", "mean": 5.0, "stddev": 2.5},
-            "date": {"earliest": "2015-01-01", "latest": "index_date_variable"},
+            "date": {"earliest": "2015-01-01", "latest": f"{index_date_variable}"},
             "incidence": 0.80,
         },
     ),
@@ -1645,11 +1645,11 @@ def generate_common_variables(index_date_variable):
     tmp_cov_num_hdl_cholesterol=patients.max_recorded_value(
         hdl_cholesterol_snomed,
         on_most_recent_day_of_measurement=True, 
-        between=["2015-01-01", "index_date_variable"],
+        between=["2015-01-01", f"{index_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
-            "date": {"earliest": "2015-01-01", "latest": "index_date_variable"},
+            "date": {"earliest": "2015-01-01", "latest": f"{index_date_variable}"},
             "incidence": 0.80,
         },
     ),
@@ -1662,7 +1662,7 @@ def generate_common_variables(index_date_variable):
         include_measurement_date=True,
         date_format="YYYY-MM",
         return_expectations={
-            "date": {"earliest": "2010-02-01", "latest": "2022-02-01"},
+            "date": {"earliest": "2010-02-01", "latest": f"{index_date_variable}"},
             "float": {"distribution": "normal", "mean": 28, "stddev": 8},
             "incidence": 0.7,
         },
