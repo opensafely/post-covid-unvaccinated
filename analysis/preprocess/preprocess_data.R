@@ -34,11 +34,11 @@ df <- arrow::read_feather(file = "output/input.feather")
 
 # vars could not be created in common vars file
 df <- df %>% mutate(tmp_out_count_t2dm = tmp_out_count_t2dm_snomed + tmp_out_count_t2dm_hes,
-                    tmp_out_count_t1dm = tmp_out_count_t1dm_snomed + tmp_out_count_t1dm_hes) %>%
+                    tmp_out_count_t1dm = tmp_out_count_t1dm_snomed + tmp_out_count_t1dm_hes)
       # cholesterol ratio
       # impossible a ratio < 1 because HDL cholesterol cannot be higher than total cholesterol
       # not possible for ratio to be above 50 because of criteria above for cholesterol levels
-             mutate(cov_num_tc_hdl_ratio = tmp_cov_num_cholesterol / tmp_cov_num_hdl_cholesterol) 
+
 
 print("Diabetes count variables created successfully")
 
@@ -47,7 +47,8 @@ print("Diabetes count variables created successfully")
 # remove HDL < 0.4 or > 5
 df <- df %>%
   mutate(tmp_cov_num_cholesterol = replace(tmp_cov_num_cholesterol, tmp_cov_num_cholesterol < 1.75 | tmp_cov_num_cholesterol > 20, NA),
-         cov_num_tc_hdl_ratio = replace(tmp_cov_num_hdl_cholesterol, tmp_cov_num_hdl_cholesterol < 0.4 | tmp_cov_num_hdl_cholesterol > 5, NA)) %>%
+         tmp_cov_num_hdl_cholesterol = replace(tmp_cov_num_hdl_cholesterol, tmp_cov_num_hdl_cholesterol < 0.4 | tmp_cov_num_hdl_cholesterol > 5, NA)) %>%
+  mutate(cov_num_tc_hdl_ratio = tmp_cov_num_cholesterol / tmp_cov_num_hdl_cholesterol) %>%
   mutate(cov_num_tc_hdl_ratio = replace(cov_num_tc_hdl_ratio, cov_num_tc_hdl_ratio > 50 | cov_num_tc_hdl_ratio < 1, NA))
 
 print("Cholesterol ratio after removing values")
