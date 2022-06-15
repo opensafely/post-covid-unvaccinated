@@ -131,12 +131,11 @@ table_2_subgroups_output <- function(group){
   analyses_of_interest$strata[analyses_of_interest$strata=="South_Asian"]<- "South Asian"
   # analyses_of_interest <- analyses_of_interest %>% filter(cohort_to_run == cohort_name)
   
-
-  unexposed_person_days <- unexposed_event_count <- rep("NA", nrow(analyses_of_interest))
+  unexposed_person_days <- unexposed_event_count <- total_covid_cases <- rep("NA", nrow(analyses_of_interest))
   total_person_days <- post_exposure_event_count <- overall_ir <- overall_ir_lower <- overall_ir_upper <- rep("NA", nrow(analyses_of_interest))
   
   analyses_of_interest <- cbind(analyses_of_interest, unexposed_person_days, unexposed_event_count,
-                                post_exposure_event_count, total_person_days)
+                                post_exposure_event_count, total_person_days, total_covid_cases)
   
   
   col_names <- names(analyses_of_interest)
@@ -194,7 +193,7 @@ table_2_subgroups_output <- function(group){
   write.csv(analyses_of_interest, file=paste0("output/review/descriptives/table2_",group,".csv"), row.names = F)
 }
 
-table_2_calculation <- function(survival_data, event,cohort,subgroup, stratify_by, stratify_by_subgroup){
+table_2_calculation <- function(survival_data, event, cohort, subgroup, stratify_by, stratify_by_subgroup){
   data_active <- survival_data
 
   data_active <- data_active %>% mutate(event_date = replace(event_date, which(event_date>follow_up_end | event_date<index_date), NA))
@@ -295,6 +294,9 @@ table_2_calculation <- function(survival_data, event,cohort,subgroup, stratify_b
                                             data_active$event_date <= data_active$non_hospitalised_follow_up_end) &
                                            (data_active$event_date < data_active$exp_date_covid19_confirmed | is.na(data_active$exp_date_covid19_confirmed))))
   }
+  
+  # calculate total covid cases for AER script
+  total_covid_cases = nrow(survival_data %>% filter(!is.na(exp_date_covid19_confirmed)))
     
   if(event_count_unexposed <= 5){
     event_count_unexposed <- "[Redacted]"
@@ -304,7 +306,11 @@ table_2_calculation <- function(survival_data, event,cohort,subgroup, stratify_b
     event_count_exposed <- "[Redacted]"
   }
   
-  return(c(person_days_total_unexposed, event_count_unexposed, event_count_exposed,person_days_total))
+  if(total_covid_cases <= 5){
+    total_covid_cases <- "[Redacted]"
+  }
+  
+  return(c(person_days_total_unexposed, event_count_unexposed, event_count_exposed, person_days_total, total_covid_cases))
 }
 
 
