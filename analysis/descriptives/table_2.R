@@ -90,7 +90,8 @@ table_2_subgroups_output <- function(group){
     analyses_to_run$subgroup <- row.names(analyses_to_run)
     colnames(analyses_to_run) <- c("run","subgroup")
     
-    analyses_to_run<- analyses_to_run %>% filter(run=="TRUE"  & subgroup != "active" & subgroup != "main" & subgroup != "venn")  
+    # analyses_to_run<- analyses_to_run %>% filter(run=="TRUE"  & subgroup != "active" & subgroup != "main" & subgroup != "venn")  
+    analyses_to_run<- analyses_to_run %>% filter(run=="TRUE"  & subgroup != "active" & subgroup != "venn")  
     rownames(analyses_to_run) <- NULL
     analyses_to_run <- analyses_to_run %>% select(!run)
     analyses_to_run$event=i
@@ -258,8 +259,8 @@ table_2_calculation <- function(survival_data, event,cohort,subgroup, stratify_b
     data_active$person_days[index] = data_active$person_days[index] + 1
   }
   
-  data_active = data_active %>% filter((person_days_unexposed >=0 & person_days_unexposed <= 197)
-                                       & (person_days >=0 & person_days <= 197)) # filter out follow up period
+  data_active = data_active %>% filter((person_days_unexposed >=0 & person_days_unexposed <= 535)
+                                       & (person_days >=0 & person_days <= 535)) # filter out follow up period
   
 
   person_days_total_unexposed  = round(sum(data_active$person_days_unexposed, na.rm = TRUE),1)
