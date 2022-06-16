@@ -11,10 +11,10 @@
 ## TO RUN OUTSIDE OPENSAFELY PLATFORM
 ## Content: 
 ## 1. Load in input data and make file names and variable structure compatible
-## 2. Call AER function and load relevent libraries
+## 2. Call AER function and load relevant libraries
 ## 3. AER calculation for active analyses
 ## 4. Load results
-## 5. Run AER funtion
+## 5. Run AER function
 ## 6. Compile results
 ## =============================================================================
 
@@ -30,12 +30,19 @@ aer_raw_results_dir <- "output/not-for-review/AER_results"
 aer_results_dir <- "output/review/AER_results"
 
 #------------------------------------------------------
-# Step 2: Call AER function and load relevent libraries
+# Step 2: Call AER function and load relevant libraries
 #------------------------------------------------------
 source(file.path(scripts_dir,"Absolute_excess_risk_function.R"))
 library(purrr)
 library(data.table)
 library(tidyverse)
+
+args <- commandArgs(trailingOnly=TRUE)
+if(length(args)==0){
+  cohort_name <- ""
+}else{
+  cohort_name <- args[[1]]
+}
 
 #-------------------------------
 #Step 3: AER for active analyses
@@ -50,13 +57,13 @@ active[,c("active","outcome","outcome_variable","prior_history_var","covariates"
 active <- tidyr::pivot_longer(active, 
                               cols = setdiff(colnames(active),c("event","model","cohort")), 
                               names_to = "strata")                                               # converts to long data                                        
-active <- active[active$value==TRUE, c("event","model","cohort","strata")]                       # refines to active models                         
+active <- active[active$value==TRUE, c("event","model","strata")]                       # refines to active models                         
 active$model <- ifelse(active$model=="all","mdl_agesex;mdl_max_adj",active$model)                # includes 2 model types     
 active <- tidyr::separate_rows(active, model, sep = ";")                                         # separate rows for each model
-active$cohort <- ifelse(active$cohort=="all","vaccinated;electively_unvaccinated",active$cohort) # includes 2 cohorts
-active <- tidyr::separate_rows(active, cohort, sep = ";")                                        # separate rows for each cohort
+# active$cohort <- ifelse(active$cohort=="all","vaccinated;electively_unvaccinated",active$cohort) # includes 2 cohorts
+# active <- tidyr::separate_rows(active, cohort, sep = ";")                                        # separate rows for each cohort
 
-colnames(active) <- c("event","model","cohort","subgroup")
+colnames(active) <- c("event","model","subgroup")
 active <- active %>% select(-model, everything())                                                  #Order the columns 
 
 #----------------------
@@ -76,11 +83,12 @@ input=rbindlist(input, fill=TRUE)
 
 #-------------------Select required columns and term----------------------------
 input <- input %>% 
-  select(-conf.low, -conf.high, -std.error,-robust.se, -P, -redacted_results) %>%
+  select(-std.error,-robust.se, -P, -redacted_results) %>%
   filter(str_detect(term, "^days"))
 
 
 #---------------------------------Input Table 2---------------------------------
+
 table_2_vaccinated <- read_csv(paste0(table_2_dir,"/table2_vaccinated.csv"))
 table_2_electively_unvaccinated <- read_csv(paste0(table_2_dir,"/table2_electively_unvaccinated.csv"))
 table_2 <- rbind(table_2_vaccinated,table_2_electively_unvaccinated)
