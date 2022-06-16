@@ -172,11 +172,9 @@ stage2 <- function(group) {
   # Define the cohort flow
   
   cohort_flow <- data.frame(N = numeric(),
-                            N_removed = numeric(),
                             Description = character(),
                             stringsAsFactors = FALSE)
-  cohort_flow[nrow(cohort_flow)+1,] <- c(as.numeric(as.numeric(nrow(input)) + as.numeric(QA_summary[7,2])), 0, "Study defined sample size before QA checks")
-  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(QA_summary[7,2]) ,"Study defined sample size after QA checks")
+  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Study defined sample size")
   
   #---------------------------------------#
   # Apply criteria listed in the protocol #
@@ -188,29 +186,29 @@ stage2 <- function(group) {
     mutate(start_alive = ifelse(death_date < index_date, 0, 1)) %>%
     mutate(start_alive = replace_na(start_alive, 1)) %>%
     filter(start_alive == 1)
-  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[2,1]) - nrow(input),"Criteria 1 (Inclusion): Alive on the first day of follow up") # Feed into the cohort flow
+  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 1 (Inclusion): Alive on the first day of follow up") # Feed into the cohort flow
   
   # Inclusion criteria 2: Known age between 18 and 110 on 01/01/2020 
   
   input <- input %>% 
     filter(cov_num_age >= 18 & cov_num_age <= 110)
-  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[3,1]) - nrow(input), "Criteria 2 (Inclusion): Known age between 18 and 110 on 01/01/2020") # Feed into the cohort flow
+  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 2 (Inclusion): Known age between 18 and 110 on 01/01/2020") # Feed into the cohort flow
   
   # Inclusion criteria 3: Known sex
   
   input <- input %>% 
     filter(cov_cat_sex == "Male" | cov_cat_sex == "Female")
-  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[4,1]) - nrow(input), "Criteria 3 (Inclusion): Known sex")
+  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 3 (Inclusion): Known sex")
   
   # Inclusion criteria 4: Known deprivation 
   
   input <- input %>% 
     drop_na(cov_cat_deprivation)
-  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[5,1]) - nrow(input), "Criteria 4 (Inclusion): Known deprivation")
+  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 4 (Inclusion): Known deprivation")
   
   # Inclusion criteria 5: Registered in an English GP with TPP software for at least 6 months prior to the study start date
   # NOTE: Dealt with in Study definition
-  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[6,1]) - nrow(input), "Criteria 5 (Inclusion): Registered in an English GP with TPP software for at least 6 months prior to the study start date")
+  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 5 (Inclusion): Registered in an English GP with TPP software for at least 6 months prior to the study start date")
   
   #Inclusion criteria 6: Known region
   input <- input %>% mutate(cov_cat_region = as.character(cov_cat_region)) %>%
@@ -218,7 +216,7 @@ stage2 <- function(group) {
     mutate(cov_cat_region = as.factor(cov_cat_region))
   
   input$cov_cat_region <- relevel(input$cov_cat_region, ref = "London")
-  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[7,1]) - nrow(input), "Criteria 6 (Inclusion): Known region")
+  cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Criteria 6 (Inclusion): Known region")
   
   # Exclusion criteria: SARS-CoV-2 infection recorded prior to the start of follow-up
   # No COVID cases prior to 1st Jan 2020
@@ -249,7 +247,7 @@ stage2 <- function(group) {
       filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
       filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
       filter(! out_date_otherdm < index_date | is.na(out_date_otherdm))
-    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[8,1]) - nrow(input), "Diabetes specific criteria: Remove those with diabetes prior to study start date")
+    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Diabetes specific criteria: Remove those with diabetes prior to study start date")
     
   } else if (group == "diabetes_gestational"){
     # Exclude men from gestational diabetes analysis
@@ -258,13 +256,13 @@ stage2 <- function(group) {
       filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
       filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
       filter(cov_cat_sex == "Female")
-    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[8,1]) - nrow(input), "Gestational diabetes: The study population will be restricted to women.")
+    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Gestational diabetes: The study population will be restricted to women.")
     
   } else if (group == "mental_health"){
     # Mental health analyses exclusion criteria
     input <- input %>% 
       filter()
-    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[8,1]) - nrow(input), "Mental health: .")
+    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Mental health: .")
   }
   
   ##############

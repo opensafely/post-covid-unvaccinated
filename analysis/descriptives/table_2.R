@@ -90,8 +90,7 @@ table_2_subgroups_output <- function(group){
     analyses_to_run$subgroup <- row.names(analyses_to_run)
     colnames(analyses_to_run) <- c("run","subgroup")
     
-    # analyses_to_run<- analyses_to_run %>% filter(run=="TRUE"  & subgroup != "active" & subgroup != "main" & subgroup != "venn")  
-    analyses_to_run<- analyses_to_run %>% filter(run=="TRUE"  & subgroup != "active" & subgroup != "venn")  
+    analyses_to_run<- analyses_to_run %>% filter(run=="TRUE"  & subgroup != "active" & subgroup != "main" & subgroup != "venn")  
     rownames(analyses_to_run) <- NULL
     analyses_to_run <- analyses_to_run %>% select(!run)
     analyses_to_run$event=i
@@ -116,14 +115,6 @@ table_2_subgroups_output <- function(group){
     for(k in c("covid_pheno_","agegp_","sex_","ethnicity_","prior_history_")){
       analyses_to_run$strata <- ifelse(startsWith(analyses_to_run$subgroup,k),gsub(k,"",analyses_to_run$subgroup),analyses_to_run$strata)
     }
-    
-    # Add in rows for age/sex subgroups
-    for(l in c("Female","Male")){
-      for(m in agelabels){
-        analyses_to_run[nrow(analyses_to_run)+1,] = c("age_sex",i,"age_sex",paste0(l,"_",m))
-      }
-    }
-    
     analyses_of_interest <- rbind(analyses_of_interest,analyses_to_run)
     
   }
@@ -131,11 +122,12 @@ table_2_subgroups_output <- function(group){
   analyses_of_interest$strata[analyses_of_interest$strata=="South_Asian"]<- "South Asian"
   # analyses_of_interest <- analyses_of_interest %>% filter(cohort_to_run == cohort_name)
   
-  unexposed_person_days <- unexposed_event_count <- total_covid_cases <- rep("NA", nrow(analyses_of_interest))
+
+  unexposed_person_days <- unexposed_event_count <- rep("NA", nrow(analyses_of_interest))
   total_person_days <- post_exposure_event_count <- overall_ir <- overall_ir_lower <- overall_ir_upper <- rep("NA", nrow(analyses_of_interest))
   
   analyses_of_interest <- cbind(analyses_of_interest, unexposed_person_days, unexposed_event_count,
-                                post_exposure_event_count, total_person_days, total_covid_cases)
+                                post_exposure_event_count, total_person_days)
   
   
   col_names <- names(analyses_of_interest)
@@ -193,7 +185,7 @@ table_2_subgroups_output <- function(group){
   write.csv(analyses_of_interest, file=paste0("output/review/descriptives/table2_",group,".csv"), row.names = F)
 }
 
-table_2_calculation <- function(survival_data, event, cohort, subgroup, stratify_by, stratify_by_subgroup){
+table_2_calculation <- function(survival_data, event,cohort,subgroup, stratify_by, stratify_by_subgroup){
   data_active <- survival_data
 
   data_active <- data_active %>% mutate(event_date = replace(event_date, which(event_date>follow_up_end | event_date<index_date), NA))
@@ -216,12 +208,6 @@ table_2_calculation <- function(survival_data, event, cohort, subgroup, stratify
   
   if(startsWith(subgroup,"agegp_")){
     data_active=data_active %>% filter(agegroup== stratify_by)
-  }
-  
-  # filter the population according to age/sex categories
-  if(subgroup == "age_sex"){
-    data_active=data_active %>% filter(sex== sub("_.*","",stratify_by))
-    data_active=data_active %>% filter(agegroup== sub(".*e_","",stratify_by))
   }
   
   # calculate unexposed follow-up days for AER script
@@ -258,8 +244,8 @@ table_2_calculation <- function(survival_data, event, cohort, subgroup, stratify
     data_active$person_days[index] = data_active$person_days[index] + 1
   }
   
-  data_active = data_active %>% filter((person_days_unexposed >=0 & person_days_unexposed <= 535)
-                                       & (person_days >=0 & person_days <= 535)) # filter out follow up period
+  data_active = data_active %>% filter((person_days_unexposed >=0 & person_days_unexposed <= 197)
+                                       & (person_days >=0 & person_days <= 197)) # filter out follow up period
   
 
   person_days_total_unexposed  = round(sum(data_active$person_days_unexposed, na.rm = TRUE),1)
@@ -294,9 +280,6 @@ table_2_calculation <- function(survival_data, event, cohort, subgroup, stratify
                                             data_active$event_date <= data_active$non_hospitalised_follow_up_end) &
                                            (data_active$event_date < data_active$exp_date_covid19_confirmed | is.na(data_active$exp_date_covid19_confirmed))))
   }
-  
-  # calculate total covid cases for AER script
-  total_covid_cases = nrow(survival_data %>% filter(!is.na(exp_date_covid19_confirmed)))
     
   if(event_count_unexposed <= 5){
     event_count_unexposed <- "[Redacted]"
@@ -306,11 +289,7 @@ table_2_calculation <- function(survival_data, event, cohort, subgroup, stratify
     event_count_exposed <- "[Redacted]"
   }
   
-  if(total_covid_cases <= 5){
-    total_covid_cases <- "[Redacted]"
-  }
-  
-  return(c(person_days_total_unexposed, event_count_unexposed, event_count_exposed, person_days_total, total_covid_cases))
+  return(c(person_days_total_unexposed, event_count_unexposed, event_count_exposed,person_days_total))
 }
 
 
