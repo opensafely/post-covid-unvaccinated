@@ -69,6 +69,8 @@ df <- df %>% mutate(covariates = case_when(outcome_variable == "out_date_gestati
 # add pre diabetes subgroup analysis
 
 df$prior_history_var <- ifelse(df$outcome=="type 2 diabetes" ,"cov_bin_prediabetes",df$prior_history_var)
+df$prior_history_TRUE <- ifelse(df$outcome=="type 2 diabetes" ,TRUE,df$prior_history_TRUE)
+df$prior_history_FALSE <- ifelse(df$outcome=="type 2 diabetes" ,TRUE,df$prior_history_FALSE)
 
 # Add mental health outcomes --------------------------------------------------------
 
