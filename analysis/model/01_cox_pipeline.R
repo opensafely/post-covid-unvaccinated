@@ -67,6 +67,13 @@ analyses_to_run <- analyses_to_run %>%
     any(reduced_timepoint == "reduced") ~ "reduced",
     TRUE ~ as.character(reduced_timepoint)))
 
+### TEMPORARILY CHANGE COVID-NON-HOSPITALISED TIMEPOINT TO NORMAL for T2DM ANALYSES ###
+if(event_name == "t2dm"){
+  
+  analyses_to_run$reduced_timepoint <- ifelse(analyses_to_run$subgroup=='covid_pheno_non_hospitalised', 'normal', analyses_to_run$reduced_timepoint)
+  
+}
+### TEMPORARILY CHANGE COVID-NON-HOSPITALISED TIMEPOINT TO NORMAL for T2DM ANALYSES ###
 
 # Source remainder of relevant files --------------------------------------------------------
 
