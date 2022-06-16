@@ -296,7 +296,7 @@ table_2_calculation <- function(survival_data, event, cohort, subgroup, stratify
   }
   
   # calculate total covid cases for AER script
-  total_covid_cases = nrow(survival_data %>% filter(!is.na(exp_date_covid19_confirmed)))
+  total_covid_cases = nrow(data_active %>% filter(!is.na(exp_date_covid19_confirmed)))
     
   if(event_count_unexposed <= 5){
     event_count_unexposed <- "[Redacted]"
