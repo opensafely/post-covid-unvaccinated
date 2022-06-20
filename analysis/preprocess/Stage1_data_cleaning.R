@@ -256,8 +256,7 @@ stage2 <- function(group) {
     input <- input %>% 
       filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
       filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
-      filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
-      filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
+      filter(! out_date_otherdm < index_date | is.na(out_date_otherdm))  %>%
       filter(cov_bin_prediabetes == TRUE) %>%
       # change name of t2dm variable to avoid duplicated cox actions
       dplyr::rename(out_date_t2dm_pd = out_date_t2dm)
@@ -268,7 +267,6 @@ stage2 <- function(group) {
     input <- input %>% 
       filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
       filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
-      filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
       filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
       filter(cov_bin_prediabetes == FALSE) %>%
       # change name of t2dm variable to avoid duplicated cox actions
@@ -281,7 +279,6 @@ stage2 <- function(group) {
       filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
       filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
       filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
-      filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
       filter(cov_cat_bmi_groups == "Obese") %>%
       # change name of t2dm variable to avoid duplicated cox actions
       dplyr::rename(out_date_t2dm_obes = out_date_t2dm)
@@ -292,7 +289,6 @@ stage2 <- function(group) {
     input <- input %>% 
       filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
       filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
-      filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
       filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
       filter(cov_cat_bmi_groups != "Obese") %>%
       # change name of t2dm variable to avoid duplicated cox actions
