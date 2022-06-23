@@ -25,9 +25,9 @@ fit_get_data_surv <- function(event,subgroup, stratify_by_subgroup, stratify_by,
   
   non_cases <- survival_data %>% filter(!patient_id %in% cases$patient_id)
   
-  if(nrow(cases)*10 < nrow(non_cases)){
-    non_cases <- non_cases[sample(1:nrow(non_cases), nrow(cases)*10,replace=FALSE), ]
-  }else if (nrow(cases)*10 >= nrow(non_cases)){
+  if(nrow(cases)*20 < nrow(non_cases)){
+    non_cases <- non_cases[sample(1:nrow(non_cases), nrow(cases)*20,replace=FALSE), ]
+  }else if (nrow(cases)*20 >= nrow(non_cases)){
     non_cases=non_cases
   }
   

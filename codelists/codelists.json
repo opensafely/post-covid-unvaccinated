@@ -965,6 +965,36 @@
       "url": "https://codelists.opensafely.org/codelist/user/RochelleKnight/confirmed-hospitalised-covid-19/1f0d2526/",
       "downloaded_at": "2022-05-12 11:52:37.106794Z",
       "sha": "7b472652a66eed89b0495a2cf43cf6e894451cb8"
+    },
+    "bristol-antidepressants-snomedct.csv": {
+      "id": "bristol/antidepressants-snomedct/677f55d2",
+      "url": "https://codelists.opensafely.org/codelist/bristol/antidepressants-snomedct/677f55d2/",
+      "downloaded_at": "2022-06-20 13:16:38.412201Z",
+      "sha": "e79f8e54a2548b07a50487b1974020dc9ef00020"
+    },
+    "bristol-anxiolitycs-bnf.csv": {
+      "id": "bristol/anxiolitycs-bnf/5562c9a7",
+      "url": "https://codelists.opensafely.org/codelist/bristol/anxiolitycs-bnf/5562c9a7/",
+      "downloaded_at": "2022-06-20 13:16:38.725981Z",
+      "sha": "a956286c304d075ec72897ce6345f4e706ba564e"
+    },
+    "bristol-anxiolytics-snomed.csv": {
+      "id": "bristol/anxiolytics-snomed/01b421e0",
+      "url": "https://codelists.opensafely.org/codelist/bristol/anxiolytics-snomed/01b421e0/",
+      "downloaded_at": "2022-06-20 13:16:38.990622Z",
+      "sha": "8f2ce7a14ba89b9ad5778ec443c1003c6808f1ec"
+    },
+    "bristol-opioid-agonist-therapy-oat-snomed-ct.csv": {
+      "id": "bristol/opioid-agonist-therapy-oat-snomed-ct/00f6d74e",
+      "url": "https://codelists.opensafely.org/codelist/bristol/opioid-agonist-therapy-oat-snomed-ct/00f6d74e/",
+      "downloaded_at": "2022-06-20 13:16:39.285809Z",
+      "sha": "cc5079fcc9fa6a34f2fd9605d0ba684960d420e7"
+    },
+    "bristol-opioid-agonist-therapy-oat.csv": {
+      "id": "bristol/opioid-agonist-therapy-oat/7b915761",
+      "url": "https://codelists.opensafely.org/codelist/bristol/opioid-agonist-therapy-oat/7b915761/",
+      "downloaded_at": "2022-06-20 13:16:39.608696Z",
+      "sha": "ccbde9dcb72f59c127c114c82d83d010dd090af0"
     }
   }
 }

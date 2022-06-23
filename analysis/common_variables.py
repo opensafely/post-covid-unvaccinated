@@ -471,18 +471,32 @@ def generate_common_variables(index_date_variable):
         },
     ),  
         # Prescriptions
-    # tmp_out_date_anxiolytics_prescriptions=patients.with_these_clinical_events(
-    #     anxiolytic_prescription,
-    #     returning="date",
-    #     on_or_after=f"{index_date_variable}",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "index_date", "latest" : "today"},
-    #         "rate": "uniform",
-    #         "incidence": 0.03,
-    #     },
-    # ),
+    tmp_out_date_anxiolytics_snomed_prescriptions=patients.with_these_clinical_events(
+        all_anxiolytic_prescriptions,
+        returning="date",
+        on_or_after=f"{index_date_variable}",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "index_date", "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.03,
+        },
+    ),
+
+    #tmp_out_date_anxiolytics_bnf_prescriptions=patients.with_these_clinical_events(
+    #    anxiolytic_prescription_bnf,
+    #    returning="date",
+    #    on_or_after=f"{index_date_variable}",
+    #    date_format="YYYY-MM-DD",
+    #    find_first_match_in_period=True,
+    #    return_expectations={
+    #        "date": {"earliest": "index_date", "latest" : "today"},
+    #        "rate": "uniform",
+    #        "incidence": 0.03,
+    #    },
+    #),
+
         # Combined
     out_date_anxiety_general=patients.minimum_of(
         "tmp_out_date_anxiety_general_snomed", "tmp_out_date_anxiety_general_hes", "tmp_out_date_anxiety_general_death"
@@ -847,6 +861,31 @@ def generate_common_variables(index_date_variable):
         },
     ), 
         # Prescription
+    tmp_out_date_opioid_snomed_prescriptions=patients.with_these_medications(
+        all_opioid_prescriptions,
+        returning="date",
+        on_or_after=f"{index_date_variable}",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "index_date", "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.03,
+        },
+    ),
+
+    #tmp_out_date_opioid_bnf_prescriptions=patients.with_these_medications(
+    #    opioid_prescription_bnf,
+    #    returning="date",
+    #    on_or_after=f"{index_date_variable}",
+    #    date_format="YYYY-MM-DD",
+    #    find_first_match_in_period=True,
+    #    return_expectations={
+    #        "date": {"earliest": "index_date", "latest" : "today"},
+    #        "rate": "uniform",
+    #        "incidence": 0.03,
+    #    },
+    #),
 
         # Combined
     out_date_addiction=patients.minimum_of(
