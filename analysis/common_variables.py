@@ -430,6 +430,12 @@ def generate_common_variables(index_date_variable):
         "tmp_out_date_depression_snomed", "tmp_out_date_depression_hes", "tmp_out_date_depression_death"
     ),
 
+            # Combined
+    # # Depression secondary outcome
+    out_date_depression_prescription=patients.minimum_of(
+        "tmp_out_date_depression_snomed", "tmp_out_date_depression_hes", "tmp_out_date_depression_death", "tmp_out_date_depression_prescriptions"
+    ),
+
     ## Anxiety - general
         # Primary Care
     tmp_out_date_anxiety_general_snomed=patients.with_these_clinical_events(
@@ -484,22 +490,14 @@ def generate_common_variables(index_date_variable):
         },
     ),
 
-    #tmp_out_date_anxiolytics_bnf_prescriptions=patients.with_these_clinical_events(
-    #    anxiolytic_prescription_bnf,
-    #    returning="date",
-    #    on_or_after=f"{index_date_variable}",
-    #    date_format="YYYY-MM-DD",
-    #    find_first_match_in_period=True,
-    #    return_expectations={
-    #        "date": {"earliest": "index_date", "latest" : "today"},
-    #        "rate": "uniform",
-    #        "incidence": 0.03,
-    #    },
-    #),
-
         # Combined
     out_date_anxiety_general=patients.minimum_of(
         "tmp_out_date_anxiety_general_snomed", "tmp_out_date_anxiety_general_hes", "tmp_out_date_anxiety_general_death"
+    ),
+
+    # Anxiety general secondary outcome
+    out_date_anxiety_general_prescription=patients.minimum_of(
+        "tmp_out_date_anxiety_general_snomed", "tmp_out_date_anxiety_general_hes", "tmp_out_date_anxiety_general_death", "tmp_out_date_anxiolytics_snomed_prescriptions"
     ),
 
     ## Anxiety - obsessive compulsive disorder
@@ -678,23 +676,28 @@ def generate_common_variables(index_date_variable):
         },
     ), 
         # Prescriptions
-    # tmp_out_date_serious_mental_illness_prescriptions=patients.with_these_clinical_events(
-    #     all_depression_prescriptions,
-    #     returning="date",
-    #     on_or_after=f"{index_date_variable}",
-    #     date_format="YYYY-MM-DD",
-    #     find_first_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": "index_date", "latest" : "today"},
-    #         "rate": "uniform",
-    #         "incidence": 0.03,
-    #     },
-    # ),
+    tmp_out_date_serious_mental_illness_prescriptions=patients.with_these_clinical_events(
+        all_mental_illness_prescriptions,
+        returning="date",
+        on_or_after=f"{index_date_variable}",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "index_date", "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.03,
+        },
+    ),
         # Combined
     out_date_serious_mental_illness=patients.minimum_of(
         "tmp_out_date_serious_mental_illness_snomed", "tmp_out_date_serious_mental_illness_hes", "tmp_out_date_serious_mental_illness_death"
     ),
 
+        # Serious mental illness secondary outcome
+    out_date_serious_mental_illness_prescription=patients.minimum_of(
+        "tmp_out_date_serious_mental_illness_snomed", "tmp_out_date_serious_mental_illness_hes", "tmp_out_date_serious_mental_illness_death", "tmp_out_date_serious_mental_illness_prescriptions"
+    ),
+    
     ## Self harm - aged >= 10 years
         # Primary care
     tmp_out_date_self_harm_10plus_snomed=patients.with_these_clinical_events(
@@ -874,22 +877,14 @@ def generate_common_variables(index_date_variable):
         },
     ),
 
-    #tmp_out_date_opioid_bnf_prescriptions=patients.with_these_medications(
-    #    opioid_prescription_bnf,
-    #    returning="date",
-    #    on_or_after=f"{index_date_variable}",
-    #    date_format="YYYY-MM-DD",
-    #    find_first_match_in_period=True,
-    #    return_expectations={
-    #        "date": {"earliest": "index_date", "latest" : "today"},
-    #        "rate": "uniform",
-    #        "incidence": 0.03,
-    #    },
-    #),
-
         # Combined
     out_date_addiction=patients.minimum_of(
         "tmp_out_date_addiction_snomed", "tmp_out_date_addiction_hes","tmp_out_date_addiction_death"
+    ),
+
+            # Combined
+    out_date_addiction_prescription=patients.minimum_of(
+        "tmp_out_date_addiction_snomed", "tmp_out_date_addiction_hes","tmp_out_date_addiction_death", "tmp_out_date_opioid_snomed_prescriptions"
     ),
 
     ################################################################################################
