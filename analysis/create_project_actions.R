@@ -226,8 +226,7 @@ actions_list <- splice(
     run = "r:latest analysis/descriptives/venn_diagram.R",
     needs = list("preprocess_data", "stage1_data_cleaning", "stage1_end_date_table"),
     moderately_sensitive = list(
-      venn_diagram = glue("output/review/venn-diagrams/venn_diagram_*.svg"),
-      venn_diagram_number_check = glue("output/review/venn-diagrams/venn_diagram_number_check*.csv")
+      venn_diagram = glue("output/review/venn-diagrams/venn_diagram_*")
     )
   ),
 
