@@ -1,3 +1,7 @@
+# library ------------------------------------------------------
+
+library(tidyverse)
+
 # Create output directory ------------------------------------------------------
 
 fs::dir_create(here::here("lib"))
@@ -148,42 +152,27 @@ for (i in 1:length(outcomes)) {
                        paste0("out_date_",outcomes_short[i]),
                        "cov_num_age;cov_cat_sex;cov_cat_ethnicity;cov_cat_deprivation;cov_cat_region;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_dementia;cov_bin_liver_disease;cov_bin_chronic_kidney_disease;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_obesity;cov_bin_chronic_obstructive_pulmonary_disease;cov_bin_ami;cov_bin_stroke_isch;cov_bin_recent_depression;cov_bin_history_depression;cov_bin_recent_anxiety;cov_bin_history_anxiety;cov_bin_recent_eating_disorders;cov_bin_history_eating_disorders;cov_bin_recent_serious_mental_illness;cov_bin_history_serious_mental_illness;cov_bin_recent_self_harm;cov_bin_history_self_harm",
                        rep("all",1),
-                       rep(TRUE,3),
-                       rep(FALSE,14),
+                       rep(TRUE,15),
+                       rep(FALSE,2),
                        "",
                        out_venn[i])
 }
 
- 
- # df$prior_history_var <- ifelse(df$outcome=="Depression" ,"cov_bin_depression",df$prior_history_var)
- # df$prior_history_TRUE <- ifelse(df$outcome=="Depression" ,TRUE,df$prior_history_TRUE)
- # df$prior_history_FALSE <- ifelse(df$outcome=="Depression" ,TRUE,df$prior_history_FALSE)
+#Prioi_history variables:
+#Depression
+#df$prior_history_var <- ifelse(df$outcome=="Depression" ,"sub_bin_depression",df$prior_history_var)
+#df$prior_history_TRUE <- ifelse(df$outcome=="Depression" ,TRUE,df$prior_history_TRUE)
+#df$prior_history_FALSE <- ifelse(df$outcome=="Depression" ,TRUE,df$prior_history_FALSE)
 
- # df$prior_history_var <- ifelse(df$outcome=="Anxiety - general" ,"cov_bin_depression",df$prior_history_var)
- # df$prior_history_TRUE <- ifelse(df$outcome=="Anxiety - general" ,TRUE,df$prior_history_TRUE)
- # df$prior_history_FALSE <- ifelse(df$outcome=="Anxiety - general" ,TRUE,df$prior_history_FALSE)
- 
- # df$prior_history_var <- ifelse(df$outcome=="Serious mental illness" ,"cov_bin_depression",df$prior_history_var)
- # df$prior_history_TRUE <- ifelse(df$outcome=="Serious mental illness" ,TRUE,df$prior_history_TRUE)
- # df$prior_history_FALSE <- ifelse(df$outcome=="Serious mental illness" ,TRUE,df$prior_history_FALSE)
- 
-#Test specific subgroups:
-#Depression, Anxiety - General, and Serious mental illness:
-#df[c(9,13,26), c(10:23)] <- TRUE
-#df[c(10:12,14:25,27:41), c(1, 7:23)] <- FALSE
-
-#Select analysis for:
-#df[13:41,1] <- FALSE #depression
-#df[c(9:12,17:41),1] <- FALSE #anxiety general
-#df[c(9:16,20:41),1] <- FALSE #anxiety - ocd
-#df[c(9:19,23:41),1] <- FALSE #anxiety - ptsd
-#df[c(9:22,26:41),1] <- FALSE #eating disorders
-#df[c(9:25,30:41),1] <- FALSE #serious mental illness
-#df[c(9:29,33:41),1] <- FALSE #self-harm 10plus
-#df[c(9:32,36:41),1] <- FALSE #self-harm 15plus
-#df[c(9:35,38:41),1] <- FALSE #suicide 
-#df[9:37,1] <- FALSE #addiction
-
+# #Anxiety - general
+# df$prior_history_var <- ifelse(df$outcome=="Anxiety - general" ,"sub_bin_anxiety_general",df$prior_history_var)
+# df$prior_history_TRUE <- ifelse(df$outcome=="Anxiety - general" ,TRUE,df$prior_history_TRUE)
+# df$prior_history_FALSE <- ifelse(df$outcome=="Anxiety - general" ,TRUE,df$prior_history_FALSE)
+# 
+# #Serious mental illness
+# df$prior_history_var <- ifelse(df$outcome=="Serious mental illness" ,"sub_bin_serious_mental_illness",df$prior_history_var)
+# df$prior_history_TRUE <- ifelse(df$outcome=="Serious mental illness" ,TRUE,df$prior_history_TRUE)
+# df$prior_history_FALSE <- ifelse(df$outcome=="Serious mental illness" ,TRUE,df$prior_history_FALSE)
 
 # df[6,1] <- TRUE
 

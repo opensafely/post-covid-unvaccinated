@@ -1456,6 +1456,10 @@ def generate_common_variables(index_date_variable):
         "tmp_cov_bin_depression_snomed", "tmp_cov_bin_depression_icd10",
     ), 
 
+    sub_bin_depression=patients.maximum_of(
+        "cov_bin_depression",
+    ),
+
     ## Recent Episode of depression
     ### Primary care
     tmp_cov_bin_recent_depression_snomed=patients.with_these_clinical_events(
@@ -1495,6 +1499,26 @@ def generate_common_variables(index_date_variable):
     cov_bin_history_depression=patients.maximum_of(
         "tmp_cov_bin_history_depression_snomed", "tmp_cov_bin_history_depression_icd10",
     ),   
+
+        ## Anxiety - general
+    ### Primary care
+    tmp_cov_bin_anxiety_general_snomed=patients.with_these_clinical_events(
+        anxiety_combined_snomed_cov,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.03},
+    ),
+     ### HES
+    tmp_cov_bin_anxiety_general_hes=patients.admitted_to_hospital(
+        returning='binary_flag',
+        with_these_diagnoses=anxiety_combined_hes_cov,
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.03},
+    ),
+     ### Combined Depression
+    sub_bin_anxiety_general=patients.maximum_of(
+        "tmp_cov_bin_anxiety_general_snomed", "tmp_cov_bin_anxiety_general_hes",
+    ), 
 
     # Recent Episode of anxiety
      ### Primary care
@@ -1576,9 +1600,29 @@ def generate_common_variables(index_date_variable):
         "tmp_cov_bin_history_eating_disorders", "tmp_cov_bin_history_eating_disorders_icd10",
     ),
 
+        ## Serious mental illness
+    ### Primary care
+    tmp_cov_bin_serious_mental_illness_snomed=patients.with_these_clinical_events(
+        serious_mental_illness_snomed_clinical,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.03},
+    ),
+     ### HES
+    tmp_cov_bin_serious_mental_illness_icd10=patients.admitted_to_hospital(
+        returning='binary_flag',
+        with_these_diagnoses=serious_mental_illness_icd10,
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.03},
+    ),
+     ### Combined serious mental illness
+    sub_bin_serious_mental_illness=patients.maximum_of(
+        "tmp_cov_bin_serious_mental_illness_snomed", "tmp_cov_bin_serious_mental_illness_icd10",
+    ),   
+
     ## Recent Report of a serious mental illness
         ### Primary Care
-    tmp_cov_bin_recent_serious_mental_illness=patients.with_these_clinical_events(
+    tmp_cov_bin_recent_serious_mental_illness_snomed=patients.with_these_clinical_events(
         serious_mental_illness_snomed_clinical,
         returning='binary_flag',
         between=[f"{index_date_variable} - 6 months", f"{index_date_variable}"], 
@@ -1593,12 +1637,12 @@ def generate_common_variables(index_date_variable):
     ), 
         ### Combined Report of a Serious mental illness
     cov_bin_recent_serious_mental_illness=patients.maximum_of(
-        "tmp_cov_bin_recent_serious_mental_illness", "tmp_cov_bin_recent_serious_mental_illness_icd10",
+        "tmp_cov_bin_recent_serious_mental_illness_snomed", "tmp_cov_bin_recent_serious_mental_illness_icd10",
     ),
 
     ## History of Serious mental illness
         ### Primary Care
-    tmp_cov_bin_history_serious_mental_illness=patients.with_these_clinical_events(
+    tmp_cov_bin_history_serious_mental_illness_snomed=patients.with_these_clinical_events(
         serious_mental_illness_snomed_clinical,
         returning='binary_flag',
         on_or_before=f"{index_date_variable} - 6 months",
@@ -1613,7 +1657,7 @@ def generate_common_variables(index_date_variable):
     ), 
         ### Combined History of Serious mental illness
     cov_bin_history_serious_mental_illness=patients.maximum_of(
-        "tmp_cov_bin_history_serious_mental_illness", "tmp_cov_bin_history_serious_mental_illness_icd10",
+        "tmp_cov_bin_history_serious_mental_illness_snomed", "tmp_cov_bin_history_serious_mental_illness_icd10",
     ),
 
     ## Recent Report of of Self harm
