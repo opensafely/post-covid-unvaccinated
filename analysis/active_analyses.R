@@ -1,3 +1,5 @@
+library(tidyverse)
+
 # Create output directory ------------------------------------------------------
 
 fs::dir_create(here::here("lib"))
@@ -50,7 +52,7 @@ outcomes_short <- c("t1dm","t2dm", "t2dm_pd","t2dm_pd_no", "t2dm_obes","t2dm_obe
 outcome_venn <- c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE)
 
 for (i in 1:length(outcomes)) {
-  df[nrow(df)+1,] <- c(TRUE,
+  df[nrow(df)+1,] <- c(FALSE,
                        outcomes[i],
                        outcome_group,
                        paste0("out_date_",outcomes_short[i]),
@@ -80,7 +82,11 @@ df <- df %>% mutate(outcome_group = case_when(outcome == "type 2 diabetes - pre 
 
 # turn on subgroups for main t2dm analyses
 
-df[2,c(10:21)] <- TRUE
+# df[2,c(10:21)] <- TRUE
+
+# turn on t2dm
+
+df[2,1] <- TRUE
 
 # Remove sex as a covariate for gestational diabetes analysis
 
