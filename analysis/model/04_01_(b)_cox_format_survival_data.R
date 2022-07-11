@@ -250,7 +250,7 @@ fit_get_data_surv <- function(event,subgroup, stratify_by_subgroup, stratify_by,
     #Are there <50 post expo events? If yes, won't run analysis
     less_than_50_events = any((as.numeric(tbl_event_count$events_total) < 50) & (tbl_event_count$expo_week=="all post expo"))
     
-    
+    print (tbl_event_count)
     # If ind_any_zeroeventperiod==TRUE then this script will re-run again with reduced time periods and
     # we only want to save the final event count file. For reduced time periods, ind_any_zeroeventperiod will
     # always be FALSE
