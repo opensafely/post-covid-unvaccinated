@@ -94,7 +94,7 @@ get_vacc_res <- function(event,subgroup,stratify_by_subgroup,stratify_by,mdl,tim
   total_covid_cases=nrow(survival_data %>% filter(!is.na(expo_date)))
     
   # add statement for reduced time cutoffs
-  if(time_point == "reduced"){
+  if(time_point == "reduced" & event_name != "t2dm"){
     res_vacc <- fit_model_reducedcovariates(event,subgroup,stratify_by_subgroup,stratify_by,mdl, survival_data,input,cuts_days_since_expo=cuts_days_since_expo_reduced,cuts_days_since_expo_reduced,covar_names,total_covid_cases)
   }else{
     res_vacc <- fit_model_reducedcovariates(event,subgroup,stratify_by_subgroup,stratify_by,mdl, survival_data,input,cuts_days_since_expo, cuts_days_since_expo_reduced,covar_names,total_covid_cases)
