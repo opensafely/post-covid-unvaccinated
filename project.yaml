@@ -99,8 +99,7 @@ actions:
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
-        venn_diagram: output/review/venn-diagrams/venn_diagram_*.svg
-        venn_diagram_number_check: output/review/venn-diagrams/venn_diagram_number_check*.csv
+        venn_diagram: output/review/venn-diagrams/venn_diagram_*
 
   ## Apply cox model for t2dm 
 
