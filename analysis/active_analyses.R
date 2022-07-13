@@ -69,6 +69,10 @@ for (i in 1:length(outcomes)) {
 df <- df %>% mutate(outcome_group = case_when(outcome_variable == "out_date_gestationaldm" ~ "diabetes_gestational",
                                               TRUE ~ as.character(outcome_group)))
 
+# turn off t2dm main analysis to save time
+
+df[2,7] <- FALSE
+
 # change outcome group for pre diabetes and obesity analysis
 
 df <- df %>% mutate(outcome_group = case_when(outcome == "type 2 diabetes - pre diabetes" ~ "diabetes_prediabetes",
