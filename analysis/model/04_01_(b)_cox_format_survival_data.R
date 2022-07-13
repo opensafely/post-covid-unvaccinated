@@ -263,9 +263,13 @@ fit_get_data_surv <- function(event,subgroup, stratify_by_subgroup, stratify_by,
     tbl_event_count$subgroup <- subgroup
     tbl_event_count$model <- mdl
     tbl_event_count$events_total <- as.numeric(tbl_event_count$events_total)
-    
+
     #Any time periods with <=5 events? If yes, will reduce time periods
     ind_any_zeroeventperiod <- any((tbl_event_count$events_total <= 5) & (!identical(cuts_days_since_expo, c(28, 535))))
+    
+    if(event_name="t2dm"){
+      ind_any_zeroeventperiod = "FALSE"
+    }
     
     #Are there <50 post expo events? If yes, won't run analysis
     less_than_50_events = any((as.numeric(tbl_event_count$events_total) < 50) & (tbl_event_count$expo_week=="all post expo"))
