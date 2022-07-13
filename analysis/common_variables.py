@@ -430,12 +430,6 @@ def generate_common_variables(index_date_variable):
         "tmp_out_date_depression_snomed", "tmp_out_date_depression_hes", "tmp_out_date_depression_death"
     ),
 
-            # Combined
-    # # Depression secondary outcome
-    out_date_depression_prescription=patients.minimum_of(
-        "tmp_out_date_depression_snomed", "tmp_out_date_depression_hes", "tmp_out_date_depression_death", "tmp_out_date_depression_prescriptions"
-    ),
-
     ## Anxiety - general
         # Primary Care
     tmp_out_date_anxiety_general_snomed=patients.with_these_clinical_events(
@@ -477,27 +471,21 @@ def generate_common_variables(index_date_variable):
         },
     ),  
         # Prescriptions
-    tmp_out_date_anxiolytics_snomed_prescriptions=patients.with_these_clinical_events(
-        all_anxiolytic_prescriptions,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.03,
-        },
-    ),
-
+    # tmp_out_date_anxiolytics_prescriptions=patients.with_these_clinical_events(
+    #     anxiolytic_prescription,
+    #     returning="date",
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.03,
+    #     },
+    # ),
         # Combined
     out_date_anxiety_general=patients.minimum_of(
         "tmp_out_date_anxiety_general_snomed", "tmp_out_date_anxiety_general_hes", "tmp_out_date_anxiety_general_death"
-    ),
-
-    # Anxiety general secondary outcome
-    out_date_anxiety_general_prescription=patients.minimum_of(
-        "tmp_out_date_anxiety_general_snomed", "tmp_out_date_anxiety_general_hes", "tmp_out_date_anxiety_general_death", "tmp_out_date_anxiolytics_snomed_prescriptions"
     ),
 
     ## Anxiety - obsessive compulsive disorder
@@ -676,28 +664,23 @@ def generate_common_variables(index_date_variable):
         },
     ), 
         # Prescriptions
-    tmp_out_date_serious_mental_illness_prescriptions=patients.with_these_clinical_events(
-        all_mental_illness_prescriptions,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.03,
-        },
-    ),
+    # tmp_out_date_serious_mental_illness_prescriptions=patients.with_these_clinical_events(
+    #     all_depression_prescriptions,
+    #     returning="date",
+    #     on_or_after=f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     find_first_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": "index_date", "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.03,
+    #     },
+    # ),
         # Combined
     out_date_serious_mental_illness=patients.minimum_of(
         "tmp_out_date_serious_mental_illness_snomed", "tmp_out_date_serious_mental_illness_hes", "tmp_out_date_serious_mental_illness_death"
     ),
 
-        # Serious mental illness secondary outcome
-    out_date_serious_mental_illness_prescription=patients.minimum_of(
-        "tmp_out_date_serious_mental_illness_snomed", "tmp_out_date_serious_mental_illness_hes", "tmp_out_date_serious_mental_illness_death", "tmp_out_date_serious_mental_illness_prescriptions"
-    ),
-    
     ## Self harm - aged >= 10 years
         # Primary care
     tmp_out_date_self_harm_10plus_snomed=patients.with_these_clinical_events(
@@ -864,27 +847,10 @@ def generate_common_variables(index_date_variable):
         },
     ), 
         # Prescription
-    tmp_out_date_opioid_snomed_prescriptions=patients.with_these_medications(
-        all_opioid_prescriptions,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.03,
-        },
-    ),
 
         # Combined
     out_date_addiction=patients.minimum_of(
         "tmp_out_date_addiction_snomed", "tmp_out_date_addiction_hes","tmp_out_date_addiction_death"
-    ),
-
-            # Combined
-    out_date_addiction_prescription=patients.minimum_of(
-        "tmp_out_date_addiction_snomed", "tmp_out_date_addiction_hes","tmp_out_date_addiction_death", "tmp_out_date_opioid_snomed_prescriptions"
     ),
 
     ################################################################################################
@@ -1456,10 +1422,6 @@ def generate_common_variables(index_date_variable):
         "tmp_cov_bin_depression_snomed", "tmp_cov_bin_depression_icd10",
     ), 
 
-    sub_bin_depression=patients.maximum_of(
-        "cov_bin_depression",
-    ),
-
     ## Recent Episode of depression
     ### Primary care
     tmp_cov_bin_recent_depression_snomed=patients.with_these_clinical_events(
@@ -1499,26 +1461,6 @@ def generate_common_variables(index_date_variable):
     cov_bin_history_depression=patients.maximum_of(
         "tmp_cov_bin_history_depression_snomed", "tmp_cov_bin_history_depression_icd10",
     ),   
-
-        ## Anxiety - general
-    ### Primary care
-    tmp_cov_bin_anxiety_general_snomed=patients.with_these_clinical_events(
-        anxiety_combined_snomed_cov,
-        returning='binary_flag',
-        on_or_before=f"{index_date_variable}",
-        return_expectations={"incidence": 0.03},
-    ),
-     ### HES
-    tmp_cov_bin_anxiety_general_hes=patients.admitted_to_hospital(
-        returning='binary_flag',
-        with_these_diagnoses=anxiety_combined_hes_cov,
-        on_or_before=f"{index_date_variable}",
-        return_expectations={"incidence": 0.03},
-    ),
-     ### Combined Depression
-    sub_bin_anxiety_general=patients.maximum_of(
-        "tmp_cov_bin_anxiety_general_snomed", "tmp_cov_bin_anxiety_general_hes",
-    ), 
 
     # Recent Episode of anxiety
      ### Primary care
@@ -1600,29 +1542,9 @@ def generate_common_variables(index_date_variable):
         "tmp_cov_bin_history_eating_disorders", "tmp_cov_bin_history_eating_disorders_icd10",
     ),
 
-        ## Serious mental illness
-    ### Primary care
-    tmp_cov_bin_serious_mental_illness_snomed=patients.with_these_clinical_events(
-        serious_mental_illness_snomed_clinical,
-        returning='binary_flag',
-        on_or_before=f"{index_date_variable}",
-        return_expectations={"incidence": 0.03},
-    ),
-     ### HES
-    tmp_cov_bin_serious_mental_illness_icd10=patients.admitted_to_hospital(
-        returning='binary_flag',
-        with_these_diagnoses=serious_mental_illness_icd10,
-        on_or_before=f"{index_date_variable}",
-        return_expectations={"incidence": 0.03},
-    ),
-     ### Combined serious mental illness
-    sub_bin_serious_mental_illness=patients.maximum_of(
-        "tmp_cov_bin_serious_mental_illness_snomed", "tmp_cov_bin_serious_mental_illness_icd10",
-    ),   
-
     ## Recent Report of a serious mental illness
         ### Primary Care
-    tmp_cov_bin_recent_serious_mental_illness_snomed=patients.with_these_clinical_events(
+    tmp_cov_bin_recent_serious_mental_illness=patients.with_these_clinical_events(
         serious_mental_illness_snomed_clinical,
         returning='binary_flag',
         between=[f"{index_date_variable} - 6 months", f"{index_date_variable}"], 
@@ -1637,12 +1559,12 @@ def generate_common_variables(index_date_variable):
     ), 
         ### Combined Report of a Serious mental illness
     cov_bin_recent_serious_mental_illness=patients.maximum_of(
-        "tmp_cov_bin_recent_serious_mental_illness_snomed", "tmp_cov_bin_recent_serious_mental_illness_icd10",
+        "tmp_cov_bin_recent_serious_mental_illness", "tmp_cov_bin_recent_serious_mental_illness_icd10",
     ),
 
     ## History of Serious mental illness
         ### Primary Care
-    tmp_cov_bin_history_serious_mental_illness_snomed=patients.with_these_clinical_events(
+    tmp_cov_bin_history_serious_mental_illness=patients.with_these_clinical_events(
         serious_mental_illness_snomed_clinical,
         returning='binary_flag',
         on_or_before=f"{index_date_variable} - 6 months",
@@ -1657,7 +1579,7 @@ def generate_common_variables(index_date_variable):
     ), 
         ### Combined History of Serious mental illness
     cov_bin_history_serious_mental_illness=patients.maximum_of(
-        "tmp_cov_bin_history_serious_mental_illness_snomed", "tmp_cov_bin_history_serious_mental_illness_icd10",
+        "tmp_cov_bin_history_serious_mental_illness", "tmp_cov_bin_history_serious_mental_illness_icd10",
     ),
 
     ## Recent Report of of Self harm
