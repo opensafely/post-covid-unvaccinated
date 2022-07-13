@@ -1,0 +1,84 @@
+dmd_type,dmd_id,dmd_name,bnf_code
+VMP,36120511000001109,Methadone 10mg/1ml solution for injection ampoules,0407020M0AAAVAV
+AMP,87611000001109,Methadone 10mg/1ml solution for injection ampoules,0407020M0AAAVAV
+AMP,325411000001105,Methadone 10mg/1ml solution for injection ampoules,0407020M0AAAVAV
+AMP,879011000001102,Methadone 10mg/1ml solution for injection ampoules,0407020M0AAAVAV
+AMP,4831411000001102,Methadone 10mg/1ml solution for injection ampoules,0407020M0AAAVAV
+AMP,852411000001103,Methadone 10mg/1ml solution for injection ampoules,0407020M0AAAVAV
+VMP,19722711000001100,Methadone 5mg capsules,0407020M0AABUBU
+AMP,19710311000001108,Methadone 5mg capsules,0407020M0AABUBU
+VMP,322496005,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,14969111000001107,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,16497711000001105,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,14963311000001106,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,28093011000001103,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,14947911000001105,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,22623511000001102,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,14961411000001103,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,38813711000001100,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,38622111000001106,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,33572911000001104,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,18085311000001104,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,15061611000001103,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,20575111000001106,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,14719811000001109,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,29505511000001109,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,36885911000001106,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,21805811000001101,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+AMP,20912411000001106,Buprenorphine 2mg sublingual tablets sugar free,0410030A0AAADAD
+VMP,322497001,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,14969511000001103,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,16497911000001107,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,14963511000001100,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,28093211000001108,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,14948111000001108,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,22624111000001108,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,14961611000001100,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,38813911000001103,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,38622711000001107,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,33573211000001102,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,18085511000001105,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,29776311000001103,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,20589211000001109,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,14720311000001104,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,29504711000001103,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,36886311000001100,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,21806111000001102,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+AMP,20912611000001109,Buprenorphine 8mg sublingual tablets sugar free,0410030A0AAAEAE
+VMP,28565211000001107,Buprenorphine 1mg sublingual tablets sugar free,0410030A0AAAIAI
+VMP,28565811000001108,Buprenorphine 6mg sublingual tablets sugar free,0410030A0AAAJAJ
+VMP,28565711000001100,Buprenorphine 4mg sublingual tablets sugar free,0410030A0AAAKAK
+VMP,33595511000001108,Buprenorphine 2mg oral lyophilisates sugar free,0410030A0AAALAL
+VMP,33595611000001107,Buprenorphine 8mg oral lyophilisates sugar free,0410030A0AAAMAM
+AMP,292611000001104,Subutex 0.4mg sublingual tablets,0410030A0BBAAAC
+AMP,231411000001101,Subutex 2mg sublingual tablets,0410030A0BBABAD
+AMP,749211000001105,Subutex 8mg sublingual tablets,0410030A0BBACAE
+AMP,33580211000001100,Espranor 2mg oral lyophilisates,0410030A0BFAAAL
+AMP,33579811000001104,Espranor 8mg oral lyophilisates,0410030A0BFABAM
+AMP,11048311000001109,Suboxone 8mg/2mg sublingual tablets,0410030B0BBAAAA
+AMP,11047511000001102,Suboxone 2mg/500microgram sublingual tablets,0410030B0BBABAB
+VMP,36120711000001104,Methadone 1mg/ml oral solution,0410030C0AAAAAA
+AMP,466311000001109,Methadone 1mg/ml oral solution,0410030C0AAAAAA
+AMP,17328711000001108,Methadone 1mg/ml oral solution,0410030C0AAAAAA
+AMP,835211000001106,Methadone 1mg/ml oral solution,0410030C0AAAAAA
+AMP,186911000001106,Methadone 1mg/ml oral solution,0410030C0AAAAAA
+AMP,903811000001107,Methadone 1mg/ml oral solution,0410030C0AAAAAA
+AMP,21509411000001101,Methadone 1mg/ml oral solution,0410030C0AAAAAA
+AMP,337711000001108,Methadone 1mg/ml oral solution,0410030C0AAAAAA
+AMP,21795811000001101,Methadone 1mg/ml oral solution,0410030C0AAAAAA
+AMP,16437311000001102,Methadone 1mg/ml oral solution colour free,0410030C0AAAAAA
+VMP,36120811000001107,Methadone 1mg/ml oral solution sugar free,0410030C0AAAFAF
+AMP,16437811000001106,Methadone 1mg/ml oral solution colour free sugar free,0410030C0AAAFAF
+AMP,10911000001102,Methadone 1mg/ml oral solution sugar free,0410030C0AAAFAF
+AMP,17328911000001105,Methadone 1mg/ml oral solution sugar free,0410030C0AAAFAF
+AMP,231011000001105,Methadone 1mg/ml oral solution sugar free,0410030C0AAAFAF
+AMP,257711000001102,Methadone 1mg/ml oral solution sugar free,0410030C0AAAFAF
+AMP,6611000001107,Methadone 1mg/ml oral solution sugar free,0410030C0AAAFAF
+AMP,15110611000001102,Methadone 1mg/ml oral solution sugar free,0410030C0AAAFAF
+AMP,21509711000001107,Methadone 1mg/ml oral solution sugar free,0410030C0AAAFAF
+AMP,5196111000001108,Methadone 1mg/ml oral solution sugar free,0410030C0AAAFAF
+AMP,21796011000001103,Methadone 1mg/ml oral solution sugar free,0410030C0AAAFAF
+VMP,36120611000001108,Methadone 10mg/ml oral solution sugar free,0410030C0AABABA
+VMP,36122911000001103,Methadone 20mg/ml oral solution sugar free,0410030C0AABBBB
+AMP,578811000001102,Physeptone 1mg/ml mixture,0410030C0BFAAAA
+AMP,797411000001106,Physeptone 1mg/ml oral solution sugar free,0410030C0BFABAF

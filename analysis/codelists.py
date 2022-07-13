@@ -332,18 +332,26 @@ other_depression_prescription = codelist_from_csv(
     column="dmd_id",
 )
 
+#Antidepressants
+antidepressants_prescription_snomed = codelist_from_csv(
+    "codelists/bristol-antidepressants-snomedct.csv",
+    system="snomed",
+    column="code"
+)
+
 # Combined depression prescriptions: SSRI, TCA, MAOI, Other
 all_depression_prescriptions = combine_codelists(
     ssri_depression_prescription,
     tca_depression_prescription,
     maoi_depression_prescription,
     other_depression_prescription,
+    antidepressants_prescription_snomed
 )
 
 # Anxiolytics 
 anxiolytic_prescription = codelist_from_csv(
-    "local_codelists/uom-anxiolytics-snomed.csv", 
-    system="snomed", 
+    "local_codelists/uom-anxiolytics-snomed.csv",
+    system="snomed",
     column="SNOMEDID"
 )
 
@@ -381,6 +389,44 @@ anxiety_combined_hes_cov = combine_codelists(
     anxiety_icd10,
     ocd_icd10,
     ptsd_icd10
+)
+
+#Anxiolytic
+anxiolytic_prescription_bnf = codelist_from_csv(
+    "local_codelists/bristol-anxiolitycs-bnf-5562c9a7-dmd.csv",
+    system="snomed",
+    column="dmd_id"
+)
+
+anxiolytic_prescription_snomed = codelist_from_csv(
+    "codelists/bristol-anxiolytics-snomed.csv",
+    system="snomed",
+    column="code"
+)
+
+#Opioid antagonist therapy
+opioid_prescription_bnf = codelist_from_csv(
+    "local_codelists/bristol-opioid-agonist-therapy-oat-7b915761-dmd.csv",
+    system="snomed",
+    column="dmd_id"
+)
+
+opioid_prescription_snomed = codelist_from_csv(
+    "codelists/bristol-opioid-agonist-therapy-oat-snomed-ct.csv",
+    system="snomed",
+    column="code"
+)
+
+#Combine anxiolytics
+all_anxiolytic_prescriptions = combine_codelists(
+    anxiolytic_prescription_bnf,
+    anxiolytic_prescription_snomed
+)
+
+#Combine opioid antagonist therapy
+all_opioid_prescriptions = combine_codelists(
+    opioid_prescription_bnf,
+    opioid_prescription_snomed
 )
 
 # COVARIATE CODELISTS ---------------------------------------------------------------------------------
