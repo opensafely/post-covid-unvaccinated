@@ -89,49 +89,33 @@ input <- input %>%
 
 #---------------------------------Input Table 2---------------------------------
 
-table_2_vaccinated <- read_csv(paste0(table_2_dir,"/table2_vaccinated.csv"))
-table_2_electively_unvaccinated <- read_csv(paste0(table_2_dir,"/table2_electively_unvaccinated.csv"))
-table_2 <- rbind(table_2_vaccinated,table_2_electively_unvaccinated)
+##UNSURE HOW TO MANAGE WHEN MUTLIPLE SIMILARLY NAMES TABLE 2'S IN THE SAME FOLDER - EG WITH DIABETES AND GESTATIONAL DIABETES
+table_2_dm <- read_csv(paste0(table_2_dir,"/table2_diabetes.csv"))
+table_2_gdm <- read_csv(paste0(table_2_dir,"/table2_diabetes_gestational.csv"))
+table_2 <- rbind(table_2_dm,table_2_gdm)
 
 #-------------------Select required columns and term----------------------------
 table_2 <- table_2 %>% select(subgroup, event, cohort_to_run, unexposed_person_days,unexposed_event_count)
 table_2$event <- gsub("out_date_","",table_2$event)
-colnames(table_2)<- c("subgroup","event","cohort","unexposed_person_days","unexposed_event_count")
-rm(table_2_vaccinated,table_2_electively_unvaccinated)
+colnames(table_2)<- c("subgroup","event","unexposed_person_days","unexposed_event_count")
+rm(table_2_dm,table_2_gdm)
 
-# Non-hospitalised/hospitalised unexposed person days are the same as in the
-# main analysis so copy these values and add onto table
-
-for(i in unique(table_2$event)){
-  tmp <- table_2 %>% filter(event==i & cohort=="vaccinated" & subgroup=="covid_pheno_non_hospitalised")
-  if(nrow(tmp)>0){
-    table_2[nrow(table_2)+1,] <- c("main", tmp[1,2:5])
-  }
-  
-  tmp <- table_2 %>% filter(event==i & cohort=="electively_unvaccinated" & subgroup=="covid_pheno_non_hospitalised")
-  if(nrow(tmp)>0){
-    table_2[nrow(table_2)+1,] <- c("main", tmp[1,2:5])
-  }
-}
-
-input <- input %>% left_join(table_2, by=c("event","subgroup","cohort"))
+input <- input %>% left_join(table_2, by=c("event","subgroup"))
 input <- input %>% filter(!is.na(unexposed_person_days) & unexposed_event_count != "[Redacted]")
 
 #Determine which analyses have a complete set of results so that AER can be calculated
-df <- input %>% select(event, subgroup, model, cohort) %>% distinct
+df <- input %>% select(event, subgroup, model) %>% distinct
 active_available <- merge(active,df)
 results_unavailable <- active %>% anti_join(active_available)
-rm(active,table_2,df,tmp)
+rm(active,table_2,df)
 
 #-----------------------
 #Step 5: Run AER funtion
 #-----------------------
-
 lapply(split(active_available,seq(nrow(active_available))),
        function(active_available)
          excess_risk(   
            event_of_interest = active_available$event,
-           cohort_of_interest = active_available$cohort,
            subgroup_of_interest = active_available$subgroup,
            model_of_interest = active_available$model,
            input))
