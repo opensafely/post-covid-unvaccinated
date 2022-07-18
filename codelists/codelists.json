@@ -876,12 +876,6 @@
       "downloaded_at": "2022-03-14 13:32:18.405127Z",
       "sha": "532c3cc57b47d2854a36bba221be2e3ed1372e0f"
     },
-    "user-kurttaylor-self_harm_intentional_10_years_icd10.csv": {
-      "id": "user/kurttaylor/self_harm_intentional_10_years_icd10/1e594391",
-      "url": "https://codelists.opensafely.org/codelist/user/kurttaylor/self_harm_intentional_10_years_icd10/1e594391/",
-      "downloaded_at": "2022-03-14 13:32:18.626340Z",
-      "sha": "3b51af8285b5b0499a48c31f9dd96910007acc80"
-    },
     "user-kurttaylor-self_harm_undetermined_intent_15_years_icd10.csv": {
       "id": "user/kurttaylor/self_harm_undetermined_intent_15_years_icd10/0549d05c",
       "url": "https://codelists.opensafely.org/codelist/user/kurttaylor/self_harm_undetermined_intent_15_years_icd10/0549d05c/",
