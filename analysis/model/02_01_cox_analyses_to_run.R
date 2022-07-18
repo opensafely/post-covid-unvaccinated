@@ -52,7 +52,7 @@ analyses_to_run$strata <- NA
 analyses_to_run$strata <- ifelse(analyses_to_run$subgroup=="main","main",analyses_to_run$strata)
 analyses_to_run$strata <- ifelse(analyses_to_run$subgroup=="covid_history","TRUE",analyses_to_run$strata)
 
-for(i in c("covid_pheno_","agegp_","sex_","ethnicity_", "prior_history_")){
+for(i in c("covid_pheno_","agegp_","sex_","ethnicity_")){
   analyses_to_run$strata <- ifelse(startsWith(analyses_to_run$subgroup,i),gsub(i,"",analyses_to_run$subgroup),analyses_to_run$strata)
   
 }

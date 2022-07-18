@@ -32,33 +32,6 @@ df <- arrow::read_feather(file = "output/input.feather")
 
 # create vars -------------------------------------------------------------
 
-#Mental Health - Primary care
-df<- df %>% mutate(out_date_depression_primarycare = tmp_out_date_depression_snomed,
-                   out_date_anxiety_general_primarycare = tmp_out_date_anxiety_general_snomed,
-                   out_date_anxiety_ocd_primarycare = tmp_out_date_anxiety_ocd_snomed,
-                   out_date_anxiety_ptsd_primarycare = tmp_out_date_anxiety_ptsd_snomed,
-                   out_date_eating_disorders_primarycare = tmp_out_date_eating_disorders_snomed,
-                   out_date_serious_mental_illness_primarycare = tmp_out_date_serious_mental_illness_snomed,
-                   out_date_self_harm_10plus_primarycare = tmp_out_date_self_harm_10plus_snomed,
-                   out_date_self_harm_15plus_primarycare = tmp_out_date_self_harm_15plus_snomed,
-                   out_date_addiction_primarycare = tmp_out_date_addiction_snomed)
-
-print("Mental health primary care variables created successfully")
-
-#Mental Health - Secondary care
-df<- df %>% mutate(out_date_depression_secondarycare = tmp_out_date_depression_hes,
-                   out_date_anxiety_general_secondarycare = tmp_out_date_anxiety_general_hes,
-                   out_date_anxiety_ocd_secondarycare = tmp_out_date_anxiety_ocd_hes,
-                   out_date_anxiety_ptsd_secondarycare = tmp_out_date_anxiety_ptsd_hes,
-                   out_date_eating_disorders_secondarycare = tmp_out_date_eating_disorders_hes,
-                   out_date_serious_mental_illness_secondarycare = tmp_out_date_serious_mental_illness_hes,
-                   out_date_self_harm_10plus_secondarycare = tmp_out_date_self_harm_10plus_hes,
-                   out_date_self_harm_15plus_secondarycare = tmp_out_date_self_harm_15plus_hes,
-                   out_date_suicide_secondarycare = tmp_out_date_suicide_hes,
-                   out_date_addiction_secondarycare = tmp_out_date_addiction_hes)
-
-print("Mental health secondary care variables created successfully")
-
 # vars could not be created in common vars file
 df <- df %>% mutate(tmp_out_count_t2dm = tmp_out_count_t2dm_snomed + tmp_out_count_t2dm_hes,
                     tmp_out_count_t1dm = tmp_out_count_t1dm_snomed + tmp_out_count_t1dm_hes)
