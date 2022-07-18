@@ -90,7 +90,7 @@ table_2_subgroups_output <- function(group){
     analyses_to_run$subgroup <- row.names(analyses_to_run)
     colnames(analyses_to_run) <- c("run","subgroup")
     
-    # analyses_to_run<- analyses_to_run %>% filter(run=="TRUE"  & subgroup != "active" & subgroup != "main" & subgroup != "venn")  
+    #analyses_to_run<- analyses_to_run %>% filter(run=="TRUE"  & subgroup != "active" & subgroup != "main" & subgroup != "venn")  
     analyses_to_run<- analyses_to_run %>% filter(run=="TRUE"  & subgroup != "active" & subgroup != "venn")  
     rownames(analyses_to_run) <- NULL
     analyses_to_run <- analyses_to_run %>% select(!run)

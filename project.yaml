@@ -203,39 +203,22 @@ actions:
         compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness.csv
         compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness.csv
 
-  ## Apply cox model for self_harm_10plus 
+  ## Apply cox model for self_harm 
 
-  Analysis_cox_self_harm_10plus:
-    run: r:latest analysis/model/01_cox_pipeline.R self_harm_10plus
+  Analysis_cox_self_harm:
+    run: r:latest analysis/model/01_cox_pipeline.R self_harm
     needs:
     - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_self_harm_10plus.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_self_harm_10plus.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_self_harm_10plus_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_self_harm_10plus.csv
+        analyses_not_run: output/review/model/analyses_not_run_self_harm.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_self_harm.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_self_harm_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_self_harm.csv
       highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_self_harm_10plus.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_self_harm_10plus.csv
-
-  ## Apply cox model for self_harm_15plus 
-
-  Analysis_cox_self_harm_15plus:
-    run: r:latest analysis/model/01_cox_pipeline.R self_harm_15plus
-    needs:
-    - stage1_data_cleaning
-    - stage1_end_date_table
-    outputs:
-      moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_self_harm_15plus.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_self_harm_15plus.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_self_harm_15plus_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_self_harm_15plus.csv
-      highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_self_harm_15plus.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_self_harm_15plus.csv
+        compiled_hrs: output/review/model/compiled_HR_results_self_harm.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_self_harm.csv
 
   ## Apply cox model for suicide 
 

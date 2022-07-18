@@ -145,7 +145,6 @@ user/kurttaylor/other-psychotic_disorders_icd10/69879d30
 user/kurttaylor/other_mental_health_conditions_icd10/1ba6839b
 user/kurttaylor/ptsd_icd10/507829fb
 user/kurttaylor/schizophrenia_icd10/3768b6c6
-user/kurttaylor/self_harm_intentional_10_years_icd10/1e594391
 user/kurttaylor/self_harm_undetermined_intent_15_years_icd10/0549d05c
 user/kurttaylor/ocd_icd10/157a5020
 user/kurttaylor/eating_disorder_icd10/2e89c355
@@ -160,3 +159,8 @@ opensafely/cholesterol-tests-numerical-value/7e3a22f3
 opensafely/prediabetes-snomed/6bdbb7dd
 bristol/hdl-cholesterol/64775990
 user/RochelleKnight/confirmed-hospitalised-covid-19/1f0d2526
+bristol/antidepressants-snomedct/677f55d2
+bristol/anxiolitycs-bnf/5562c9a7
+bristol/anxiolytics-snomed/01b421e0
+bristol/opioid-agonist-therapy-oat-snomed-ct/00f6d74e
+bristol/opioid-agonist-therapy-oat/7b915761

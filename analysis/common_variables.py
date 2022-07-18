@@ -698,57 +698,10 @@ def generate_common_variables(index_date_variable):
         "tmp_out_date_serious_mental_illness_snomed", "tmp_out_date_serious_mental_illness_hes", "tmp_out_date_serious_mental_illness_death", "tmp_out_date_serious_mental_illness_prescriptions"
     ),
     
-    ## Self harm - aged >= 10 years
-        # Primary care
-    tmp_out_date_self_harm_10plus_snomed=patients.with_these_clinical_events(
-        self_harm_10plus_snomed_clinical,
-        returning="date",
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-        # HES
-    tmp_out_date_self_harm_10plus_hes=patients.admitted_to_hospital(
-        returning="date_admitted",
-        with_these_diagnoses=self_harm_intent_icd10,
-        on_or_after=f"{index_date_variable}",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ),
-        # ONS
-    tmp_out_date_self_harm_10plus_death=patients.with_these_codes_on_death_certificate(
-        self_harm_intent_icd10,
-        returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
-        match_only_underlying_cause=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.1,
-        },
-    ), 
-        # Combined
-    out_date_self_harm_10plus=patients.minimum_of(
-        "tmp_out_date_self_harm_10plus_snomed", "tmp_out_date_self_harm_10plus_hes", "tmp_out_date_self_harm_10plus_death"
-    ),
-
-    ## Self harm - aged >= 15 years
-        # Primary care
-    tmp_out_date_self_harm_15plus_snomed=patients.with_these_clinical_events(
+    ## Self harm 
+    tmp_out_date_self_harm_snomed=patients.with_these_clinical_events(
         combine_codelists(
-            self_harm_10plus_snomed_clinical,
-            self_harm_15plus_snomed_clinical,
+            self_harm_snomed_clinical,
         ),
         returning="date",
         on_or_after=f"{index_date_variable}",
@@ -761,9 +714,9 @@ def generate_common_variables(index_date_variable):
         },
     ),
         # HES
-    tmp_out_date_self_harm_15plus_hes=patients.admitted_to_hospital(
+    tmp_out_date_self_harm_hes=patients.admitted_to_hospital(
         returning="date_admitted",
-        with_these_diagnoses=self_harm_15_10_combined_icd,
+        with_these_diagnoses=self_harm_combined_icd,
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
@@ -774,8 +727,8 @@ def generate_common_variables(index_date_variable):
         },
     ),
         # ONS
-    tmp_out_date_self_harm_15plus_death=patients.with_these_codes_on_death_certificate(
-        self_harm_15_10_combined_icd,
+    tmp_out_date_self_harm_death=patients.with_these_codes_on_death_certificate(
+        self_harm_combined_icd,
         returning="date_of_death",
         on_or_after=f"{index_date_variable}",
         match_only_underlying_cause=True,
@@ -787,8 +740,8 @@ def generate_common_variables(index_date_variable):
         },
     ), 
         # Combined
-    out_date_self_harm_15plus=patients.minimum_of(
-        "tmp_out_date_self_harm_15plus_snomed", "tmp_out_date_self_harm_15plus_hes","tmp_out_date_self_harm_15plus_death"
+    out_date_self_harm=patients.minimum_of(
+        "tmp_out_date_self_harm_snomed", "tmp_out_date_self_harm_hes","tmp_out_date_self_harm_death"
     ),
 
     ## Suicide
@@ -1664,8 +1617,7 @@ def generate_common_variables(index_date_variable):
      ### Primary care
     tmp_cov_bin_recent_self_harm_snomed=patients.with_these_clinical_events(
         combine_codelists(
-            self_harm_10plus_snomed_clinical,
-            self_harm_15plus_snomed_clinical
+            self_harm_snomed_clinical
         ),
         returning='binary_flag',
         between=[f"{index_date_variable} - 6 months", f"{index_date_variable}"], 
@@ -1674,7 +1626,7 @@ def generate_common_variables(index_date_variable):
      ### HES
     tmp_cov_bin_recent_self_harm_icd10=patients.admitted_to_hospital(
         returning='binary_flag',
-        with_these_diagnoses=self_harm_15_10_combined_icd,
+        with_these_diagnoses=self_harm_combined_icd,
         between=[f"{index_date_variable} - 6 months", f"{index_date_variable}"], 
         return_expectations={"incidence": 0.1},
     ),
@@ -1687,17 +1639,16 @@ def generate_common_variables(index_date_variable):
      ### Primary care
     tmp_cov_bin_history_self_harm_snomed=patients.with_these_clinical_events(
         combine_codelists(
-            self_harm_10plus_snomed_clinical,
-            self_harm_15plus_snomed_clinical
+            self_harm_snomed_clinical,
         ),
         returning='binary_flag',
         on_or_before=f"{index_date_variable} - 6 months",
         return_expectations={"incidence": 0.1},
     ),
-     ### HES
+     ### HES 
     tmp_cov_bin_history_self_harm_icd10=patients.admitted_to_hospital(
         returning='binary_flag',
-        with_these_diagnoses=self_harm_15_10_combined_icd,
+        with_these_diagnoses=self_harm_combined_icd,
         on_or_before=f"{index_date_variable} - 6 months",
         return_expectations={"incidence": 0.1},
     ),

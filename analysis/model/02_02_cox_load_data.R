@@ -49,9 +49,15 @@ if(event_name == "t1dm" | event_name == "t2dm" | event_name == "otherdm"){
   input <- read_rds(paste0("output/input_stage1_diabetes_gestational.rds"))
   end_dates <- read_rds(paste0("output/follow_up_end_dates_diabetes_gestational.rds"))
   
-} else if (event_name == "depression" | event_name == "anxiety_general" | event_name == "anxiety_ocd" |
-           event_name == "anxiety_ptsd" | event_name == "eating_disorders" | event_name == "serious_mental_illness" |
-           event_name == "self_harm_10plus" | event_name == "self_harm_15plus" | event_name == "suicide" | event_name == "addiction"){
+} else if (event_name == "depression" | event_name == "depression_prescription" | event_name == "depression_primarycare" | event_name == "depression_secondarycare" |
+           event_name == "anxiety_general" | event_name == "anxiety_general_prescription" | event_name == "anxiety_general_primarycare" | event_name == "anxiety_general_secondarycare" | 
+           event_name == "anxiety_ocd" | event_name == "anxiety_ocd_primarycare" | event_name == "anxiety_ocd_secondarycare" |
+           event_name == "anxiety_ptsd" | event_name == "anxiety_ptsd_primarycare" | event_name == "anxiety_ptsd_secondarycare" | 
+           event_name == "eating_disorders" | event_name == "eating_disorders_primarycare" | event_name == "eating_disorders_secondarycare" | 
+           event_name == "serious_mental_illness" | event_name == "serious_mental_illness_prescription" | event_name == "serious_mental_illness_primarycare" | event_name == "serious_mental_illness_secondarycare" |
+           event_name == "self_harm" | event_name == "self_harm_primarycare" | event_name == "self_harm_secondarycare" | 
+           event_name == "suicide" | event_name == "suicide_primarycare" | event_name == "suicide_secondarycare" | 
+           event_name == "addiction" | event_name == "addiction_prescription" | event_name == "addiction_primarycare" | event_name == "addiction_secondarycare"){
   input <- read_rds(paste0("output/input_stage1_mental_health.rds"))
   end_dates <- read_rds(paste0("output/follow_up_end_dates_mental_health.rds"))
 }

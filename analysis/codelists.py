@@ -147,15 +147,8 @@ serious_mental_illness_snomed_clinical = codelist_from_csv(
     column="code",
 )
 
-# Self harm - aged >= 10 years
-self_harm_10plus_snomed_clinical = codelist_from_csv(
-    "codelists/user-hjforbes-intentional-self-harm-aged10-years.csv",
-    system="snomed",
-    column="code",
-)
-
-# Self harm - aged >= 15 years
-self_harm_15plus_snomed_clinical = codelist_from_csv(
+# Self harm
+self_harm_snomed_clinical = codelist_from_csv(
     "codelists/user-hjforbes-undetermined-intent-self-harm-aged15-years.csv",
     system="snomed",
     column="code",
@@ -253,24 +246,16 @@ schizophrenia_icd10 = codelist_from_csv(
     column="code",
 )
 
-# Self harm intentional 10 years ICD10
-self_harm_intent_icd10 = codelist_from_csv(
-    "codelists/user-kurttaylor-self_harm_intentional_10_years_icd10.csv",
-    system="icd10",
-    column="code",
-)
-
-# Self harm undetermined intent 15 years 
+# Self harm undetermined intent 
 self_harm_undet_intent_icd10 = codelist_from_csv(
     "codelists/user-kurttaylor-self_harm_undetermined_intent_15_years_icd10.csv",
     system="icd10",
     column="code",
 )
 
-# Self harm undetermined intent 15 years - combined
+# Self harm undetermined intent - combined
 
-self_harm_15_10_combined_icd = combine_codelists(
-    self_harm_intent_icd10,
+self_harm_combined_icd = combine_codelists(
     self_harm_undet_intent_icd10
 )
 
@@ -381,6 +366,44 @@ anxiety_combined_hes_cov = combine_codelists(
     anxiety_icd10,
     ocd_icd10,
     ptsd_icd10
+)
+
+# Anxiolytic
+anxiolytic_prescription_bnf = codelist_from_csv(
+    "local_codelists/bristol-anxiolitycs-bnf-5562c9a7-dmd.csv",
+    system="snomed",
+    column="dmd_id"
+)
+
+anxiolytic_prescription_snomed = codelist_from_csv(
+    "codelists/bristol-anxiolytics-snomed.csv",
+    system="snomed",
+    column="code"
+)
+
+# Opioid antagonist therapy
+opioid_prescription_bnf = codelist_from_csv(
+    "local_codelists/bristol-opioid-agonist-therapy-oat-7b915761-dmd.csv",
+    system="snomed",
+    column="dmd_id"
+)
+
+opioid_prescription_snomed = codelist_from_csv(
+    "codelists/bristol-opioid-agonist-therapy-oat-snomed-ct.csv",
+    system="snomed",
+    column="code"
+)
+
+# Combine anxiolytics
+all_anxiolytic_prescriptions = combine_codelists(
+    anxiolytic_prescription_bnf,
+    anxiolytic_prescription_snomed
+)
+
+# Combine opioid antagonist therapy
+all_opioid_prescriptions = combine_codelists(
+    opioid_prescription_bnf,
+    opioid_prescription_snomed
 )
 
 # COVARIATE CODELISTS ---------------------------------------------------------------------------------

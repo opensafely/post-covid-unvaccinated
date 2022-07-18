@@ -123,8 +123,7 @@ outcomes <- c("Depression", "Depression - Prescription", "Depression - Primary C
               "Anxiety - post traumatic stress disorder", "Anxiety - post traumatic stress disorder Primary Care", "Anxiety - post traumatic stress disorder Secondary Care",
               "Eating disorders", "Eating disorders Primary Care", "Eating disorders Secondary Care", 
               "Serious mental illness", "Serious mental illness - Prescription", "Serious mental illness - Primary Care", "Serious mental illness - Secondary Care",
-              "Self harm, aged >=10", "Self harm, aged >=10 - Primary Care", "Self harm, aged >=10 - Secondary Care",
-              "Self harm, aged >=15", "Self harm, aged >=15 - Primary Care", "Self harm, aged >=15 - Secondary Care",
+              "Self harm", "Self harm - Primary Care", "Self harm - Secondary Care",
               "Suicide", "Suicide - Secondary Care", 
               "Addiction", "Addiction - Prescription", "Addiction - Primary Care", "Addiction - Secondary Care")
 
@@ -136,14 +135,13 @@ outcomes_short <- c("depression", "depression_prescription", "depression_primary
                     "anxiety_ptsd", "anxiety_ptsd_primarycare", "anxiety_ptsd_secondarycare",
                     "eating_disorders", "eating_disorders_primarycare", "eating_disorders_secondarycare",
                     "serious_mental_illness", "serious_mental_illness_prescription", "serious_mental_illness_primarycare", "serious_mental_illness_secondarycare",
-                    "self_harm_10plus", "self_harm_10plus_primarycare", "self_harm_10plus_secondarycare",
-                    "self_harm_15plus", "self_harm_15plus_primarycare", "self_harm_15plus_secondarycare",
+                    "self_harm", "self_harm_primarycare", "self_harm_secondarycare",
                     "suicide", "suicide_secondarycare",
                     "addiction", "addiction_prescription", "addiction_primarycare", "addiction_secondarycare")
 
 out_venn <- c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
               TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
-              TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
+              TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
 
 for (i in 1:length(outcomes)) {
   df[nrow(df)+1,] <- c(TRUE,
@@ -152,14 +150,14 @@ for (i in 1:length(outcomes)) {
                        paste0("out_date_",outcomes_short[i]),
                        "cov_num_age;cov_cat_sex;cov_cat_ethnicity;cov_cat_deprivation;cov_cat_region;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_dementia;cov_bin_liver_disease;cov_bin_chronic_kidney_disease;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_obesity;cov_bin_chronic_obstructive_pulmonary_disease;cov_bin_ami;cov_bin_stroke_isch;cov_bin_recent_depression;cov_bin_history_depression;cov_bin_recent_anxiety;cov_bin_history_anxiety;cov_bin_recent_eating_disorders;cov_bin_history_eating_disorders;cov_bin_recent_serious_mental_illness;cov_bin_history_serious_mental_illness;cov_bin_recent_self_harm;cov_bin_history_self_harm",
                        rep("all",1),
-                       rep(TRUE,3),
-                       rep(FALSE,14),
+                       rep(TRUE,1),
+                       rep(FALSE,16),
                        "",
                        out_venn[i])
 }
 
 #Main outcomes:
-df[c(1:8,10:12,14:16,18:19,21:22,24:25,27:29,31:32,34:35,37,39:41), 1] <- FALSE
+df[c(1:8,10:12,14:16,18:19,21:22,24:25,27:29,31:32,34,36:38), 1] <- FALSE
 
 #Prescription outcomes:
 #df[c(1:9,11:13,15:26,28:38,40:41), 1] <- FALSE

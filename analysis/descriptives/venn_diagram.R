@@ -243,18 +243,18 @@ venn_output <- function(group){
     
     # Merge any cells <= 5 to the highest cell (excluding totals) -------------
     
-    colnamesorder <- colnames(df)
-    a <- df[-c(1,9:12)]
-    a[] <- sapply(a, as.numeric)
-    idx <- cbind(seq(nrow(a)), max.col(a))
-    a[idx] <- a[idx] + rowSums(a * (a <= 5))
-    is.na(a) <- a <= 5
-    df <- cbind(df[c(1,9:12)], a) 
-    df <- setcolorder(df, colnamesorder)
-    # remove totals column as these are calculated in external_venn_script.R
-    df <- select(df, -contains("total"))
-    #change NAs to 0
-    df[is.na(df)] <- 0
+    # colnamesorder <- colnames(df)
+    # a <- df[-c(1,9:12)]
+    # a[] <- sapply(a, as.numeric)
+    # idx <- cbind(seq(nrow(a)), max.col(a))
+    # a[idx] <- a[idx] + rowSums(a * (a <= 5))
+    # is.na(a) <- a <= 5
+    # df <- cbind(df[c(1,9:12)], a) 
+    # df <- setcolorder(df, colnamesorder)
+    # # remove totals column as these are calculated in external_venn_script.R
+    # df <- select(df, -contains("total"))
+    # #change NAs to 0
+    # df[is.na(df)] <- 0
     write.csv(df, file = paste0("output/review/venn-diagrams/venn_diagram_number_check_", group,".csv"), row.names = F)
   }
 }
