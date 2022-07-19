@@ -249,7 +249,7 @@ venn_output <- function(group){
     # idx <- cbind(seq(nrow(a)), max.col(a))
     # a[idx] <- a[idx] + rowSums(a * (a <= 5))
     # is.na(a) <- a <= 5
-    # df <- cbind(df[c(1,9:12)], a) 
+    # df <- cbind(df[c(1,9:12)], a)
     # df <- setcolorder(df, colnamesorder)
     # # remove totals column as these are calculated in external_venn_script.R
     # df <- select(df, -contains("total"))

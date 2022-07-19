@@ -34,28 +34,19 @@ df <- arrow::read_feather(file = "output/input.feather")
 
 # Create vars for mental health outcomes -------------------------------------------------------------
 
-#Mental Health - Primary care
+#Mental Health - Primary care (depression; anxiety; self-harm; serious mental illness)
 df<- df %>% mutate(out_date_depression_primarycare = tmp_out_date_depression_snomed,
                    out_date_anxiety_general_primarycare = tmp_out_date_anxiety_general_snomed,
-                   out_date_anxiety_ocd_primarycare = tmp_out_date_anxiety_ocd_snomed,
-                   out_date_anxiety_ptsd_primarycare = tmp_out_date_anxiety_ptsd_snomed,
-                   out_date_eating_disorders_primarycare = tmp_out_date_eating_disorders_snomed,
                    out_date_serious_mental_illness_primarycare = tmp_out_date_serious_mental_illness_snomed,
-                   out_date_self_harm_primarycare = tmp_out_date_self_harm_snomed,
-                   out_date_addiction_primarycare = tmp_out_date_addiction_snomed)
+                   out_date_self_harm_primarycare = tmp_out_date_self_harm_snomed)
 
 print("Mental health primary care variables created successfully")
 
-#Mental Health - Secondary care
+#Mental Health - Secondary care (depression; anxiety; self-harm; serious mental illness)
 df<- df %>% mutate(out_date_depression_secondarycare = tmp_out_date_depression_hes,
                    out_date_anxiety_general_secondarycare = tmp_out_date_anxiety_general_hes,
-                   out_date_anxiety_ocd_secondarycare = tmp_out_date_anxiety_ocd_hes,
-                   out_date_anxiety_ptsd_secondarycare = tmp_out_date_anxiety_ptsd_hes,
-                   out_date_eating_disorders_secondarycare = tmp_out_date_eating_disorders_hes,
                    out_date_serious_mental_illness_secondarycare = tmp_out_date_serious_mental_illness_hes,
-                   out_date_self_harm_secondarycare = tmp_out_date_self_harm_hes,
-                   out_date_suicide_secondarycare = tmp_out_date_suicide_hes,
-                   out_date_addiction_secondarycare = tmp_out_date_addiction_hes)
+                   out_date_self_harm_secondarycare = tmp_out_date_self_harm_hes)
 
 print("Mental health secondary care variables created successfully")
 

@@ -147,11 +147,25 @@ serious_mental_illness_snomed_clinical = codelist_from_csv(
     column="code",
 )
 
-# Self harm
-self_harm_snomed_clinical = codelist_from_csv(
+# Self harm - aged >= 10 years
+self_harm_10plus_snomed_clinical = codelist_from_csv(
+    "codelists/user-hjforbes-intentional-self-harm-aged10-years.csv",
+    system="snomed",
+    column="code",
+)
+
+# Self harm - aged >= 15 years
+self_harm_15plus_snomed_clinical = codelist_from_csv(
     "codelists/user-hjforbes-undetermined-intent-self-harm-aged15-years.csv",
     system="snomed",
     column="code",
+)
+
+# Self harm undetermined intent - combined
+
+self_harm_15_10_combined_snomed = combine_codelists(
+    self_harm_10plus_snomed_clinical,
+    self_harm_15plus_snomed_clinical
 )
 
 # Suicide
@@ -246,7 +260,14 @@ schizophrenia_icd10 = codelist_from_csv(
     column="code",
 )
 
-# Self harm undetermined intent 
+# Self harm intentional 10 years ICD10
+self_harm_intent_icd10 = codelist_from_csv(
+    "codelists/user-kurttaylor-self_harm_intentional_10_years_icd10.csv",
+    system="icd10",
+    column="code",
+)
+
+# Self harm undetermined intent 15 years
 self_harm_undet_intent_icd10 = codelist_from_csv(
     "codelists/user-kurttaylor-self_harm_undetermined_intent_15_years_icd10.csv",
     system="icd10",
@@ -255,7 +276,8 @@ self_harm_undet_intent_icd10 = codelist_from_csv(
 
 # Self harm undetermined intent - combined
 
-self_harm_combined_icd = combine_codelists(
+self_harm_15_10_combined_icd = combine_codelists(
+    self_harm_intent_icd10,
     self_harm_undet_intent_icd10
 )
 

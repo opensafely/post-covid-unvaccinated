@@ -119,29 +119,22 @@ df <- df %>% mutate(covariates = case_when(outcome_variable == "out_date_t2dm_pd
 
 outcomes <- c("Depression", "Depression - Prescription", "Depression - Primary Care", "Depression - Secondary Care", 
               "Anxiety - general", "Anxiety - general Prescription", "Anxiety - general Primary Care", "Anxiety - general Secondary Care",
-              "Anxiety - obsessive compulsive disorder", "Anxiety - obsessive compulsive disorder Primary Care", "Anxiety - obsessive compulsive disorder Secondary Care",
-              "Anxiety - post traumatic stress disorder", "Anxiety - post traumatic stress disorder Primary Care", "Anxiety - post traumatic stress disorder Secondary Care",
-              "Eating disorders", "Eating disorders Primary Care", "Eating disorders Secondary Care", 
+              "Anxiety - obsessive compulsive disorder", "Anxiety - post traumatic stress disorder", "Eating disorders", 
               "Serious mental illness", "Serious mental illness - Prescription", "Serious mental illness - Primary Care", "Serious mental illness - Secondary Care",
               "Self harm", "Self harm - Primary Care", "Self harm - Secondary Care",
-              "Suicide", "Suicide - Secondary Care", 
-              "Addiction", "Addiction - Prescription", "Addiction - Primary Care", "Addiction - Secondary Care")
+              "Suicide", "Addiction", "Addiction - Prescription")
 
 outcome_group <- "mental_health"
 
 outcomes_short <- c("depression", "depression_prescription", "depression_primarycare", "depression_secondarycare",
                     "anxiety_general", "anxiety_general_prescription","anxiety_general_primarycare", "anxiety_general_secondarycare",
-                    "anxiety_ocd", "anxiety_ocd_primarycare", "anxiety_ocd_secondarycare",
-                    "anxiety_ptsd", "anxiety_ptsd_primarycare", "anxiety_ptsd_secondarycare",
-                    "eating_disorders", "eating_disorders_primarycare", "eating_disorders_secondarycare",
+                    "anxiety_ocd", "anxiety_ptsd", "eating_disorders", 
                     "serious_mental_illness", "serious_mental_illness_prescription", "serious_mental_illness_primarycare", "serious_mental_illness_secondarycare",
                     "self_harm", "self_harm_primarycare", "self_harm_secondarycare",
-                    "suicide", "suicide_secondarycare",
-                    "addiction", "addiction_prescription", "addiction_primarycare", "addiction_secondarycare")
+                    "suicide", "addiction", "addiction_prescription")
 
-out_venn <- c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
-              TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
-              TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
+out_venn <- c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
+              TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
 
 for (i in 1:length(outcomes)) {
   df[nrow(df)+1,] <- c(TRUE,
@@ -157,16 +150,24 @@ for (i in 1:length(outcomes)) {
 }
 
 #Main outcomes:
-df[c(1:8,10:12,14:16,18:19,21:22,24:25,27:29,31:32,34,36:38), 1] <- FALSE
+#df[c(1:8,10:12,14:16,21:23,25:26,29), 1] <- FALSE
+#Main outcomes + prescriptions
+#df[c(1:8,11:12,15:16,22:23,25:26),1] <- FALSE
+#df[c(10,14,21,29),c(8:9)] <- FALSE
+#Prescriptions
+#df[c(1:9,11:13,15:20,22:28),c(1,8:9)] <- FALSE
+#df[,c(8:9,25)] <- FALSE
 
-#Prescription outcomes:
-#df[c(1:9,11:13,15:26,28:38,40:41), 1] <- FALSE
+#Self harm
+df[c(1:23,25:29),1] <- FALSE
+#df[c(1:23,27:29),1] <- FALSE
+#df[c(25:26),25] <- FALSE
 
-#Primary care:
-#df[c(1:10,12:14,16:17,19:20,22:23,25:27,29:30,32:33,35:39,41), 1] <- FALSE
+#Primary & secondary care
+#df[c(1:10,13:14,17:21,24,27:29),1] <- FALSE
+#Main + subgroups
+#df[c(),1] <- FALSE
 
-#Secondary care:
-#df[c(1:11,13:15,17:18,20:21,23:24,26:28,30:31,33:34,36,38:40), 1] <- FALSE
 
 #Depression, Anxiety - general, and Serious mental illness
 #df[c(10:12, 14:25, 27:41),1] <- FALSE

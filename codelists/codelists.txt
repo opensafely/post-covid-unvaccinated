@@ -145,6 +145,7 @@ user/kurttaylor/other-psychotic_disorders_icd10/69879d30
 user/kurttaylor/other_mental_health_conditions_icd10/1ba6839b
 user/kurttaylor/ptsd_icd10/507829fb
 user/kurttaylor/schizophrenia_icd10/3768b6c6
+user/kurttaylor/self_harm_intentional_10_years_icd10/1e594391
 user/kurttaylor/self_harm_undetermined_intent_15_years_icd10/0549d05c
 user/kurttaylor/ocd_icd10/157a5020
 user/kurttaylor/eating_disorder_icd10/2e89c355
