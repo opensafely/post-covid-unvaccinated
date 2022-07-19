@@ -133,8 +133,13 @@ outcomes_short <- c("depression", "depression_prescription", "depression_primary
                     "self_harm", "self_harm_primarycare", "self_harm_secondarycare",
                     "suicide", "addiction", "addiction_prescription")
 
-out_venn <- c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
-              TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
+out_venn <- c(TRUE, FALSE, FALSE, FALSE, #depression
+              TRUE, FALSE, FALSE, FALSE, #anxiety
+              TRUE, FALSE, TRUE,       #anxiety -ocd, ptsd, eating disorders
+              TRUE, FALSE, FALSE, FALSE, #serious mental illness
+              TRUE, FALSE, FALSE, #self harm
+              TRUE, #suicide
+              TRUE, FALSE) #addiction
 
 for (i in 1:length(outcomes)) {
   df[nrow(df)+1,] <- c(TRUE,
@@ -150,7 +155,7 @@ for (i in 1:length(outcomes)) {
 }
 
 #Main outcomes:
-#df[c(1:8,10:12,14:16,21:23,25:26,29), 1] <- FALSE
+df[c(1:8,10:12,14:16,21:23,25:26,29), 1] <- FALSE
 #Main outcomes + prescriptions
 #df[c(1:8,11:12,15:16,22:23,25:26),1] <- FALSE
 #df[c(10,14,21,29),c(8:9)] <- FALSE
@@ -159,7 +164,7 @@ for (i in 1:length(outcomes)) {
 #df[,c(8:9,25)] <- FALSE
 
 #Self harm
-df[c(1:23,25:29),1] <- FALSE
+#df[c(1:23,25:29),1] <- FALSE
 #df[c(1:23,27:29),1] <- FALSE
 #df[c(25:26),25] <- FALSE
 
