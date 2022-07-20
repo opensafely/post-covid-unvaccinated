@@ -101,71 +101,88 @@ actions:
       moderately_sensitive:
         venn_diagram: output/review/venn-diagrams/venn_diagram_*
 
-  ## Apply cox model for serious_mental_illness 
+  ## Apply cox model for self_harm 
 
-  Analysis_cox_serious_mental_illness:
-    run: r:latest analysis/model/01_cox_pipeline.R serious_mental_illness
+  Analysis_cox_self_harm:
+    run: r:latest analysis/model/01_cox_pipeline.R self_harm
     needs:
     - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_serious_mental_illness.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_serious_mental_illness.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_serious_mental_illness.csv
+        analyses_not_run: output/review/model/analyses_not_run_self_harm.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_self_harm.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_self_harm_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_self_harm.csv
       highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness.csv
+        compiled_hrs: output/review/model/compiled_HR_results_self_harm.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_self_harm.csv
 
-  ## Apply cox model for serious_mental_illness_prescription 
+  ## Apply cox model for self_harm_primarycare 
 
-  Analysis_cox_serious_mental_illness_prescription:
-    run: r:latest analysis/model/01_cox_pipeline.R serious_mental_illness_prescription
+  Analysis_cox_self_harm_primarycare:
+    run: r:latest analysis/model/01_cox_pipeline.R self_harm_primarycare
     needs:
     - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_serious_mental_illness_prescription.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_prescription.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_prescription_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_serious_mental_illness_prescription.csv
+        analyses_not_run: output/review/model/analyses_not_run_self_harm_primarycare.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_self_harm_primarycare.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_self_harm_primarycare_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_self_harm_primarycare.csv
       highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness_prescription.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness_prescription.csv
+        compiled_hrs: output/review/model/compiled_HR_results_self_harm_primarycare.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_self_harm_primarycare.csv
 
-  ## Apply cox model for serious_mental_illness_primarycare 
+  ## Apply cox model for self_harm_secondarycare 
 
-  Analysis_cox_serious_mental_illness_primarycare:
-    run: r:latest analysis/model/01_cox_pipeline.R serious_mental_illness_primarycare
+  Analysis_cox_self_harm_secondarycare:
+    run: r:latest analysis/model/01_cox_pipeline.R self_harm_secondarycare
     needs:
     - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_serious_mental_illness_primarycare.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_primarycare.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_primarycare_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_serious_mental_illness_primarycare.csv
+        analyses_not_run: output/review/model/analyses_not_run_self_harm_secondarycare.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_self_harm_secondarycare.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_self_harm_secondarycare_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_self_harm_secondarycare.csv
       highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness_primarycare.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness_primarycare.csv
+        compiled_hrs: output/review/model/compiled_HR_results_self_harm_secondarycare.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_self_harm_secondarycare.csv
 
-  ## Apply cox model for serious_mental_illness_secondarycare 
+  ## Apply cox model for addiction 
 
-  Analysis_cox_serious_mental_illness_secondarycare:
-    run: r:latest analysis/model/01_cox_pipeline.R serious_mental_illness_secondarycare
+  Analysis_cox_addiction:
+    run: r:latest analysis/model/01_cox_pipeline.R addiction
     needs:
     - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_serious_mental_illness_secondarycare.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_secondarycare.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_secondarycare_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_serious_mental_illness_secondarycare.csv
+        analyses_not_run: output/review/model/analyses_not_run_addiction.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_addiction.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_addiction_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_addiction.csv
       highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness_secondarycare.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness_secondarycare.csv
+        compiled_hrs: output/review/model/compiled_HR_results_addiction.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_addiction.csv
+
+  ## Apply cox model for addiction_prescription 
+
+  Analysis_cox_addiction_prescription:
+    run: r:latest analysis/model/01_cox_pipeline.R addiction_prescription
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_addiction_prescription.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_addiction_prescription.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_addiction_prescription_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_addiction_prescription.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_addiction_prescription.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_addiction_prescription.csv
 

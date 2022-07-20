@@ -162,9 +162,9 @@ for (i in 1:length(outcomes)) {
 #Anxiety - Main outcome + prescriptions + primary care + secondary care
 #df[c(1:12,17:29),1] <- FALSE
 #Serious mental illness Main outcome + prescriptions + primary care + secondary care
-df[c(1:19,24:29),1] <- FALSE
+#df[c(1:19,24:29),1] <- FALSE
 #Self harm (included addiction) - Main outcome + prescriptions + primary care + secondary care
-#df[c(1:23,27),1] <- FALSE
+df[c(1:23,27),1] <- FALSE
 
 #Depression, anxiety, serious mental illness, and self harm: subgroup analysis 
 # df[c(1:8,10:12,14:19,21:23,25:29),c(1,7:23)] <- FALSE
