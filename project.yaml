@@ -101,71 +101,71 @@ actions:
       moderately_sensitive:
         venn_diagram: output/review/venn-diagrams/venn_diagram_*
 
-  ## Apply cox model for anxiety_general 
+  ## Apply cox model for serious_mental_illness 
 
-  Analysis_cox_anxiety_general:
-    run: r:latest analysis/model/01_cox_pipeline.R anxiety_general
+  Analysis_cox_serious_mental_illness:
+    run: r:latest analysis/model/01_cox_pipeline.R serious_mental_illness
     needs:
     - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_anxiety_general.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_anxiety_general.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_anxiety_general_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_anxiety_general.csv
+        analyses_not_run: output/review/model/analyses_not_run_serious_mental_illness.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_serious_mental_illness.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_serious_mental_illness.csv
       highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_anxiety_general.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_anxiety_general.csv
+        compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness.csv
 
-  ## Apply cox model for anxiety_general_prescription 
+  ## Apply cox model for serious_mental_illness_prescription 
 
-  Analysis_cox_anxiety_general_prescription:
-    run: r:latest analysis/model/01_cox_pipeline.R anxiety_general_prescription
+  Analysis_cox_serious_mental_illness_prescription:
+    run: r:latest analysis/model/01_cox_pipeline.R serious_mental_illness_prescription
     needs:
     - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_anxiety_general_prescription.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_anxiety_general_prescription.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_anxiety_general_prescription_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_anxiety_general_prescription.csv
+        analyses_not_run: output/review/model/analyses_not_run_serious_mental_illness_prescription.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_prescription.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_prescription_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_serious_mental_illness_prescription.csv
       highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_anxiety_general_prescription.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_anxiety_general_prescription.csv
+        compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness_prescription.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness_prescription.csv
 
-  ## Apply cox model for anxiety_general_primarycare 
+  ## Apply cox model for serious_mental_illness_primarycare 
 
-  Analysis_cox_anxiety_general_primarycare:
-    run: r:latest analysis/model/01_cox_pipeline.R anxiety_general_primarycare
+  Analysis_cox_serious_mental_illness_primarycare:
+    run: r:latest analysis/model/01_cox_pipeline.R serious_mental_illness_primarycare
     needs:
     - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_anxiety_general_primarycare.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_anxiety_general_primarycare.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_anxiety_general_primarycare_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_anxiety_general_primarycare.csv
+        analyses_not_run: output/review/model/analyses_not_run_serious_mental_illness_primarycare.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_primarycare.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_primarycare_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_serious_mental_illness_primarycare.csv
       highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_anxiety_general_primarycare.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_anxiety_general_primarycare.csv
+        compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness_primarycare.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness_primarycare.csv
 
-  ## Apply cox model for anxiety_general_secondarycare 
+  ## Apply cox model for serious_mental_illness_secondarycare 
 
-  Analysis_cox_anxiety_general_secondarycare:
-    run: r:latest analysis/model/01_cox_pipeline.R anxiety_general_secondarycare
+  Analysis_cox_serious_mental_illness_secondarycare:
+    run: r:latest analysis/model/01_cox_pipeline.R serious_mental_illness_secondarycare
     needs:
     - stage1_data_cleaning
     - stage1_end_date_table
     outputs:
       moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_anxiety_general_secondarycare.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_anxiety_general_secondarycare.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_anxiety_general_secondarycare_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_anxiety_general_secondarycare.csv
+        analyses_not_run: output/review/model/analyses_not_run_serious_mental_illness_secondarycare.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_secondarycare.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_secondarycare_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_serious_mental_illness_secondarycare.csv
       highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_anxiety_general_secondarycare.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_anxiety_general_secondarycare.csv
+        compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness_secondarycare.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness_secondarycare.csv
 
