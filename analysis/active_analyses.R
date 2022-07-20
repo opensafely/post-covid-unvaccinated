@@ -148,19 +148,40 @@ for (i in 1:length(outcomes)) {
                        paste0("out_date_",outcomes_short[i]),
                        "cov_num_age;cov_cat_sex;cov_cat_ethnicity;cov_cat_deprivation;cov_cat_region;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_dementia;cov_bin_liver_disease;cov_bin_chronic_kidney_disease;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_obesity;cov_bin_chronic_obstructive_pulmonary_disease;cov_bin_ami;cov_bin_stroke_isch;cov_bin_recent_depression;cov_bin_history_depression;cov_bin_recent_anxiety;cov_bin_history_anxiety;cov_bin_recent_eating_disorders;cov_bin_history_eating_disorders;cov_bin_recent_serious_mental_illness;cov_bin_history_serious_mental_illness;cov_bin_recent_self_harm;cov_bin_history_self_harm",
                        rep("all",1),
-                       rep(TRUE,3),
-                       rep(TRUE,14),
+                       rep(TRUE,1),
+                       rep(FALSE,16),
                        "",
                        out_venn[i])
 }
 
 #Main outcomes:
 #df[c(1:8,10:12,14:16,21:23,25:26,29), 1] <- FALSE
-#Depression, anxiety, serious mental illness, and self harm: subgroup analysis 
-df[c(1:8,10:12,14:19,21:23,25:29),c(1,7:23)] <- FALSE
 
-#Main outcomes + prescriptions
-#df[c(1:8,11:12,15:16,22:23,25:26),1] <- FALSE
+#Depression, anxiety, serious mental illness, and self harm: subgroup analysis 
+# df[c(1:8,10:12,14:19,21:23,25:29),c(1,7:23)] <- FALSE
+# #Prior_history variables (table_2 script):
+# Depression
+# df$prior_history_var <- ifelse(df$outcome=="Depression" ,"sub_bin_depression",df$prior_history_var)
+# df$prior_history_TRUE <- ifelse(df$outcome=="Depression" ,TRUE,df$prior_history_TRUE)
+# df$prior_history_FALSE <- ifelse(df$outcome=="Depression" ,TRUE,df$prior_history_FALSE)
+# 
+# # #Anxiety - general
+# df$prior_history_var <- ifelse(df$outcome=="Anxiety - general" ,"sub_bin_anxiety_general",df$prior_history_var)
+# df$prior_history_TRUE <- ifelse(df$outcome=="Anxiety - general" ,TRUE,df$prior_history_TRUE)
+# df$prior_history_FALSE <- ifelse(df$outcome=="Anxiety - general" ,TRUE,df$prior_history_FALSE)
+# #
+# # #Serious mental illness
+# df$prior_history_var <- ifelse(df$outcome=="Serious mental illness" ,"sub_bin_serious_mental_illness",df$prior_history_var)
+# df$prior_history_TRUE <- ifelse(df$outcome=="Serious mental illness" ,TRUE,df$prior_history_TRUE)
+# df$prior_history_FALSE <- ifelse(df$outcome=="Serious mental illness" ,TRUE,df$prior_history_FALSE)
+# #
+# # #Self harm
+# df$prior_history_var <- ifelse(df$outcome=="Self harm" ,"sub_bin_self_harm",df$prior_history_var)
+# df$prior_history_TRUE <- ifelse(df$outcome=="Self harm" ,TRUE,df$prior_history_TRUE)
+# df$prior_history_FALSE <- ifelse(df$outcome=="Self harm" ,TRUE,df$prior_history_FALSE)
+
+#Main outcomes + prescriptions + primary care + secondary care
+df[c(1:8,17:19,27),1] <- FALSE
 #df[c(10,14,21,29),c(8:9)] <- FALSE
 #Prescriptions
 #df[c(1:9,11:13,15:20,22:28),c(1,8:9)] <- FALSE
@@ -187,26 +208,7 @@ df[c(1:8,10:12,14:19,21:23,25:29),c(1,7:23)] <- FALSE
 # df[c(10:41), c(7:23)] <- FALSE
 # df[9,c(10:21)] <- TRUE
 
-#Prior_history variables (table_2 script):
-Depression
-df$prior_history_var <- ifelse(df$outcome=="Depression" ,"sub_bin_depression",df$prior_history_var)
-df$prior_history_TRUE <- ifelse(df$outcome=="Depression" ,TRUE,df$prior_history_TRUE)
-df$prior_history_FALSE <- ifelse(df$outcome=="Depression" ,TRUE,df$prior_history_FALSE)
 
-# #Anxiety - general
-df$prior_history_var <- ifelse(df$outcome=="Anxiety - general" ,"sub_bin_anxiety_general",df$prior_history_var)
-df$prior_history_TRUE <- ifelse(df$outcome=="Anxiety - general" ,TRUE,df$prior_history_TRUE)
-df$prior_history_FALSE <- ifelse(df$outcome=="Anxiety - general" ,TRUE,df$prior_history_FALSE)
-#
-# #Serious mental illness
-df$prior_history_var <- ifelse(df$outcome=="Serious mental illness" ,"sub_bin_serious_mental_illness",df$prior_history_var)
-df$prior_history_TRUE <- ifelse(df$outcome=="Serious mental illness" ,TRUE,df$prior_history_TRUE)
-df$prior_history_FALSE <- ifelse(df$outcome=="Serious mental illness" ,TRUE,df$prior_history_FALSE)
-#
-# #Self harm
-df$prior_history_var <- ifelse(df$outcome=="Self harm" ,"sub_bin_self_harm",df$prior_history_var)
-df$prior_history_TRUE <- ifelse(df$outcome=="Self harm" ,TRUE,df$prior_history_TRUE)
-df$prior_history_FALSE <- ifelse(df$outcome=="Self harm" ,TRUE,df$prior_history_FALSE)
 #Select analyses only for depression,anxiety, and serious mental illness:
 #df[c(10:12, 14:25, 27:41), c(10:23)] <- FALSE
 

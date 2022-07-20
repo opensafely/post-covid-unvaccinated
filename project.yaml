@@ -118,6 +118,57 @@ actions:
         compiled_hrs: output/review/model/compiled_HR_results_depression.csv
         compiled_event_counts: output/review/model/compiled_event_counts_depression.csv
 
+  ## Apply cox model for depression_prescription 
+
+  Analysis_cox_depression_prescription:
+    run: r:latest analysis/model/01_cox_pipeline.R depression_prescription
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_depression_prescription.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_depression_prescription.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_depression_prescription_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_depression_prescription.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_depression_prescription.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_depression_prescription.csv
+
+  ## Apply cox model for depression_primarycare 
+
+  Analysis_cox_depression_primarycare:
+    run: r:latest analysis/model/01_cox_pipeline.R depression_primarycare
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_depression_primarycare.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_depression_primarycare.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_depression_primarycare_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_depression_primarycare.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_depression_primarycare.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_depression_primarycare.csv
+
+  ## Apply cox model for depression_secondarycare 
+
+  Analysis_cox_depression_secondarycare:
+    run: r:latest analysis/model/01_cox_pipeline.R depression_secondarycare
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_depression_secondarycare.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_depression_secondarycare.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_depression_secondarycare_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_depression_secondarycare.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_depression_secondarycare.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_depression_secondarycare.csv
+
   ## Apply cox model for anxiety_general 
 
   Analysis_cox_anxiety_general:
@@ -134,6 +185,57 @@ actions:
       highly_sensitive:
         compiled_hrs: output/review/model/compiled_HR_results_anxiety_general.csv
         compiled_event_counts: output/review/model/compiled_event_counts_anxiety_general.csv
+
+  ## Apply cox model for anxiety_general_prescription 
+
+  Analysis_cox_anxiety_general_prescription:
+    run: r:latest analysis/model/01_cox_pipeline.R anxiety_general_prescription
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_anxiety_general_prescription.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_anxiety_general_prescription.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_anxiety_general_prescription_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_anxiety_general_prescription.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_anxiety_general_prescription.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_anxiety_general_prescription.csv
+
+  ## Apply cox model for anxiety_general_primarycare 
+
+  Analysis_cox_anxiety_general_primarycare:
+    run: r:latest analysis/model/01_cox_pipeline.R anxiety_general_primarycare
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_anxiety_general_primarycare.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_anxiety_general_primarycare.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_anxiety_general_primarycare_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_anxiety_general_primarycare.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_anxiety_general_primarycare.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_anxiety_general_primarycare.csv
+
+  ## Apply cox model for anxiety_general_secondarycare 
+
+  Analysis_cox_anxiety_general_secondarycare:
+    run: r:latest analysis/model/01_cox_pipeline.R anxiety_general_secondarycare
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_anxiety_general_secondarycare.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_anxiety_general_secondarycare.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_anxiety_general_secondarycare_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_anxiety_general_secondarycare.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_anxiety_general_secondarycare.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_anxiety_general_secondarycare.csv
 
   ## Apply cox model for serious_mental_illness 
 
@@ -152,6 +254,57 @@ actions:
         compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness.csv
         compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness.csv
 
+  ## Apply cox model for serious_mental_illness_prescription 
+
+  Analysis_cox_serious_mental_illness_prescription:
+    run: r:latest analysis/model/01_cox_pipeline.R serious_mental_illness_prescription
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_serious_mental_illness_prescription.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_prescription.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_prescription_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_serious_mental_illness_prescription.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness_prescription.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness_prescription.csv
+
+  ## Apply cox model for serious_mental_illness_primarycare 
+
+  Analysis_cox_serious_mental_illness_primarycare:
+    run: r:latest analysis/model/01_cox_pipeline.R serious_mental_illness_primarycare
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_serious_mental_illness_primarycare.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_primarycare.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_primarycare_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_serious_mental_illness_primarycare.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness_primarycare.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness_primarycare.csv
+
+  ## Apply cox model for serious_mental_illness_secondarycare 
+
+  Analysis_cox_serious_mental_illness_secondarycare:
+    run: r:latest analysis/model/01_cox_pipeline.R serious_mental_illness_secondarycare
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_serious_mental_illness_secondarycare.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_secondarycare.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_serious_mental_illness_secondarycare_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_serious_mental_illness_secondarycare.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_serious_mental_illness_secondarycare.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_serious_mental_illness_secondarycare.csv
+
   ## Apply cox model for self_harm 
 
   Analysis_cox_self_harm:
@@ -168,4 +321,72 @@ actions:
       highly_sensitive:
         compiled_hrs: output/review/model/compiled_HR_results_self_harm.csv
         compiled_event_counts: output/review/model/compiled_event_counts_self_harm.csv
+
+  ## Apply cox model for self_harm_primarycare 
+
+  Analysis_cox_self_harm_primarycare:
+    run: r:latest analysis/model/01_cox_pipeline.R self_harm_primarycare
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_self_harm_primarycare.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_self_harm_primarycare.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_self_harm_primarycare_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_self_harm_primarycare.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_self_harm_primarycare.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_self_harm_primarycare.csv
+
+  ## Apply cox model for self_harm_secondarycare 
+
+  Analysis_cox_self_harm_secondarycare:
+    run: r:latest analysis/model/01_cox_pipeline.R self_harm_secondarycare
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_self_harm_secondarycare.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_self_harm_secondarycare.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_self_harm_secondarycare_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_self_harm_secondarycare.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_self_harm_secondarycare.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_self_harm_secondarycare.csv
+
+  ## Apply cox model for addiction 
+
+  Analysis_cox_addiction:
+    run: r:latest analysis/model/01_cox_pipeline.R addiction
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_addiction.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_addiction.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_addiction_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_addiction.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_addiction.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_addiction.csv
+
+  ## Apply cox model for addiction_prescription 
+
+  Analysis_cox_addiction_prescription:
+    run: r:latest analysis/model/01_cox_pipeline.R addiction_prescription
+    needs:
+    - stage1_data_cleaning
+    - stage1_end_date_table
+    outputs:
+      moderately_sensitive:
+        analyses_not_run: output/review/model/analyses_not_run_addiction_prescription.csv
+        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_addiction_prescription.csv
+        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_addiction_prescription_to_release.csv
+        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_addiction_prescription.csv
+      highly_sensitive:
+        compiled_hrs: output/review/model/compiled_HR_results_addiction_prescription.csv
+        compiled_event_counts: output/review/model/compiled_event_counts_addiction_prescription.csv
 
