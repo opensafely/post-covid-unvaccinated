@@ -135,57 +135,6 @@ actions:
         compiled_hrs: output/review/model/compiled_HR_results_anxiety_general.csv
         compiled_event_counts: output/review/model/compiled_event_counts_anxiety_general.csv
 
-  ## Apply cox model for anxiety_ocd 
-
-  Analysis_cox_anxiety_ocd:
-    run: r:latest analysis/model/01_cox_pipeline.R anxiety_ocd
-    needs:
-    - stage1_data_cleaning
-    - stage1_end_date_table
-    outputs:
-      moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_anxiety_ocd.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_anxiety_ocd.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_anxiety_ocd_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_anxiety_ocd.csv
-      highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_anxiety_ocd.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_anxiety_ocd.csv
-
-  ## Apply cox model for anxiety_ptsd 
-
-  Analysis_cox_anxiety_ptsd:
-    run: r:latest analysis/model/01_cox_pipeline.R anxiety_ptsd
-    needs:
-    - stage1_data_cleaning
-    - stage1_end_date_table
-    outputs:
-      moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_anxiety_ptsd.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_anxiety_ptsd.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_anxiety_ptsd_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_anxiety_ptsd.csv
-      highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_anxiety_ptsd.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_anxiety_ptsd.csv
-
-  ## Apply cox model for eating_disorders 
-
-  Analysis_cox_eating_disorders:
-    run: r:latest analysis/model/01_cox_pipeline.R eating_disorders
-    needs:
-    - stage1_data_cleaning
-    - stage1_end_date_table
-    outputs:
-      moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_eating_disorders.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_eating_disorders.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_eating_disorders_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_eating_disorders.csv
-      highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_eating_disorders.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_eating_disorders.csv
-
   ## Apply cox model for serious_mental_illness 
 
   Analysis_cox_serious_mental_illness:
@@ -219,38 +168,4 @@ actions:
       highly_sensitive:
         compiled_hrs: output/review/model/compiled_HR_results_self_harm.csv
         compiled_event_counts: output/review/model/compiled_event_counts_self_harm.csv
-
-  ## Apply cox model for suicide 
-
-  Analysis_cox_suicide:
-    run: r:latest analysis/model/01_cox_pipeline.R suicide
-    needs:
-    - stage1_data_cleaning
-    - stage1_end_date_table
-    outputs:
-      moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_suicide.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_suicide.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_suicide_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_suicide.csv
-      highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_suicide.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_suicide.csv
-
-  ## Apply cox model for addiction 
-
-  Analysis_cox_addiction:
-    run: r:latest analysis/model/01_cox_pipeline.R addiction
-    needs:
-    - stage1_data_cleaning
-    - stage1_end_date_table
-    outputs:
-      moderately_sensitive:
-        analyses_not_run: output/review/model/analyses_not_run_addiction.csv
-        compiled_hrs_csv: output/review/model/suppressed_compiled_HR_results_addiction.csv
-        compiled_hrs_csv_to_release: output/review/model/suppressed_compiled_HR_results_addiction_to_release.csv
-        compiled_event_counts_csv: output/review/model/suppressed_compiled_event_counts_addiction.csv
-      highly_sensitive:
-        compiled_hrs: output/review/model/compiled_HR_results_addiction.csv
-        compiled_event_counts: output/review/model/compiled_event_counts_addiction.csv
 

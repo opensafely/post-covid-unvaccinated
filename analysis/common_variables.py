@@ -1613,6 +1613,26 @@ def generate_common_variables(index_date_variable):
         "tmp_cov_bin_history_serious_mental_illness_snomed", "tmp_cov_bin_history_serious_mental_illness_icd10",
     ),
 
+        # SELF HARM
+        ### Primary care
+    tmp_cov_bin_self_harm_snomed=patients.with_these_clinical_events(
+        self_harm_15_10_combined_snomed,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+     ### HES
+    tmp_cov_bin_self_harm_hes=patients.admitted_to_hospital(
+        returning='binary_flag',
+        with_these_diagnoses=self_harm_15_10_combined_icd,
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+     ### Combined Self harm
+    sub_bin_self_harm=patients.maximum_of(
+        "tmp_cov_bin_self_harm_snomed", "tmp_cov_bin_self_harm_hes",
+    ), 
+    
         # SELF HARM - RECENT
     # Recent report snomed
     tmp_cov_bin_recent_self_harm_snomed=patients.with_these_clinical_events(
