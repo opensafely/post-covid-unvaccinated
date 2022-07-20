@@ -158,9 +158,9 @@ for (i in 1:length(outcomes)) {
 #df[c(1:8,10:12,14:16,21:23,25:26,29), 1] <- FALSE
 
 #Depression - Main outcome + prescriptions + primary care + secondary care
-df[c(1:8,13:29),1] <- FALSE
+#df[c(1:8,13:29),1] <- FALSE
 #Anxiety - Main outcome + prescriptions + primary care + secondary care
-#df[c(1:12,17:29),1] <- FALSE
+df[c(1:12,17:29),1] <- FALSE
 #Serious mental illness Main outcome + prescriptions + primary care + secondary care
 #df[c(1:19,24:29),1] <- FALSE
 #Self harm (included addiction) - Main outcome + prescriptions + primary care + secondary care
