@@ -157,6 +157,15 @@ for (i in 1:length(outcomes)) {
 #Main outcomes:
 #df[c(1:8,10:12,14:16,21:23,25:26,29), 1] <- FALSE
 
+#Depression - Main outcome + prescriptions + primary care + secondary care
+df[c(1:8,13:29),1] <- FALSE
+#Anxiety - Main outcome + prescriptions + primary care + secondary care
+#df[c(1:12,17:29),1] <- FALSE
+#Serious mental illness Main outcome + prescriptions + primary care + secondary care
+#df[c(1:19,24:29),1] <- FALSE
+#Self harm (included addiction) - Main outcome + prescriptions + primary care + secondary care
+#df[c(1:23,27),1] <- FALSE
+
 #Depression, anxiety, serious mental illness, and self harm: subgroup analysis 
 # df[c(1:8,10:12,14:19,21:23,25:29),c(1,7:23)] <- FALSE
 # #Prior_history variables (table_2 script):
@@ -181,36 +190,7 @@ for (i in 1:length(outcomes)) {
 # df$prior_history_FALSE <- ifelse(df$outcome=="Self harm" ,TRUE,df$prior_history_FALSE)
 
 #Main outcomes + prescriptions + primary care + secondary care
-df[c(1:8,17:19,27),1] <- FALSE
-#df[c(10,14,21,29),c(8:9)] <- FALSE
-#Prescriptions
-#df[c(1:9,11:13,15:20,22:28),c(1,8:9)] <- FALSE
-#df[,c(8:9,25)] <- FALSE
-
-#Self harm
-#df[c(1:23,25:29),1] <- FALSE
-#df[c(1:23,27:29),1] <- FALSE
-#df[c(25:26),25] <- FALSE
-
-#Primary & secondary care
-#df[c(1:10,13:14,17:21,24,27:29),1] <- FALSE
-#Main + subgroups
-#df[c(),1] <- FALSE
-
-
-#Depression, Anxiety - general, and Serious mental illness
-#df[c(10:12, 14:25, 27:41),1] <- FALSE
-#df[c(10:12, 14:25, 27:41), c(7:23)] <- FALSE
-#df[c(9,13,26),c(10:21)] <- TRUE
-
-#Depression
-# df[c(10:41),1] <- FALSE
-# df[c(10:41), c(7:23)] <- FALSE
-# df[9,c(10:21)] <- TRUE
-
-
-#Select analyses only for depression,anxiety, and serious mental illness:
-#df[c(10:12, 14:25, 27:41), c(10:23)] <- FALSE
+#df[c(1:8,17:19,27),1] <- FALSE
 
 # df[6,1] <- TRUE
 
