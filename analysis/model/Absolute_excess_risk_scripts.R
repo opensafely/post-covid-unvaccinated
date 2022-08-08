@@ -95,8 +95,10 @@ table_2_gdm <- read_csv(paste0(table_2_dir,"/table2_diabetes_gestational.csv"))
 table_2 <- rbind(table_2_dm,table_2_gdm)
 
 #-------------------Select required columns and term----------------------------
-table_2 <- table_2 %>% select(subgroup, event, cohort_to_run, unexposed_person_days,unexposed_event_count)
+table_2 <- table_2 %>% select(subgroup, event, unexposed_person_days,unexposed_event_count)
 table_2$event <- gsub("out_date_","",table_2$event)
+
+##!!Update column names for other entries!
 colnames(table_2)<- c("subgroup","event","unexposed_person_days","unexposed_event_count")
 rm(table_2_dm,table_2_gdm)
 

@@ -18,7 +18,7 @@
 ## =============================================================================
 
 #CREATE A FUNCTION TO CALCULATE THE EXCESS RISK
-excess_risk <- function(event_of_interest, cohort_of_interest, subgroup_of_interest, model_of_interest, input) {
+excess_risk <- function(event_of_interest, subgroup_of_interest, model_of_interest, input) {
   
   
   #-------------------------Check structure the input---------------------------
@@ -27,7 +27,7 @@ excess_risk <- function(event_of_interest, cohort_of_interest, subgroup_of_inter
   
   #---------------------------------Subset to relevant data---------------------
   input <- input[input$event == event_of_interest & input$model == model_of_interest  & 
-                   input$cohort == cohort_of_interest & input$subgroup == subgroup_of_interest,]
+                   input$subgroup == subgroup_of_interest,]
   
   #----Add start and end days for time periods which are needed for lifetable---
   for(i in c("time_period_start","time_period_end")){
@@ -55,7 +55,8 @@ excess_risk <- function(event_of_interest, cohort_of_interest, subgroup_of_inter
   #Step2:Average daily incidence of each outcome in unexposed age/sex subgroups
   #----------------------------------------------------------------------------
   #Number of new events / sum of person-time at risk
-  incidence_rate <- unexposed_events/fp_person_days
+
+    incidence_rate <- unexposed_events/fp_person_days
   
   #---------------------------------------------------------------
   #Step3. Create life table to calculate cumulative risk over time
