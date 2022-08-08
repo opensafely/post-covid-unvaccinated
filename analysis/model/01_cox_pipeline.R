@@ -67,7 +67,6 @@ analyses_to_run <- analyses_to_run %>%
     any(reduced_timepoint == "reduced") ~ "reduced",
     TRUE ~ as.character(reduced_timepoint)))
 
-
 # Source remainder of relevant files --------------------------------------------------------
 
 source(file.path(scripts_dir,paste0("03_01_cox_subgrouping.R"))) # Model specification

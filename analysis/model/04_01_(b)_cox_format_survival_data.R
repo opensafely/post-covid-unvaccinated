@@ -23,20 +23,48 @@ fit_get_data_surv <- function(event,subgroup, stratify_by_subgroup, stratify_by,
                                       ))
   }
   
-  non_cases <- survival_data %>% filter(!patient_id %in% cases$patient_id)
+  print(paste0("Total number in survival data: ", nrow(survival_data)))
+  print(paste0("Number of cases: ", nrow(cases)))
   
-  if(nrow(cases)*10 < nrow(non_cases)){
-    non_cases <- non_cases[sample(1:nrow(non_cases), nrow(cases)*10,replace=FALSE), ]
-  }else if (nrow(cases)*10 >= nrow(non_cases)){
-    non_cases=non_cases
+  controls_per_case <- ifelse(nrow(cases)<100000,20,ifelse(nrow(cases)<500000,10,5))
+  print(paste0("Number of controls per case: ", controls_per_case))
+  
+  if(startsWith(subgroup,"covid_pheno_")){
+    non_cases_exposed <- survival_data %>% filter((!patient_id %in% cases$patient_id) & (!is.na(expo_date)))
+    non_cases_unexposed <- survival_data %>% filter((!patient_id %in% cases$patient_id) & (is.na(expo_date)))
+    
+    if(nrow(cases)*controls_per_case < nrow(non_cases_unexposed)){
+      non_cases_unexposed <- non_cases_unexposed[sample(1:nrow(non_cases_unexposed), nrow(cases)*controls_per_case,replace=FALSE), ]
+    }else if (nrow(cases)*controls_per_case >= nrow(non_cases_unexposed)){
+      non_cases_unexposed=non_cases_unexposed
+    }
+    
+    non_case_inverse_weight=(nrow(survival_data)-nrow(cases)-nrow(non_cases_exposed))/nrow(non_cases_unexposed)
+    survival_data <- bind_rows(cases,non_cases_exposed,non_cases_unexposed)
+    
+    noncase_ids <- unique(non_cases_unexposed$patient_id)
+    
+    print(paste0("Number of controls (exposed): ", nrow(non_cases_exposed)))
+    print(paste0("Number of controls (non exposed): ", nrow(non_cases_unexposed)))
+    print(paste0("Controls (non exposed) weight: ", non_case_inverse_weight))
+  }else{
+    non_cases <- survival_data %>% filter(!patient_id %in% cases$patient_id)
+    
+    if(nrow(cases)*controls_per_case < nrow(non_cases)){
+      non_cases <- non_cases[sample(1:nrow(non_cases), nrow(cases)*controls_per_case,replace=FALSE), ]
+    }else if (nrow(cases)*controls_per_case >= nrow(non_cases)){
+      non_cases=non_cases
+    }
+    
+    non_case_inverse_weight=(nrow(survival_data)-nrow(cases))/nrow(non_cases)
+    survival_data <- bind_rows(cases,non_cases)
+    noncase_ids <- unique(non_cases$patient_id)
+    
+    print(paste0("Number of controls: ", nrow(non_cases)))
+    print(paste0("Controls weight: ", non_case_inverse_weight))
+    
   }
   
-  print(paste0("Number of cases: ", nrow(cases)))
-  print(paste0("Number of controls: ", nrow(non_cases)))
-  
-  non_case_inverse_weight=(nrow(survival_data)-nrow(cases))/nrow(non_cases)
-  survival_data <- bind_rows(cases,non_cases)
-
   survival_data$days_to_start <- as.numeric(survival_data$follow_up_start-cohort_start_date)
   survival_data$days_to_end <- as.numeric(survival_data$follow_up_end-cohort_start_date)
   
@@ -46,14 +74,6 @@ fit_get_data_surv <- function(event,subgroup, stratify_by_subgroup, stratify_by,
     survival_data$days_to_end <- (survival_data$days_to_end +1) 
   }
   
-  noncase_ids <- unique(non_cases$patient_id)
-  
-  # ......................................
-  # Need to add 0.001 when days_to_end==0
-  #if (length(survival_data$days_to_end[survival_data$days_to_end==survival_data$days_to_start])>0){
-  #  survival_data$days_to_end <- ifelse(survival_data$days_to_end==survival_data$days_to_start, survival_data$days_to_end + 0.001, survival_data$days_to_end) 
-  #}
- 
   #===============================================================================
   #   CACHE some features
   #-------------------------------------------------------------------------------  
@@ -243,14 +263,20 @@ fit_get_data_surv <- function(event,subgroup, stratify_by_subgroup, stratify_by,
     tbl_event_count$subgroup <- subgroup
     tbl_event_count$model <- mdl
     tbl_event_count$events_total <- as.numeric(tbl_event_count$events_total)
-    
+
     #Any time periods with <=5 events? If yes, will reduce time periods
     ind_any_zeroeventperiod <- any((tbl_event_count$events_total <= 5) & (!identical(cuts_days_since_expo, c(28, 535))))
+
+    # add event name here (and uncomment) if you need to force the normal time points
+    
+    # if(event_name=="t2dm"){
+    #   ind_any_zeroeventperiod = "FALSE"
+    # }
     
     #Are there <50 post expo events? If yes, won't run analysis
     less_than_50_events = any((as.numeric(tbl_event_count$events_total) < 50) & (tbl_event_count$expo_week=="all post expo"))
     
-    
+    print (tbl_event_count)
     # If ind_any_zeroeventperiod==TRUE then this script will re-run again with reduced time periods and
     # we only want to save the final event count file. For reduced time periods, ind_any_zeroeventperiod will
     # always be FALSE
