@@ -60,11 +60,16 @@ active <- tidyr::pivot_longer(active,
 active <- active[active$value==TRUE, c("event","model","strata")]                       # refines to active models                         
 active$model <- ifelse(active$model=="all","mdl_agesex;mdl_max_adj",active$model)                # includes 2 model types     
 active <- tidyr::separate_rows(active, model, sep = ";")                                         # separate rows for each model
+active <- subset(active,model=="mdl_max_adj")                                   #Only require AER for full models
 # active$cohort <- ifelse(active$cohort=="all","vaccinated;electively_unvaccinated",active$cohort) # includes 2 cohorts
 # active <- tidyr::separate_rows(active, cohort, sep = ";")                                        # separate rows for each cohort
+active <- subset(active,strata!="venn") 
 
 colnames(active) <- c("event","model","subgroup")
 active <- active %>% select(-model, everything())                                                  #Order the columns 
+
+#Focus only on t2dm
+active <- subset(active,event=="t2dm")
 
 #----------------------
 #Step 4: Load results
@@ -86,40 +91,35 @@ input <- input %>%
   select(-std.error,-robust.se, -P, -redacted_results) %>%
   filter(str_detect(term, "^days"))
 
+#Only require AER for full models
+input <- subset(input,model=="mdl_max_adj")
+
 
 #---------------------------------Input Table 2---------------------------------
+table_2 <- read_csv(paste0(table_2_dir,"/table2_diabetes.csv"))
 
-##UNSURE HOW TO MANAGE WHEN MUTLIPLE SIMILARLY NAMES TABLE 2'S IN THE SAME FOLDER - EG WITH DIABETES AND GESTATIONAL DIABETES
-table_2_dm <- read_csv(paste0(table_2_dir,"/table2_diabetes.csv"))
-table_2_gdm <- read_csv(paste0(table_2_dir,"/table2_diabetes_gestational.csv"))
-table_2 <- rbind(table_2_dm,table_2_gdm)
 
 #-------------------Select required columns and term----------------------------
-table_2 <- table_2 %>% select(subgroup, event, unexposed_person_days,unexposed_event_count)
+table_2 <- table_2 %>% select(-stratify_by_subgroup, -strata, -subgroup_cat, -unexposed_person_days, -unexposed_event_count, -post_exposure_event_count, -total_person_days, -day_0_event_counts)
 table_2$event <- gsub("out_date_","",table_2$event)
 
-##!!Update column names for other entries!
-colnames(table_2)<- c("subgroup","event","unexposed_person_days","unexposed_event_count")
-rm(table_2_dm,table_2_gdm)
-
 input <- input %>% left_join(table_2, by=c("event","subgroup"))
-input <- input %>% filter(!is.na(unexposed_person_days) & unexposed_event_count != "[Redacted]")
 
-#Determine which analyses have a complete set of results so that AER can be calculated
-df <- input %>% select(event, subgroup, model) %>% distinct
-active_available <- merge(active,df)
-results_unavailable <- active %>% anti_join(active_available)
-rm(active,table_2,df)
+# #Determine which analyses have a complete set of results so that AER can be calculated
+# df <- input %>% select(event, subgroup, model) %>% distinct
+# active_available <- merge(active,df)
+# results_unavailable <- active %>% anti_join(active_available)
+# rm(active,table_2,df)
 
 #-----------------------
 #Step 5: Run AER funtion
 #-----------------------
-lapply(split(active_available,seq(nrow(active_available))),
-       function(active_available)
-         excess_risk(   
-           event_of_interest = active_available$event,
-           subgroup_of_interest = active_available$subgroup,
-           model_of_interest = active_available$model,
+
+lapply(split(active,seq(nrow(active))),
+       function(active)
+         excess_risk(
+           event_of_interest = active$event,
+           subgroup_of_interest = active$subgroup,
            input))
 
 #-----------------------
