@@ -44,11 +44,16 @@ if(length(args)==0){
   cohort_name <- args[[1]]
 }
 
+agebreaks <- c(0, 40, 60, 80, 111)
+agelabels <- c("18_39", "40_59", "60_79", "80_110")
+
 #-------------------------------
 #Step 3: AER for active analyses
 #-------------------------------
 #1. Define the active analyses
 active <- readr::read_rds("lib/active_analyses.rds")                             # selects active analyses
+#Turn main analysis on for all so can calculate total AER without subgroups
+active$main <- "TRUE"
 active <- active[active$active==TRUE,]   
 
 #Preprocess the active analyses
@@ -58,18 +63,16 @@ active <- tidyr::pivot_longer(active,
                               cols = setdiff(colnames(active),c("event","model","cohort")), 
                               names_to = "strata")                                               # converts to long data                                        
 active <- active[active$value==TRUE, c("event","model","strata")]                       # refines to active models                         
+active <- subset(active,strata=="main")                                                #AER only for main analysis 
 active$model <- ifelse(active$model=="all","mdl_agesex;mdl_max_adj",active$model)                # includes 2 model types     
 active <- tidyr::separate_rows(active, model, sep = ";")                                         # separate rows for each model
 active <- subset(active,model=="mdl_max_adj")                                   #Only require AER for full models
 # active$cohort <- ifelse(active$cohort=="all","vaccinated;electively_unvaccinated",active$cohort) # includes 2 cohorts
 # active <- tidyr::separate_rows(active, cohort, sep = ";")                                        # separate rows for each cohort
-active <- subset(active,strata!="venn") 
 
 colnames(active) <- c("event","model","subgroup")
 active <- active %>% select(-model, everything())                                                  #Order the columns 
 
-#Focus only on t2dm
-active <- subset(active,event=="t2dm")
 
 #----------------------
 #Step 4: Load results
@@ -91,7 +94,8 @@ input <- input %>%
   select(-std.error,-robust.se, -P, -redacted_results) %>%
   filter(str_detect(term, "^days"))
 
-#Only require AER for full models
+#Only require AER for main analysis and full models
+input <- subset(input,subgroup=="main")
 input <- subset(input,model=="mdl_max_adj")
 
 

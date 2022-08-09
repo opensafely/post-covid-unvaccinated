@@ -43,8 +43,8 @@ table_2_subgroups_output <- function(group){
   
   #----------------------Define analyses of interests---------------------------
   active_analyses <- read_rds("lib/active_analyses.rds")
-  #Turn main analysis for T2DM on so can calculate total AER without subgroups
-  active_analyses[2,7] <- TRUE
+  #Turn main analysis on for all so can calculate total AER without subgroups
+  active_analyses$main <- TRUE
   active_analyses <- active_analyses %>%dplyr::filter(active == "TRUE" & outcome_group == group)
   
   analyses_of_interest <- as.data.frame(matrix(ncol = 8,nrow = 0))
@@ -333,6 +333,19 @@ table_2_calculation <- function(survival_data, event, cohort, subgroup, stratify
                                         data_active$event_date == data_active$exp_date_covid19_confirmed & 
                                         data_active$event_date <= data_active$follow_up_end))
     
+    #Age/sex calculations missing if not main analysis 
+    for(l in c("Female","Male")){
+      for(m in agelabels){
+        age_low <- gsub("_.*$","",m)
+        age_high <- gsub(".*_","",m)
+        age_low <- as.numeric(age_low)
+        age_high <- as.numeric(age_high)
+        assign(paste(l,"_",m,"_unexposed_events",sep=""), 0)
+      }
+    }
+  }
+  
+  if(startsWith(subgroup,"main")){
     #Add age/sex calculations
     for(l in c("Female","Male")){
       for(m in agelabels){
@@ -361,6 +374,16 @@ table_2_calculation <- function(survival_data, event, cohort, subgroup, stratify
                                         data_active$event_date == data_active$exp_date_covid19_confirmed & 
                                         data_active$event_date <= data_active$hospitalised_follow_up_end))
     
+    #Age/sex calculations missing if not main analysis 
+    for(l in c("Female","Male")){
+      for(m in agelabels){
+        age_low <- gsub("_.*$","",m)
+        age_high <- gsub(".*_","",m)
+        age_low <- as.numeric(age_low)
+        age_high <- as.numeric(age_high)
+        assign(paste(l,"_",m,"_unexposed_events",sep=""), 0)
+      }
+    }
   }
 
   if(subgroup=="covid_pheno_non_hospitalised"){
@@ -376,6 +399,16 @@ table_2_calculation <- function(survival_data, event, cohort, subgroup, stratify
                                         data_active$event_date == data_active$exp_date_covid19_confirmed &
                                         data_active$event_date <= data_active$non_hospitalised_follow_up_end))
     
+    #Age/sex calculations missing if not main analysis 
+    for(l in c("Female","Male")){
+      for(m in agelabels){
+        age_low <- gsub("_.*$","",m)
+        age_high <- gsub(".*_","",m)
+        age_low <- as.numeric(age_low)
+        age_high <- as.numeric(age_high)
+        assign(paste(l,"_",m,"_unexposed_events",sep=""), 0)
+      }
+    }
   }
   
   if(day_0_event_count <= 5 | (event_count_exposed - day_0_event_count) <=5){
