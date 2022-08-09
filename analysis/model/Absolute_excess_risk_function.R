@@ -17,16 +17,19 @@
 ## 5. Absolute excess risk calculation (difference between risk with/without covid)
 ## =============================================================================
 
+event_of_interest <- "t2dm"
+subgroup_of_interest <- "main"
+
 #CREATE A FUNCTION TO CALCULATE THE EXCESS RISK
-excess_risk <- function(event_of_interest, subgroup_of_interest, model_of_interest, input) {
+excess_risk <- function(event_of_interest, subgroup_of_interest, input) {
   
   
   #-------------------------Check structure the input---------------------------
-  input <- input %>% mutate(across(c("total_covid19_cases", "unexposed_person_days","unexposed_event_count"), as.numeric))
+  input <- input %>% mutate(across(starts_with(c("Female","Male")), as.numeric))
   input <- as.data.frame(input)
   
   #---------------------------------Subset to relevant data---------------------
-  input <- input[input$event == event_of_interest & input$model == model_of_interest  & 
+  input <- input[input$event == event_of_interest & 
                    input$subgroup == subgroup_of_interest,]
   
   #----Add start and end days for time periods which are needed for lifetable---
@@ -39,40 +42,48 @@ excess_risk <- function(event_of_interest, subgroup_of_interest, model_of_intere
   input$time_period_end <- gsub(".*_", "",input[,i])#Remove everything before _
   input <- input %>% mutate(across(c("time_period_start", "time_period_end"), as.numeric))
   
-  #--------------------------------------
-  # Step1: Extract the required variables
-  #--------------------------------------
-  #1. Person days - 
-  fp_person_days <- input$unexposed_person_days[1]
-  
-  #2.unexposed events
-  unexposed_events <- input$unexposed_event_count[1]
-  
-  #3.Total cases
-  total_cases <-  input$total_covid19_cases[1]
-  
-  #----------------------------------------------------------------------------
-  #Step2:Average daily incidence of each outcome in unexposed age/sex subgroups
-  #----------------------------------------------------------------------------
-  #Number of new events / sum of person-time at risk
 
-    incidence_rate <- unexposed_events/fp_person_days
-  
   #---------------------------------------------------------------
-  #Step3. Create life table to calculate cumulative risk over time
+  #Step1. Create life table with the required age/sex variables
   #---------------------------------------------------------------
-  #Description:Use a life table approach to calculate age- and sex specific cumulative risks over time, - with and without COVID-19. 
-  lifetable <- data.frame(c(0:196))
+  lifetable <- data.frame(c(0:535))
   
   colnames(lifetable) <- c("days")
   lifetable$event <- event_of_interest
-  lifetable$model <- model_of_interest
-  lifetable$cohort <- cohort_of_interest
   lifetable$subgroup <- subgroup_of_interest 
-  lifetable$q <- incidence_rate 
-  lifetable$'1-q' <- 1 - lifetable$q 
-  lifetable$s <- cumprod(lifetable$`1-q`)
   
+  for(l in c("Female","Male")){
+    for(m in agelabels){
+      for(n in c("unexposed_days","unexposed_events","covid_cases")){
+        lifetable[,paste0(l,"_",m,"_",n)] <- input[,paste0(l,"_",m,"_",n)][1]
+      }
+    }
+  } 
+  
+
+  #-----------------------------------------------------------------------------
+  #Step2: Average daily incidence of each outcome in unexposed age/sex subgroups
+  #-----------------------------------------------------------------------------
+  #Number of new events / sum of person-time at risk
+  for(l in c("Female","Male")){
+    for(m in agelabels){
+        lifetable[,paste0(l,"_",m,"_incidence_unexp")] <- lifetable[,paste0(l,"_",m,"_unexposed_events")] / lifetable[,paste0(l,"_",m,"_unexposed_days")]
+    }
+  } 
+
+  #-----------------------------------------------------------------------------
+  #Step3: Use life table approach to calculate cumulative risk over time
+  #-----------------------------------------------------------------------------
+  #Description:Use a life table approach to calculate age- and sex specific cumulative risks over time, - with and without COVID-19. 
+
+  for(l in c("Female","Male")){
+    for(m in agelabels){
+      lifetable[,paste0(l,"_",m,"_survival_unexp")] <- 1 - lifetable[,paste0(l,"_",m,"_incidence_unexp")] 
+      lifetable[,paste0(l,"_",m,"_cumulative_survival_unexp")] <- cumprod(lifetable[,paste0(l,"_",m,"_survival_unexp")]) 
+    }
+  } 
+  
+
   #----------------------------------------------------------------------
   #Step4.Daily event incidence after multiplying by adjusted hazard ratio
   #----------------------------------------------------------------------
@@ -80,16 +91,24 @@ excess_risk <- function(event_of_interest, subgroup_of_interest, model_of_intere
   # for that day to derive the incidence on each day after COVID-19.
   
   #assign the hr estimates
-  lifetable$h <- 0
+  lifetable$hr <- 0
   for(i in 1:nrow(input)){
     tmp <- input[i,]
-    lifetable$h <- ifelse(lifetable$days >= tmp$time_period_start & lifetable$days < tmp$time_period_end, tmp$estimate,lifetable$h)
+    lifetable$hr <- ifelse(lifetable$days >= tmp$time_period_start & lifetable$days < tmp$time_period_end, tmp$estimate,lifetable$h)
   }
   
-  lifetable$qh <- lifetable$q*lifetable$h
-  lifetable$'1-qh' <- 1 - lifetable$qh
-  lifetable$sc <- cumprod(lifetable$`1-qh`)
+  lifetable$hr <- ifelse(lifetable$hr=="[Redacted]","",lifetable$hr)
+  lifetable$hr <- as.numeric(lifetable$hr)
   
+  for(l in c("Female","Male")){
+    for(m in agelabels){
+      lifetable[,paste0(l,"_",m,"_incidence_expos")] <- lifetable$hr * lifetable[,paste0(l,"_",m,"_incidence_unexp")] 
+      lifetable[,paste0(l,"_",m,"_survival_expos")] <- 1 - lifetable[,paste0(l,"_",m,"_incidence_expos")] 
+      lifetable[,paste0(l,"_",m,"_cumulative_survival_expos")] <- cumprod(lifetable[,paste0(l,"_",m,"_survival_expos")]) 
+    }
+  } 
+
+
   #------------------------------------------------------------------------------------
   #Step5. Absolute excess risk calculation (difference between risk with/without covid)
   #------------------------------------------------------------------------------------
