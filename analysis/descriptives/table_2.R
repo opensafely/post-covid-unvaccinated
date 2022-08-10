@@ -45,6 +45,9 @@ table_2_subgroups_output <- function(group){
   active_analyses <- read_rds("lib/active_analyses.rds")
   #Turn main analysis on for all so can calculate total AER without subgroups
   active_analyses$main <- TRUE
+  #Turn on for t1dm so can work on AER scripts
+  active_analyses$active <- ifelse(active_analyses$outcome_variable=="out_date_t1dm",TRUE,active_analyses$active)
+  
   active_analyses <- active_analyses %>%dplyr::filter(active == "TRUE" & outcome_group == group)
   
   analyses_of_interest <- as.data.frame(matrix(ncol = 8,nrow = 0))
@@ -447,6 +450,8 @@ table_2_calculation <- function(survival_data, event, cohort, subgroup, stratify
 
 # Run function using specified commandArgs and different outcome groups
 active_analyses <- read_rds("lib/active_analyses.rds")
+#Turn on for t1dm so can work on AER scripts
+active_analyses$active <- ifelse(active_analyses$outcome_variable=="out_date_t1dm",TRUE,active_analyses$active)
 active_analyses <- active_analyses %>% filter(active==TRUE)
 groups <- unique(active_analyses$outcome_group)
 
