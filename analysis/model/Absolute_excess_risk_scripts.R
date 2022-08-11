@@ -52,8 +52,11 @@ agelabels <- c("18_39", "40_59", "60_79", "80_110")
 #-------------------------------
 #1. Define the active analyses
 active <- readr::read_rds("lib/active_analyses.rds")                             # selects active analyses
+#Turn on for t1dm so can work on AER scripts
+active$active <- ifelse(active$outcome_variable=="out_date_t1dm",TRUE,active$active)
 #Turn main analysis on for all so can calculate total AER without subgroups
 active$main <- "TRUE"
+
 active <- active[active$active==TRUE,]   
 
 #Preprocess the active analyses

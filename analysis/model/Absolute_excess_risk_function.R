@@ -17,7 +17,7 @@
 ## 5. Absolute excess risk calculation (difference between risk with/without covid)
 ## =============================================================================
 
-event_of_interest <- "t2dm"
+event_of_interest <- "t1dm"
 subgroup_of_interest <- "main"
 
 #CREATE A FUNCTION TO CALCULATE THE EXCESS RISK
@@ -28,7 +28,7 @@ excess_risk <- function(event_of_interest, subgroup_of_interest, input) {
   input <- input %>% mutate(across(starts_with(c("Female","Male")), as.numeric))
   input <- as.data.frame(input)
   
-  #---------------------------------Subset to relevant data---------------------
+  #-------------------------Subset to relevant data-----------------------------
   input <- input[input$event == event_of_interest & 
                    input$subgroup == subgroup_of_interest,]
   
@@ -116,12 +116,22 @@ excess_risk <- function(event_of_interest, subgroup_of_interest, input) {
   #compared with no COVID-19 diagnosis.
   
   #1.AER =difference in absolute risk
-  lifetable$'s-sc' <- lifetable$s - lifetable$sc
+  for(l in c("Female","Male")){
+    for(m in agelabels){
+      lifetable[,paste0(l,"_",m,"_AER")] <- lifetable[,paste0(l,"_",m,"_cumulative_survival_unexp")] - lifetable[,paste0(l,"_",m,"_cumulative_survival_expos")]
+    }
+  } 
   
   #2.CI of the AER
   #Confidence Interval = Attributable risk +/- 1.96 x Square Root of [p x q (1/n1+ 1/n2)]
   #Where, p = qh, q = 1-qh, n1= unexposed person days, n2 = exposed person days
   #https://fhop.ucsf.edu/sites/fhop.ucsf.edu/files/wysiwyg/pg_apxIIIB.pdf
+  
+  for(l in c("Female","Male")){
+    for(m in agelabels){
+      lifetable[,paste0(l,"_",m,"_std_err")] <- lifetable[,paste0(l,"_",m,"_incidence_expos")] * lifetable[,paste0(l,"_",m,"_cumulative_survival_unexp")]
+    }
+  } 
   
   lifetable$CI <- 1.96*lifetable$qh*lifetable$'1-qh'*(1/fp_person_days + 1/fp_person_days)
   
