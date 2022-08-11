@@ -122,44 +122,43 @@ excess_risk <- function(event_of_interest, subgroup_of_interest, input) {
     }
   } 
   
-  #2.CI of the AER
-  #Confidence Interval = Attributable risk +/- 1.96 x Square Root of [p x q (1/n1+ 1/n2)]
-  #Where, p = qh, q = 1-qh, n1= unexposed person days, n2 = exposed person days
-  #https://fhop.ucsf.edu/sites/fhop.ucsf.edu/files/wysiwyg/pg_apxIIIB.pdf
-  
-  for(l in c("Female","Male")){
-    for(m in agelabels){
-      lifetable[,paste0(l,"_",m,"_std_err")] <- lifetable[,paste0(l,"_",m,"_incidence_expos")] * lifetable[,paste0(l,"_",m,"_cumulative_survival_unexp")]
-    }
-  } 
-  
-  lifetable$CI <- 1.96*lifetable$qh*lifetable$'1-qh'*(1/fp_person_days + 1/fp_person_days)
-  
-  #3.AER%
-  lifetable$AERp <-lifetable$'s-sc'*100
-  
-  #CI of AER%
-  #95% CI = ARP +/- ARP x (C.I. range from the attributable risk / the attributable risk)
-  #Where, ARP=AERp, CI range= CI, attributable risk = s-sc
-  #https://fhop.ucsf.edu/sites/fhop.ucsf.edu/files/wysiwyg/pg_apxIIIB.pdf
-  
-  lifetable$CIp <- lifetable$AERp*(lifetable$CI / lifetable$`s-sc`)
-  lifetable$CIp.low <- lifetable$AERp - lifetable$CIp
-  lifetable$CIp.high <- lifetable$AERp + lifetable$CIp
+  # #2.CI of the AER
+  # #Confidence Interval = Attributable risk +/- 1.96 x Square Root of [p x q (1/n1+ 1/n2)]
+  # #Where, p = qh, q = 1-qh, n1= unexposed person days, n2 = exposed person days
+  # #https://fhop.ucsf.edu/sites/fhop.ucsf.edu/files/wysiwyg/pg_apxIIIB.pdf
+  # 
+  # for(l in c("Female","Male")){
+  #   for(m in agelabels){
+  #     lifetable[,paste0(l,"_",m,"_std_err")] <- lifetable[,paste0(l,"_",m,"_incidence_expos")] * lifetable[,paste0(l,"_",m,"_cumulative_survival_unexp")]
+  #   }
+  # } 
+  # 
+  # lifetable$CI <- 1.96*lifetable$qh*lifetable$'1-qh'*(1/fp_person_days + 1/fp_person_days)
+  # 
+  # #3.AER%
+  # lifetable$AERp <-lifetable$'s-sc'*100
+  # 
+  # #CI of AER%
+  # #95% CI = ARP +/- ARP x (C.I. range from the attributable risk / the attributable risk)
+  # #Where, ARP=AERp, CI range= CI, attributable risk = s-sc
+  # #https://fhop.ucsf.edu/sites/fhop.ucsf.edu/files/wysiwyg/pg_apxIIIB.pdf
+  # 
+  # lifetable$CIp <- lifetable$AERp*(lifetable$CI / lifetable$`s-sc`)
+  # lifetable$CIp.low <- lifetable$AERp - lifetable$CIp
+  # lifetable$CIp.high <- lifetable$AERp + lifetable$CIp
   
   #Save life table for AER figure
-  write.csv(lifetable, paste0(aer_raw_results_dir, "/lifetable_" , cohort_of_interest, "_", model_of_interest, "_", event_of_interest, "_", subgroup_of_interest,".csv"), row.names = F)
+  write.csv(lifetable, paste0(aer_raw_results_dir, "/lifetable_" , cohort_of_interest, "_", event_of_interest, "_", subgroup_of_interest,".csv"), row.names = F)
   
-  
-  AER_196 <- lifetable[nrow(lifetable),]$'s-sc' * total_cases
-  
-  results <- data.frame(event=event_of_interest,
-                        cohort=cohort_of_interest,
-                        subgroup=subgroup_of_interest,
-                        model=model_of_interest,
-                        AER_196=AER_196)
-  
-  write.csv(results, paste0(aer_raw_results_dir, "/AER_raw_results_", cohort_of_interest, "_", model_of_interest, "_", subgroup_of_interest, "_", event_of_interest,".csv"), row.names = F)
-  return(results)
+  # AER_196 <- lifetable[nrow(lifetable),]$'s-sc' * total_cases
+  # 
+  # results <- data.frame(event=event_of_interest,
+  #                       cohort=cohort_of_interest,
+  #                       subgroup=subgroup_of_interest,
+  #                       AER_196=AER_196)
+  # 
+  # write.csv(results, paste0(aer_raw_results_dir, "/AER_raw_results_", cohort_of_interest, "_", subgroup_of_interest, "_", event_of_interest,".csv"), row.names = F)
+  # return(results)
+  return(lifetable)
   #return(print(results)) 
 }

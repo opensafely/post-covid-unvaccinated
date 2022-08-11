@@ -133,29 +133,29 @@ lapply(split(active,seq(nrow(active))),
 #Step 6: Compile results
 #-----------------------
 #------------------------------Compile the results------------------------------
-AER_files=list.files(path = aer_raw_results_dir, pattern = "AER_raw_results_*")
-AER_files=paste0(aer_raw_results_dir,"/",AER_files)
-AER_compiled_results <- purrr::pmap(list(AER_files),
-                                    function(fpath){
-                                      df <- fread(fpath)
-                                      return(df)})
-AER_compiled_results=rbindlist(AER_compiled_results, fill=TRUE)
-write.csv(AER_compiled_results, paste0(aer_results_dir,"/AER_compiled_results.csv"), row.names = F)
+# AER_files=list.files(path = aer_raw_results_dir, pattern = "AER_raw_results_*")
+# AER_files=paste0(aer_raw_results_dir,"/",AER_files)
+# AER_compiled_results <- purrr::pmap(list(AER_files),
+#                                     function(fpath){
+#                                       df <- fread(fpath)
+#                                       return(df)})
+# AER_compiled_results=rbindlist(AER_compiled_results, fill=TRUE)
+# write.csv(AER_compiled_results, paste0(aer_results_dir,"/AER_compiled_results.csv"), row.names = F)
 
 
 #--------------------------Compile results for AER figure-----------------------
 
-lt_files=list.files(path = aer_raw_results_dir, pattern = "lifetable_*")
-lt_files=paste0(aer_raw_results_dir,"/",lt_files)
-compiled_lifetables <- purrr::pmap(list(lt_files),
-                                   function(fpath){
-                                     df <- fread(fpath)
-                                     return(df)
-                                   })
-compiled_lifetables=rbindlist(compiled_lifetables, fill=TRUE)
-
-#3.output the csv
-write.csv(compiled_lifetables, paste0(aer_results_dir,"/Figure4_compiled_lifetables.csv"), row.names = F)
+# lt_files=list.files(path = aer_raw_results_dir, pattern = "lifetable_*")
+# lt_files=paste0(aer_raw_results_dir,"/",lt_files)
+# compiled_lifetables <- purrr::pmap(list(lt_files),
+#                                    function(fpath){
+#                                      df <- fread(fpath)
+#                                      return(df)
+#                                    })
+# compiled_lifetables=rbindlist(compiled_lifetables, fill=TRUE)
+# 
+# #3.output the csv
+# write.csv(compiled_lifetables, paste0(aer_results_dir,"/Figure4_compiled_lifetables.csv"), row.names = F)
 
 
 
