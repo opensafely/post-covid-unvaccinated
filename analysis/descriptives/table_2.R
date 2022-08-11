@@ -45,9 +45,6 @@ table_2_subgroups_output <- function(group){
   active_analyses <- read_rds("lib/active_analyses.rds")
   #Check main analysis turned on for active analyses as required for AER calculations
   active_analyses$main <- ifelse(active_analyses$active==TRUE,TRUE,active_analyses$main)
-  #Turn on for t1dm so can work on AER scripts
-  active_analyses$active <- ifelse(active_analyses$outcome_variable=="out_date_t1dm",TRUE,active_analyses$active)
-  
   active_analyses <- active_analyses %>%dplyr::filter(active == "TRUE" & outcome_group == group)
   
   analyses_of_interest <- as.data.frame(matrix(ncol = 8,nrow = 0))
