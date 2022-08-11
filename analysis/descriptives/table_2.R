@@ -421,8 +421,6 @@ table_2_calculation <- function(survival_data, event, cohort, subgroup, stratify
 
 # Run function using specified commandArgs and different outcome groups
 active_analyses <- read_rds("lib/active_analyses.rds")
-#Turn on for t1dm so can work on AER scripts
-active_analyses$active <- ifelse(active_analyses$outcome_variable=="out_date_t1dm",TRUE,active_analyses$active)
 active_analyses <- active_analyses %>% filter(active==TRUE)
 groups <- unique(active_analyses$outcome_group)
 
